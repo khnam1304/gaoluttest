@@ -1,0 +1,55 @@
+/*============================================================================================*/
+/* Your custom styles below */
+/*============================================================================================*/
+
+.product-badge {
+    margin-right: 10px;
+    border-radius: 5px;
+    font-weight: 300;
+}
+.as-rate {
+    width: 100%;
+    display: table;
+}
+    .as-rate i.rated {
+        color: #ff9800;
+    }
+    .as-rate i {
+        cursor: not-allowed;
+        font-size: 24px;
+        color: #8080806e;
+        font-style: normal;
+    }
+.badge.IsFocus {
+    border-radius: 50%;
+    background: #009688;
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 26px;
+}
+.badge.IsPromotion{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
+    text-transform: uppercase;
+    line-height: 26px;
+}
+.btn-scroll-top.show {
+    -webkit-transform: scale(0.8) !important;
+    transform: scale(0.8) !important;
+}
+@media only screen and (max-width: 575px) {
+    .cs-pager {
+        
+        bottom: -46px;
+       
+    }
+    .page-news .news-card {
+        
+        border-bottom: 1px dotted #9e9e9e !important;
+        padding-bottom: 30px;
+    }
+}

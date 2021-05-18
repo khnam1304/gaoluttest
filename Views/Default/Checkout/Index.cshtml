@@ -1,0 +1,80 @@
+﻿@using global::Web.Helpers
+@{
+    Html.EnableClientValidation();
+    ViewBag.step = int.Parse(Request["step"] ?? "1");
+    ViewBag.Title = LanguageHelper.Translate("Check out - Step_Text") +" "+ ViewBag.step;
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    if (!HttpContext.Current.Response.IsRequestBeingRedirected)
+    {
+        Response.Cache.SetCacheability(HttpCacheability.NoCache);  // HTTP 1.1.
+        Response.Cache.AppendCacheExtension("no-store, must-revalidate");
+        Response.AppendHeader("Pragma", "no-cache"); // HTTP 1.0.
+        Response.AppendHeader("Expires", "0"); // Proxies.
+    }
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+    <link rel="stylesheet" href="@Url.ContentVersioned("/content/default/default/checkout/css/9.1-thanhhm-custom.css")" />
+}
+<style>
+    .data-filled {
+        display: none;
+    }
+</style>
+@{
+    Html.RenderPartial("~/Views/Default/CheckOut/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Index.cshtml");
+}
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script>
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+    <script>
+        $(document).ready(function () {
+            var orderCustomerMainAddressDistrictId = $("select[id=Order_Customer_MainAddress_DistrictId]").val();
+            //on page ready hide all task option
+            $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+            // set task as empty
+            $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+
+            // onchange of StateProvinceId Drop down
+            $("select[id=Order_Customer_MainAddress_StateProvinceId]").on('change', function () {
+                var selectedStateProvinceId = $(this).val();
+                if (selectedStateProvinceId != '') {
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId] option[value='']").show();
+                    $('*[data-stateProvince="' + selectedStateProvinceId + '"]').show();
+                } else {
+                    // if StateProvinceId not selected then hide all tasks
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+                }
+
+            }).trigger("change");
+
+            if ($("#points-from-money").length > 0) {
+                    var getPrice = function (res) {
+                                    res = res.replace(/,/g, '');
+                                    res = res.replace('₫', '').replace('$', '').replace('.', '').replace('.00 ', '');
+                                    if (res == "" || res == "-") return 0;
+                                    res = parseFloat(res);
+                                    return res;
+                                }
+                    $.ajax({
+                        url: '/api/general/get-point-conversion-rate?type=1&amount=' + getPrice($("#cart-total").html()),
+                        type: 'GET',
+                        cache: false,
+                    }).done(function (result) {
+                        $("#points-from-money").text((result[0].Value));
+               
+                    });
+            }
+            
+        });
+    </script>
+    @Scripts.Render("~/bundles/content/default/checkout/js")
+}

@@ -1,0 +1,49 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        categoryChildrenTab = category.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e => e.DisplayOrder).ToList();
+        break;
+    }
+               <ul class="cs-filter-list list-unstyled pr-3" style="height: 12rem;" data-simplebar data-simplebar-auto-hide="false">
+                   @foreach (var item in Model)
+                   {
+                       if (!item.CategoryChildren.Any(e => e.IsActive))
+                       {
+                           <li class="cs-filter-item">
+                               <div class="custom-control custom-checkbox">
+                                   <input type="checkbox" class="custom-control-input" id="@item.Id">
+                                   <label for="@item.Id" class="custom-control-label">
+                                       <span class="cs-filter-item-text">@item.Name</span>
+                                       <span class="pl-1 text-muted">(@item.ProductCategoryMappingsCount)</span>
+                                   </label>
+                               </div>
+                           </li>
+                       }
+                       else
+                       {
+                           foreach (var innerItem in item.CategoryChildren.Where(e => e.IsActive))
+                           {
+                               <li class="cs-filter-item">
+                                   <div class="custom-control custom-checkbox">
+                                       <input type="checkbox" class="custom-control-input" id="@innerItem.Id">
+                                       <label for="@innerItem.Id" class="custom-control-label">
+                                           <span class="cs-filter-item-text">@innerItem.Name</span>
+                                           <span class="pl-1 text-muted">(@innerItem.ProductCategoryMappingsCount)</span>
+                                       </label>
+                                   </div>
+                               </li>
+                           }
+
+                       }
+
+                   }
+
+               </ul>
+

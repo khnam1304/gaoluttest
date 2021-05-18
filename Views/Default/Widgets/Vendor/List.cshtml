@@ -1,0 +1,93 @@
+﻿@using global::Web.Helpers
+@model PagedList.IPagedList<Web.Model.Models.Vendor>
+    <table style="width:100%">
+        <tbody>
+            <tr>
+                <td class="map-bind-able">
+                    <div id="map">
+                        <div id="gmap" class="gmap"></div>
+                        <div id="infowindow" data-bind="with: selected_store">
+                            <div id="infobox" class="info">
+                                <h1>
+                                    <span class="name" data-bind="text: name"></span>
+                                </h1>
+                                @*<div class="block">
+                                        <ul class="ratings" data-bind="rating: rating"></ul> <span class="distance" data-bind="conversion: distance"></span>
+                                    </div>*@
+                                <div class="address" data-bind="text: address"></div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="map-bind-able">
+                    <aside id="result">
+                        @if (!Model.Any())
+                        {
+                            <p style="background: #fff7e5;padding: 10px 17px;border: 1px solid rgba(83,90,96,0.1);border-left: none;float: left;width: 100%;">@LanguageHelper.Translate("Location not found_Text")</p>
+                        }
+                        else
+                        {
+                            <p class="count" style="background: #ced4da;color: #fff;padding: 0px 10px;line-height: 36px;border-bottom: 0px solid #026f56;font-weight: 700;text-transform: uppercase;">@Model.Count(e=>e.Address != null) @LanguageHelper.Translate("addresses found_Text") </p>
+                        }
+                        <div id = "distributor-items" class="autocompleted-result" data-bind="foreach: stores">
+                            <div class="distributor-item">
+                                <div class="dis-text" data-bind="css: { selected: $parent.selected_store() == $data }">
+                                    <h4 data-bind="event : { click: $parent.click_list }"><span class="index" data-bind="text: index() + '.'"></span> <a class="name" href="#" data-bind="text: name"></a> <span class="distance" data-bind="conversion: distance"></span></h4>
+                                    <p><i class="fa fa-map-marker"></i><span data-bind="text: address">  </span> </p>
+                                    <p>
+                                        <a data-bind="attr: { href: 'tel:'+$data.phone()}" href="tel:"><i class="fa fa-phone"></i> <span data-bind="text: $data.phone">  </span> </a>
+                                    </p>
+                                    <p>
+                                        <a data-bind="attr: { href: 'tel:'+$data.fax()}" href="tel:"><i class="fa fa-fax"></i> <span data-bind="text: $data.fax">  </span></a>
+                                    </p>
+                                    <p>
+                                        <a data-bind="attr: { href: 'mailto:'+$data.email()}" href="mailto:"><i class="fa fa-envelope-o"></i><span data-bind="text: $data.email">  </span></a>
+                                    </p>
+                                    <p>
+                                        <a data-bind="attr: { href: 'mailto:'+$data.email2nd()}" href="mailto:"><span data-bind="text: $data.email2nd">  </span></a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    @using(Html.BeginScripts())
+    {
+        <script>
+        window.data = {
+            "results": [
+
+            ]
+        };
+        var arrayDefault = [
+            {
+                "name": "Công ty thực phẩm sạch - Donavi",
+                                        "latlong": "21.0222306,105.8163596",
+                                        "address": "Số 489 Hoàng Quốc Việt, Cầu Giấy - Hà Nội",
+                                        "phone": "+(84)0945 062 611",
+                                        "fax": "(+024)-35567889",
+                                        "email": "info@donavi.vn",
+                                        "email2Nd": ""
+            }
+        ];
+        var array = [];
+        @foreach(var item in Model)
+                            {
+                                if (item != null && item.Address != null)
+                                {
+								var email2nd = item.Address.Email;
+								if(email2nd == null) {
+								   email2nd = "vendor@asiteplus.com";
+								}
+                                @:array.push({ "name": "@Html.Raw(item.Name)", "address": "@Html.Raw(item.AddressText)", "latlong": "@item.AddressLatLng", "phone": "@item.Phone", "fax": "@item.Fax", "email": "@item.Email", "email2nd": "@((email2nd.Contains("vendor") || email2nd.Contains("undefined")) ? "" : email2nd)" });
+                            }
+        }
+        if (array.length === -1) { array = arrayDefault;}
+        if (array.length > 0) { window.data["results"] = array; if (window.data["default"] == undefined) window.data["default"] = { lat: array[0].latlong.split(',')[0], lng: array[0].latlong.split(',')[1] } }
+
+        </script>
+
+    }

@@ -1,0 +1,26 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+               <div class="owl-carousel carousel-items owl-items-lg-6 owl-items-md-4 owl-items-sm-3 owl-items-xs-2">
+                   @foreach (var item in Model)
+                   {
+                       <div class="category-grid-item cat-design-alt product-category product">
+                           <div class="wrapp-category">
+                               <div class="category-image-wrapp">
+                                   <a href="@SlugHelper.Category(item.Id)" class="category-image">
+                                       @foreach (var img in DataWhereHelper.ExtractImagesCategory(item.PresentationImages, defaultImage: "/as-images/shared/loading.gif", skip: 2, take: 1))
+                                       {
+                                           <img src="@img.Src" alt="@img.Alt" width="184">
+                                       }
+                                   </a>
+                               </div>
+                               <div class="hover-mask">
+                                   <h3 class="category-title"> @item.Name <mark class="count">(@item.ProductCategoryMappingsCount)</mark></h3>
+                                   <div class="more-products"><a href="@SlugHelper.Category(item.Id)">@item.ProductCategoryMappingsCount product(s)</a></div>
+                               </div>
+                               <a title="@item.Name" href="@SlugHelper.Category(item.Id)" class="category-link"></a>
+                           </div>
+                       </div>
+                   }
+
+               </div>

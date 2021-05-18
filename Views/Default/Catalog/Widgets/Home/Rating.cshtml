@@ -1,0 +1,11 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+<span class="as-rate">
+    @for (var i = 1; i <= 5; i++)
+    {
+        <i class="@(p.RatingValue >= i ? "rated" : "")">★</i>
+    }
+</span>

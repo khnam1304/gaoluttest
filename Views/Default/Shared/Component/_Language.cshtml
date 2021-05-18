@@ -1,0 +1,22 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@{ var listCulture = (List<LanguageInstance>)ViewBag.Culture;
+    if (listCulture == null)
+    {
+        listCulture = new List<LanguageInstance>() { new LanguageInstance() { LanguageCulture = "un-DF", UniqueSeoCode = "un" } };
+    }
+}
+@{
+    var current = listCulture.FirstOrDefault(e => e.LanguageCulture == DataCurrentHelper.LanguageCulture);
+    if (current == null)
+    {
+        current = new LanguageInstance() { UniqueSeoCode = "vi" };
+    }
+
+    {
+        <a href="/select-language/en-us?refer=@Request.Url.AbsolutePath" class="nav-link @("en" == current.UniqueSeoCode ? "active" : "")">EN</a>
+        <a class="nav-link pipe">|</a>
+        <a href="/select-language/vi-vn?refer=@Request.Url.AbsolutePath" class="nav-link @("vi" == current.UniqueSeoCode ? "active" : "")">VI</a>
+
+    }
+}

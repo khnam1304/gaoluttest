@@ -1,0 +1,46 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<BlogPostCategoryMapping>
+    @if (Model.Count > 0)
+    {
+        var items = Model.ToList();
+        for (int i = 0; i <= items.Count - 1; i++)
+        {
+            var slugBlog = SlugHelper.BlogPost(items[i].BlogPostId);
+
+            <article class="pb-5">
+                <div class="cs-image-scale card box-shadow-0 border-0">
+
+                    <a href="@slugBlog" title="@items[i].BlogPost.Title" class="cs-image-inner rounded">
+                        <img class="news-img" src="@ImageHelper.GetResize(items[i].BlogPost.Avatar)" style="max-height:248px" title="@items[i].BlogPost.Title">
+                    </a>
+                    <div class="card-body px-0">
+                        <p class="h3 h5 mb-2 pb-1">
+                            <a href="@SlugHelper.BlogPost(items[i].BlogPostId)" title="@items[i].BlogPost.Title" rel="bookmark" class="nav-link">@items[i].BlogPost.Title</a>
+                        </p>
+                        <ul class="nav nav-muted mb-2 pb-1">
+                            <li class="nav-item mr-2">
+                                <a href="@SlugHelper.BlogCategory(items[i].BlogCategoryId)" class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal" rel="category tag">@items[i].BlogCategory.Name</a>
+                                <span class="text-border px-1">|</span>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a href="#" class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                                    <time class="updated time-ago" data-format="date" datetime="@items[i].BlogPost.PublishedTime">@items[i].BlogPost.PublishedTime</time>
+                                </a>
+                                <span class="text-border px-1">|</span>
+                            </li>
+                            <li class="nav-item mr-2">
+                                <a href="#" class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                                    <i class="cxi-chat mt-n1 mr-2 font-size-base align-middle"></i>
+                                     Không bình luận
+                                </a>
+                            </li>
+                        </ul>
+                        <p class="d-sm-none d-md-block card-text text-overflow">
+                            @Html.Raw(@items[i].BlogPost.getExcerpt())
+                        </p>
+                    </div>
+                </div>
+            </article>
+        }
+    }

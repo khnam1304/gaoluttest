@@ -1,0 +1,214 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models;
+@model List<Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        categoryChildrenTab = category.CategoryChildren.Where(e => e.IsActive).ToList();
+    }
+    <div id="wd-5fafc23790440" class="woodmart-products-tabs tabs-wd-5fafc23790440 tabs-design-simple ">
+        <div class="woodmart-tabs-header text-center">
+            <div class="woodmart-tabs-loader"></div>
+            <div class="tabs-name"> <span class="tabs-text">@category.Name</span></div>
+            <div class="tabs-navigation-wrapper">
+                <span class="open-title-menu">New</span>
+                <ul class="products-tabs-title">
+                    @foreach (var item in categoryChildrenTab)
+                    {
+                        <li class=" active-tab-title">
+                            <a class="tab-label" href="@SlugHelper.Category(item.Id)" role="tab" aria-selected="true"> @item.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="woodmart-tab-content">
+            <!-- List Product start -->
+            <div class="woodmart-products-element" style="min-height: 652px;">
+                <div class="woodmart-products-loader hidden-loader" style="left: 1206.16px;"></div>
+                <div class="vc_row wpb_row vc_row-fluid vc_custom_1533813593149">
+                    <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-4 vc_col-md-12">
+                        <div class="vc_column-inner vc_custom_1533813532486">
+                            <div class="wpb_wrapper">
+                                <div id="carousel-918" class="woodmart-carousel-container woodmart-highlighted-products with-title slider-type-product woodmart-carousel-spacing-20" data-owl-carousel="" data-wrap="no" data-hide_pagination_control="yes" data-hide_prev_next_buttons="no" data-desktop="1" data-tablet_landscape="1" data-tablet="1" data-mobile="1">
+                                    <!-- <h4 class="title element-title">SALE PRODUCTS</h4> -->
+                                    <div class="owl-carousel owl-items-lg-1 owl-items-md-1 owl-items-sm-1 owl-items-xs-1">
+                                        @foreach (var innerItem in category.ProductCategoryMappings.Take(2))
+                                        {
+                                            var slugProduct = SlugHelper.Product(innerItem.Product.Id);
+                                                <div class="slide-product owl-carousel-item">
+                                                <div class="product-grid-item wd-with-labels product product-no-swatches woodmart-hover-base product-in-carousel type-product post-21691 status-publish first instock product_cat-sell has-post-thumbnail sale shipping-taxable purchasable product-type-simple" data-loop="1" data-id="21691">
+                                                    <div class="product-wrapper">
+                                                        <div class="content-product-imagin"></div>
+                                                        <div class="product-element-top">
+                                                            <a href="@slugProduct" title="@innerItem.Product.Name" class="product-image-link">
+                                                                <div class="product-labels labels-rectangular">
+
+                                                                    @if (innerItem.Product.IsHighlight)
+                                                                    {
+                                                                        <span class="featured product-label">@LanguageHelper.Translate("Hot_Text")</span>
+                                                                    }
+                                                                    @if (innerItem.Product.IsPromotion)
+                                                                    {
+                                                                        <span class="onsale product-label">@LanguageHelper.Translate("Sale_Text")</span>
+                                                                    }
+                                                                </div>
+                                                                <img src="@ImageHelper.GetResize(innerItem.Product.Picture.Url, 430, 430)" alt="@innerItem.Product.Name" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail">
+                                                            </a>
+                                                            <div class="wrapp-swatches">
+                                                                <div class="woodmart-compare-btn product-compare-button wd-action-btn wd-compare-btn wd-style-icon">
+                                                                    <a href="/compare" data-id="@innerItem.ProductId" data-added-text="Compare products" data-original-title="" title="">
+                                                                        Compare
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="quick-shop-wrapper">
+                                                                <div class="quick-shop-close wd-cross-button wd-size-s wd-with-text-left"><span>Close</span></div>
+                                                                <div class="quick-shop-form">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-information">
+                                                            <h3 class="product-title"><a href="@slugProduct" title="@innerItem.Product.Name">@innerItem.Product.Name</a></h3>
+                                                            <div class="woodmart-product-cats">
+                                                                @foreach (var cat in innerItem.Product.ProductCategoryMappings.Take(3))
+                                                                {
+                                                                    <a href="@SlugHelper.Category(cat.CategoryId)" title="@cat.Category.Name" rel="tag">@cat.Category.Name</a>
+                                                                }
+                                                            </div>
+                                                            <div class="product-rating-price">
+                                                                <div class="wrapp-product-price">
+                                                                    <span class="price">
+                                                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="fade-in-block">
+                                                                <div class="hover-content woodmart-more-desc" style="">
+                                                                    <div class="hover-content-inner woodmart-more-desc-inner">
+                                                                        @Html.Raw(innerItem.Product.getShortDescription())
+                                                                    </div>
+                                                                </div>
+                                                                <div class=" woodmart-buttons wd-pos-r-t">
+                                                                    <div class="wrap-wishlist-button">
+                                                                        <div class="woodmart-wishlist-btn wd-action-btn wd-wishlist-btn wd-style-icon">
+                                                                            <a href="/wishlist/" data-key="dfbe2b54db" data-product-id="21691" data-added-text="Browse Wishlist" class="woodmart-tltp"><span class="woodmart-tooltip-label">Add to wishlist</span>Add to wishlist</a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="woodmart-add-btn wd-action-btn wd-add-cart-btn wd-style-icon"><a href="?add-to-cart=21691" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart add-to-cart-loop woodmart-tltp" data-product_id="21691" data-product_sku="" aria-label="Add “Dark Headphones” to your cart" rel="nofollow"><span class="woodmart-tooltip-label">Add to cart</span><span>Add to cart</span></a></div>
+                                                                    <div class="wrap-quickview-button">
+                                                                        <div class="quick-view wd-action-btn wd-quick-view-btn wd-style-icon">
+                                                                            <a href="@slugProduct" class="open-quick-view quick-view-button woodmart-tltp" data-id="21691"><span class="woodmart-tooltip-label">Quick view</span>Quick view</a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @if (innerItem.Product.SpecialPriceEndDateTime != null)
+                                                                {
+                                                                    <div class="woodmart-product-countdown woodmart-timer" data-end-date="@innerItem.Product.SpecialPriceEndDateTime.Value.ToString("yyyy-MM-dd HH:mm:ss")" data-timezone="GMT"><span class="countdown-days">0 <span>days</span></span> <span class="countdown-hours">0 <span>hr</span></span> <span class="countdown-min">0 <span>min</span></span> <span class="countdown-sec">0 <span>sc</span></span></div>
+                                                                }
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!-- end product-items -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wpb_column vc_column_container vc_col-sm-12 vc_col-lg-8 vc_col-md-12">
+                        <div class="vc_column-inner">
+                            <div class="wpb_wrapper">
+                                <div id="wd-603fa2f4eed61" class="woodmart-products-tabs tabs-wd-603fa2f4eed61 tabs-design-simple ">
+                                    <div class="woodmart-tab-content">
+                                        <div class="woodmart-products-element" style="min-height: 652px;">
+                                            <div class="woodmart-products-loader hidden-loader" style="left: 1206.16px;"></div>
+                                            <div class="products elements-grid align-items-start row woodmart-products-holder  woodmart-spacing-20 grid-columns-3 pagination-arrows">
+                                                
+                                                @foreach (var innerItem in category.ProductCategoryMappings.Skip(2).Take(6))
+                                                {
+                                                    var slugProduct = SlugHelper.Product(innerItem.Product.Id);
+                                                    <div class="product-grid-item product product-no-swatches woodmart-hover-base  col-md-4 col-6 first  type-product post-21632 status-publish first instock product_cat-retail has-post-thumbnail shipping-taxable purchasable product-type-simple add-small-content hover-ready" data-loop="1" data-id="21632">
+                                                        <div class="product-wrapper">
+                                                            <div class="content-product-imagin" style="margin-bottom: -145px;"></div>
+                                                            <div class="product-element-top">
+                                                                <a href="@slugProduct" title="@innerItem.Product.Name" class="product-image-link">
+                                                                    <img class="content-product-image" src="@ImageHelper.GetResize(innerItem.Product.Picture.Url, 330, 340)" alt="@innerItem.Product.Name" width="330" height="340">
+                                                                </a>
+                                                                <div class="wrapp-swatches">
+                                                                    <div class="woodmart-compare-btn product-compare-button wd-action-btn wd-compare-btn wd-style-icon">
+                                                                        <a href="/compare/demo/" data-id="21632" data-added-text="Compare products" data-original-title="" title="">
+                                                                            Compare
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="quick-shop-wrapper">
+                                                                    <div class="quick-shop-close wd-cross-button wd-size-s wd-with-text-left"><span>Close</span></div>
+                                                                    <div class="quick-shop-form">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product-information">
+                                                                <h3 class="product-title"><a href="@slugProduct" title="@innerItem.Product.Name">@innerItem.Product.Name</a></h3>
+                                                                <div class="woodmart-product-cats">
+                                                                    @foreach (var cat in innerItem.Product.ProductCategoryMappings.Take(3))
+                                                                    {
+                                                                        <a href="@SlugHelper.Category(cat.CategoryId)" title="@cat.Category.Name" rel="tag">@cat.Category.Name</a>
+                                                                    }
+                                                                </div>
+                                                                <div class="product-rating-price">
+                                                                    <div class="wrapp-product-price">
+                                                                        <span class="price">
+                                                                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="fade-in-block">
+                                                                    <div class="hover-content woodmart-more-desc woodmart-more-desc-active">
+                                                                        <div class="hover-content-inner woodmart-more-desc-inner">
+                                                                             @Html.Raw(innerItem.Product.getShortDescription())
+                                                                        </div>
+                                                                        <a href="#" class="woodmart-more-desc-btn"><span>more</span></a>
+                                                                    </div>
+                                                                    <div class=" wd-bottom-actions">
+                                                                        <div class="wrap-wishlist-button">
+                                                                            <div class="woodmart-wishlist-btn wd-action-btn wd-wishlist-btn wd-style-icon">
+                                                                                <a href="/wishlist/" data-key="dfbe2b54db" data-product-id="21632" data-added-text="Browse Wishlist" data-original-title="" title="">Add to wishlist</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="woodmart-add-btn wd-action-btn wd-add-cart-btn wd-style-icon" data-original-title="" title=""><a href="?add-to-cart=21632" data-quantity="1" class="button product_type_simple add_to_cart_button ajax_add_to_cart add-to-cart-loop" data-product_id="21632" data-product_sku="" aria-label="Add “Gray Shorts” to your cart" rel="nofollow"><span>Add to cart</span></a></div>
+                                                                        <div class="wrap-quickview-button">
+                                                                            <div class="quick-view wd-action-btn wd-quick-view-btn wd-style-icon">
+                                                                                <a href="@slugProduct" class="open-quick-view quick-view-button" data-id="21632" data-original-title="" title="">Quick view</a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="products-footer">
+                                                <div class="wrap-loading-arrow">
+                                                    <div class="woodmart-products-load-prev disabled" style="left: 814.656px;">Load previous products</div>
+                                                    <div class="woodmart-products-load-next" style="left: 1567.66px;">Load next products</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

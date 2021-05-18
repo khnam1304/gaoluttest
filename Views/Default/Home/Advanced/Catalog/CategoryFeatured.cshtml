@@ -1,0 +1,27 @@
+﻿@model List<ASP.Web.Model.Models.Category>
+<div class="section-content">
+    @foreach (var item in Model)
+    {
+        foreach (var innerItem in item.CategoryChildren.Where(e => e.IsActive))
+        {
+            <div class="item video" style="background-image: url('@ImageHelper.GetResize(innerItem.Avatar)');">
+                <video class="thevideo" loop preload="none">
+                    @if (innerItem.Presentation != null)
+                    {
+                        <source src="@Utils.GetLinkFromHtml(innerItem.Presentation)" type="video/mp4">
+                    }
+                </video>
+                <div class="video-btn video-pause-btn">
+                    <i class="fa fa-pause-circle-o video-pause-btn"></i>
+                </div>
+                <div class="video-btn video-play-btn">
+                    <i class="fa fa-play-circle-o video-play-btn"></i>
+                </div>
+                <div class="text" style="transition-duration: .5s;">
+                    <div class="title"><span>@innerItem.Name</span></div>
+                    <a href="@Utils.GetUrlCategory(innerItem.Id)" class="view-more viewmore-line"><span>@LanguageHelper.Translate("Xem thêm_Text")</span></a>
+                </div>
+            </div>
+        }
+    }
+</div>

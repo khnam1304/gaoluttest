@@ -1,0 +1,184 @@
+﻿@{
+    /**/
+    var blogCategory = ViewBag.blogCategory as BlogCategory ?? new BlogCategory();
+    ViewBag.Title = blogCategory.MetaTitle ?? blogCategory.Name;
+    ViewBag.MetaKeywords = blogCategory.MetaKeywords;
+    ViewBag.MetaDescription = blogCategory.MetaDescription ?? blogCategory.Description;
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<BlogPostCategoryMapping>
+    @section styles{
+        @Styles.Render("~/bundles/content/default/blog/blog-list/css", "~/bundles/content/default/blog/blog-category/css", "~/bundles/content/default/pagelist/css")
+    }
+    <!-- Promo bar -->
+    <section class="cs-promo-bar bg-primary py-2">
+        <div class="container d-flex justify-content-center">
+            <div class="cs-carousel cs-controls-inverse">
+                <div class="cs-carousel-inner" data-carousel-options='{"mode": "gallery", "nav": false}'>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Up to 70% Off.</strong>
+                        <a href="#" class="text-light">Shop our latest sale offers</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Money back guarantee.</strong>
+                        <a href="#" class="text-light">Learn more</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Friendly customer support.</strong>
+                        <a href="#" class="text-light">Contact 24/7</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Breadcrumb -->
+    <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+        <div class="container">
+            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.BlogCategory(Convert.ToInt32(blogCategory.ParentBlogCategoryId)), Title = blogCategory.ParentBlogCategory.Name }, new BreadcrumbModel { Link = "#", Title = blogCategory.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+        </div>
+    </nav>
+
+
+    <!-- Page content -->
+    <section class="container page-news pt-3 pt-md-4 pb-3 pb-sm-4 pb-lg-5 mb-4">
+        <div class="row pb-2 pb-md-3">
+
+            <!-- List of posts -->
+            <div class="col-lg-8">
+                <h1 class="h2 mb-4 pb-1 pb-md-3">@blogCategory.Name</h1>
+
+                @if (Model.Count < 1)
+                {
+                    <div style="padding: 32px 0px;">
+                        <b>@LanguageHelper.Translate("This category currently does not have corresponding information_Text")!</b>
+                    </div>
+                }
+                else
+                {
+                    foreach (BlogPostCategoryMapping item in Model)
+                    {
+                        <!-- Post -->
+                        <article class=" news-card cs-image-scale card border-0 mb-5 pb-md-2">
+                            <a href="@SlugHelper.BlogPost(item.BlogPostId)" class="images cs-image-inner card-header  mb-3 p-0 border-0 rounded position-relative">
+                                <img src="@ImageHelper.GetResize(item.BlogPost.Avatar, 480, 480)" alt="@item.BlogPost.Title" />
+                            </a>
+                            <div class="content card-body p-0">
+                                <ul class="nav nav-muted mb-2 pb-1">
+                                    <li class="nav-item mr-2">
+                                        @{
+                                            var rendered = false;
+                                        }
+                                        @foreach (var itemcate in DataWhereHelper.ExtractListBlogCategory(null, item.BlogPostId).Where(e => e.Id != blogCategory.Id).Take(1))
+                                        {
+                                            <a class="nav-link d-inline-block mr-2 p-0 font-weight-normal" href="@SlugHelper.BlogCategory(itemcate.Id)" title="@itemcate.Name">@itemcate.Name</a>
+                                            rendered = true;
+                                        }
+                                        @if (rendered == false)
+                                        {
+                                            <a class="nav-link d-inline-block mr-2 p-0 font-weight-normal" href="@SlugHelper.BlogCategory(blogCategory.Id)" title="@blogCategory.Name">@blogCategory.Name</a>
+                                        }
+                                        <span class="text-border px-1">|</span>
+
+                                    </li>
+                                    <li class="nav-item mr-2">
+                                        <a href="#" class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                                            <time class="time-ago" datetime="@item.BlogPost.PublishedTime"></time>
+                                        </a>
+                                        <span class="text-border px-1">|</span>
+                                    </li>
+                                    <li class="nav-item mr-2">
+                                        <a href="#" class="nav-link d-inline-block mr-2 p-0 font-size-sm font-weight-normal">
+                                            <i class="cxi-chat mt-n1 mr-2 font-size-base align-middle"></i>
+                                            @(item.BlogPost.CommentCount == 0 ? "Không bình luận": item.BlogPost.CommentCount + " Bình luận")
+                                        </a>
+                                    </li>
+                                </ul>
+                                <p class="h5 mb-2 nav-dark">
+                                    <a href="@SlugHelper.BlogPost(item.BlogPostId)" class="nav-link" title="@item.BlogPost.Title">
+                                        @item.BlogPost.Title
+                                    </a>
+                                </p>
+                                <p class="mb-0 text-overflow">
+                                    @Html.Raw(item.BlogPost.getExcerpt())
+                                </p>
+                            </div>
+                        </article>
+
+                    }
+                }
+
+                <!-- Pagination -->
+                <nav class="ml-n2 mt-n3 mt-md-0" aria-label="Pagination">
+                    @Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { ViewBag.sortOrder, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i>  Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" })
+                </nav>
+            </div>
+
+
+            <!-- Sidebar -->
+            <aside class="col-lg-4 pl-lg-5">
+                <div id="blog-sidebar" class="cs-offcanvas cs-offcanvas-collapse cs-offcanvas-right">
+                    <div class="cs-offcanvas-cap align-items-center border-bottom mb-3">
+                        <p class="h5 mb-0">Sidebar</p>
+                        <button class="close mr-n1" type="button" data-dismiss="offcanvas" aria-label="Close">
+                            <span class="h2 font-weight-normal mt-n1 mb-0" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="cs-offcanvas-body pt-3 pb-1 pt-lg-0">
+
+                        <!-- Search -->
+                        <div class="cs-widget border-bottom pb-2 mb-4">
+                            <div class="input-group-overlay mb-4">
+                                <div class="input-group-append-overlay">
+                                    <span class="input-group-text">
+                                        <i class="cxi-search font-size-lg"></i>
+                                    </span>
+                                </div>
+                               
+                                @Html.Action("Box", "Search", new { area = "", viewPath = "search/boxblog", scope = "trends-blogcategory-blogpost" })
+                            </div>
+                        </div>
+
+                        <!-- Categories -->
+                        <div class="cs-widget cs-widget-categories border-bottom pt-1 pb-4 mb-4">
+                            <p class="h4">Danh mục</p>
+                           
+                            @{ Html.RenderAction("CategoriesSpecial", "Blog", new { groupOf = "news,", pathView = "Widgets/BlogCategory/Archives", area = "" }); }
+                        </div>
+
+                        <!-- Featured posts -->
+                        <div class="cs-widget cs-widget-categories border-bottom pt-1 pb-3 mb-4">
+                            <p class="h4">Các bài viết</p>
+                            
+                            @{ Html.RenderAction("PopularPosts", "Blog", new { blogCategoryId = blogCategory.Id, take = 3, pathView = "Widgets/BlogCategory/PopularPosts", area = "" }); }
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="cs-widget pt-1 pb-2 mb-4">
+                            <p class="h4">Từ khóa</p>
+                            @{ Html.RenderAction("PopularTags", "Blog", new { blogCategoryId = blogCategory.Id, pathView = "Widgets/BlogCategory/PopularTags", area = "" }); }
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </section>
+
+    @section scripts {
+        @Scripts.Render("~/bundles/content/default/blog/blog-category/js")
+        <script>
+        $(".time-ago").timeago();
+        var currentLink = $($(".main-menu a[href='@SlugHelper.BlogCategory(grouped: "news")']"));
+        if (currentLink != null) {
+            currentLink.parent().addClass("active");
+            currentLink.parent().parent().addClass("active");
+            currentLink.parent().parent().parent().addClass("active");
+        }
+        jQuery(document).ready(function() {
+            Blog.init();
+        });
+        </script>
+    }

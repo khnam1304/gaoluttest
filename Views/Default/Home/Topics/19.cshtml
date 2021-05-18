@@ -1,0 +1,15 @@
+﻿@model ASP.Web.Model.Models.Page
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<section class="as-content">
+    <div class="container"><div class="row content-layout-wrapper align-items-start"><div class="site-content col-12" role="main"><header class="page-header"><h3 class="page-title">Not Found</h3></header><div class="page-wrapper"><div class="page-content"><h2>This is somewhat embarrassing, isn’t it?</h2><p>It looks like nothing was found at this location. Maybe try a search?</p><div class="woodmart-search-form"><form action="https://woodmart.xtemos.com/" class="searchform " method="get" role="search"><input type="text" class="s" placeholder="Search for posts" value="" name="s"><input type="hidden" name="post_type" value=""><button class="searchsubmit" type="submit">Search</button></form></div></div></div></div></div></div>
+</section>
+@section scripts{
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

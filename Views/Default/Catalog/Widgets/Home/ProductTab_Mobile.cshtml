@@ -1,0 +1,70 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<Category>
+@{
+    var category = new Category();
+    var categoryProductCategoryMappingsTab = new List<ProductCategoryMapping>();
+}
+@foreach (var item in Model)
+{
+    category = item;
+    categoryProductCategoryMappingsTab = category.ProductCategoryMappings.Where(e => e.Product.IsActive).Take(4).ToList();
+}
+@if (categoryProductCategoryMappingsTab.Any())
+{
+    <div class="row product">
+
+        @foreach (var innerItem in categoryProductCategoryMappingsTab)
+        {
+            
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                <div class="item item-hover-view-cart">
+                    <div class="product-thumb">
+                        <div class="product-container item-img">
+                            <div class="product-image-container">
+                                <a class="product-img-link" href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Title">
+                                    <img class="img-fluid" src="@ImageHelper.GetResize(innerItem.Product.Avatar,150,150)" alt="@innerItem.Product.Title">
+                                    @foreach (var ppm in innerItem.Product.ProductPictureMappings.Where(e=>e.PictureId != innerItem.Product.PictureId).Take(1))
+                                    {
+                                        <img class="img-fluid img-hover" src="@ImageHelper.GetResize(ppm.Picture.Url, 150, 150)" alt="@ppm.Picture.Title">
+                                    }
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="product-cart-icon d-flex justify-content-around">
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Action.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                        </div>
+                    </div>
+
+                    <div class="product-label">
+                         @if (innerItem.Product.IsHighlight)
+                                            {
+                                                <span class="product-flash">@LanguageHelper.Translate("Hot_Text")</span>
+                                            }
+                                            @if (innerItem.Product.IsPromotion)
+                                            {
+                                                <span class="product-flash sale">@LanguageHelper.Translate("Sale_Text")</span>
+                                            }
+                    </div>
+
+                    <div class="product-info text-center">
+                        <h4 class="product-name">
+                            <a href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Name">@innerItem.Product.Name</a>
+                        </h4>
+                        <div class="price">
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+}
+else
+{
+    <p class="empty"> @LanguageHelper.Translate("No product showed_Text").</p>
+}
+

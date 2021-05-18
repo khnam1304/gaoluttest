@@ -1,0 +1,52 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<div id="main">
+    @section banners{
+    @{
+        var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path, Model.Avatar, Model.Title);
+        var paramArrs = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-size","cover"),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+    }
+    @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+    <div class="section section-bg-by-define pt-11 pb-17">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="page-title text-center">@Model.Title</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section border-bottom pt-2 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!--start: box-breadcrumb-->
+                    @Html.Action("Breadcrumb", "Widgets", new {breadcrumbs = new List<BreadcrumbModel> {new BreadcrumbModel {Link = SlugHelper.BlogCategory(Convert.ToInt32(Model.ParentPageId)), Title = Model.ParentPage.Name}, new BreadcrumbModel {Link = "#", Title = Model.Name}}, homeIncluded = true, headingIncluded = false, area = ""})
+                    <!--end: box-breadcrumb-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="as-content">
+        <div class="main-content dealership-content container">@{ ViewBag.groupId = 1; ViewBag.pageSize = 150;} @section stylesInjected { <link href="~/content/plugins/googlemaps-marker/css/index.css" rel="stylesheet" /> }<div class="dealership-table"><section id="app"> @{ Html.RenderPartial("~/Views/Default/Widgets/Vendor/_ListPartial.cshtml"); }</section></div>@section ScriptsInjected { <script src="~/scripts/knockout-latest.js"></script> <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry&key=AIzaSyB29_ZMSyOC1dQj6ZI7JPa2R-hFyCgUpYo"></script> <script type="text/javascript" src="https://cdn.rawgit.com/googlemaps/v3-utility-library/master/infobox/src/infobox.js"></script> }</div>
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @if (Model.ScriptsInsert != null)
+        {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+} 

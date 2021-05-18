@@ -1,0 +1,16 @@
+﻿@{
+    var arrs = ViewBag.paramArrs as List<KeyValuePair<string, string>> ?? new List<KeyValuePair<string, string>>();
+    // Extract:
+    //var title = arrs.Any(kvp => kvp.Key == "banner-title") ? arrs.First(kvp => kvp.Key == "banner-title").Value : "{{Default}}";
+    var src  = arrs.Any(kvp => kvp.Key == "banner-img") ? arrs.First(kvp => kvp.Key == "banner-img").Value : "{{Default}}" ;
+    var size = arrs.Any(kvp => kvp.Key == "banner-size") ? arrs.First(kvp => kvp.Key == "banner-size").Value : "inherit";
+}
+<style>
+    .section-bg-by-define {
+        background-image: url('@(src == "{{default}}" ? "../../assets/images/background/default.png" : src)')!important;
+        background-size: @size;
+        background-position: center bottom;
+        background-repeat: no-repeat;
+        background-color: #7fca90;
+    }
+</style>

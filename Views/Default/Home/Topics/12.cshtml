@@ -1,0 +1,327 @@
+﻿@model ASP.Web.Model.Models.Page
+@section styles{
+    @Styles.Render("~/bundles/content/default/home/css")
+}
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<section class="as-content">
+    <!-- Promo bar -->
+    <section class="cs-promo-bar bg-primary py-2">
+        <div class="container d-flex justify-content-center">
+            <div class="cs-carousel cs-controls-inverse">
+                <div class="cs-carousel-inner" data-carousel-options='{"mode": "gallery", "nav": false}'>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Up to 70% Off.</strong>
+                        <a href="#" class="text-light">Shop our latest sale offers</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Money back guarantee.</strong>
+                        <a href="#" class="text-light">Learn more</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Friendly customer support.</strong>
+                        <a href="#" class="text-light">Contact 24/7</a>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Hero slider -->
+    <section class="cs-carousel cs-controls-onhover">
+        <div class="cs-carousel-inner" data-carousel-options='{
+          "mode": "gallery",
+          "navContainer": "#pager",
+          "responsive": {
+            "0": { "controls": false },
+            "991": { "controls": true }
+          }
+        }'>
+            @{ Html.RenderAction("Album", "Widgets", new { identifier = "home-slider", area = "", pathView = "Album/Home" }); }
+
+        </div>
+
+        <!-- Pager -->
+        <div class="container position-relative">
+            <div class="row mt-lg-n5">
+                <div class="col-lg-7 col-md-8 col-sm-10 offset-lg-1 offset-xl-0">
+                    <div class="position-relative">
+                        <div id="pager" class="pagination-banner cs-pager cs-pager-inverse mb-xl-5 pb-5 pb-md-6">
+                            @{ Html.RenderAction("Album", "Widgets", new { identifier = "home-slider", area = "", pathView = "Album/Home_Button" }); }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Popular categories -->
+    <section class="py-5">
+        <div class="container my-lg-2 py-2 py-md-4">
+            <div class="d-flex align-items-center justify-content-between pb-sm-1 mb-5">
+                <p class="h2 h1 mb-0">Danh mục chính</p>
+                <div class="tns-custom-controls cs-controls-inverse" id="custom-controls-categories" tabindex="0">
+                    <button type="button" data-controls="prev" tabindex="-1">
+                        <i class="cxi-arrow-left"></i>
+                    </button>
+                    <button type="button" data-controls="next" tabindex="-1">
+                        <i class="cxi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="section-block">
+                <div class="cs-carousel pb-2">
+                    <div class="cs-carousel-inner" data-carousel-options='{
+                "nav": false,
+                "controlsContainer": "#custom-controls-categories",
+                "responsive": {
+                  "0": {
+                    "items": 1,
+                    "gutter": 20
+                  },
+                  "480": {
+                    "items": 2,
+                    "gutter": 24
+                  },
+                  "700": {
+                    "items": 3,
+                    "gutter": 24
+                  },
+                  "1100": {
+                    "items": 4,
+                    "gutter": 30
+                  }
+                }
+              }'>
+                        <!-- Category -->
+                        <div class="pb-2">
+                            <a href="shop-catalog.html" class="d-block cs-image-scale cs-heading-highlight text-center">
+                                <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
+                                    <img src="../../assets/img/ecommerce/rice/9.jpg" alt="Category image">
+                                </div>
+                                <p class="h3 h5 mb-3">Gạo lứt japonia</p>
+                            </a>
+                        </div>
+                        <!-- Category -->
+                        <div class="pb-2">
+                            <a href="shop-catalog.html" class="d-block cs-image-scale cs-heading-highlight text-center">
+                                <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
+                                    <img src="../../assets/img/ecommerce/rice/7.jpg" alt="Category image">
+                                </div>
+                                <p class="h3 h5 mb-3">Gạo Séng Cù</p>
+                            </a>
+                        </div>
+                        <!-- Category -->
+                        <div class="pb-2">
+                            <a href="shop-catalog.html" class="d-block cs-image-scale cs-heading-highlight text-center">
+                                <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
+                                    <img src="../../assets/img/ecommerce/rice/3.jpg" alt="Category image">
+                                </div>
+                                <p class="h3 h5 mb-3">Gạo lứt nương điện biên</p>
+                            </a>
+                        </div>
+                        <!-- Category -->
+                        <div class="pb-2">
+                            <a href="shop-catalog.html" class="d-block cs-image-scale cs-heading-highlight text-center">
+                                <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
+                                    <img src="../../assets/img/ecommerce/rice/2.jpg" alt="Category image">
+                                </div>
+                                <p class="h3 h5 mb-3">Gạo nếp cẩm</p>
+                            </a>
+                        </div>
+                        <!-- Category -->
+                        <div class="pb-2">
+                            <a href="shop-catalog.html" class="d-block cs-image-scale cs-heading-highlight text-center">
+                                <div class="cs-image-inner rounded-circle mx-auto mb-4" style="max-width: 180px;">
+                                    <img src="../../assets/img/ecommerce/rice/8.jpg" alt="Category image">
+                                </div>
+                                <p class="h3 h5 mb-3">Tops</p>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Trending products (carousel) -->
+    <section class="py-5" style="background-color: #e5e8ed;">
+        <div class="container my-lg-2 py-2 py-md-4">
+            <div class="d-flex align-items-center justify-content-between pb-sm-1 mb-5">
+                <p class="h2 h1 mb-0">Sản Phẩm nổi bật</p>
+                <div class="tns-custom-controls cs-controls-inverse" id="custom-controls-trending" tabindex="0">
+                    <button type="button" data-controls="prev" tabindex="-1">
+                        <i class="cxi-arrow-left"></i>
+                    </button>
+                    <button type="button" data-controls="next" tabindex="-1">
+                        <i class="cxi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="cs-carousel pb-2">
+                <div class="cs-carousel-inner" data-carousel-options='{
+                  "nav": false,
+                  "controlsContainer": "#custom-controls-trending",
+                  "responsive": {
+                    "0": {
+                      "items": 1,
+                      "gutter": 20
+                    },
+                    "480": {
+                      "items": 2,
+                      "gutter": 24
+                    },
+                    "700": {
+                      "items": 3,
+                      "gutter": 24
+                    },
+                    "1100": {
+                      "items": 4,
+                      "gutter": 30
+                    }
+                  }
+                }'>
+                    <!-- Item -->
+                    @{ Html.RenderAction("ProductFocus", "Catalog", new { pathView = "Widgets/Home/ProductFocus", take = 8, area = "" }); }
+
+
+
+                </div>
+            </div>
+            <div class="text-center pt-4 pt-md-5">
+                <a href="/san-pham" class="btn btn-outline-primary btn-lg">Xem thêm</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sale products (carousel) -->
+    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "linked-by-13696", itemTake = 15, fieldTake = "ProductCategoryMappings", pathView = "Widgets/Home/CategoriesFeatured", area = "" })
+
+    @*@Html.Action("Caller", "StaticBlock", new { identifier = "home-tagline-service", area = "" })*@
+
+    <!-- Sale products (carousel) -->
+    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "linked-by-13707", itemTake = 15, fieldTake = "ProductCategoryMappings", pathView = "Widgets/Home/CategoriesFeatured", area = "" })
+
+
+    <!-- Blog -->
+    <section class="container mt-2 mt-lg-0 pt-5 pt-lg-6 pb-5 pb-sm-0 pb-md-5">
+        <div class="d-flex align-items-center justify-content-between mb-5 pb-sm-2">
+            <p class="h2 h1 mb-0">Tin tức</p>
+            <a href="/tin-tuc-su-kien" class="btn btn-outline-primary">Xem thêm</a>
+
+        </div>
+        <div class="h-news-wrapper cs-carousel cs-nav-inverse">
+            <div class="navigation-cm tns-custom-controls cs-controls-inverse" id="custom-controls-news" tabindex="0">
+                <button class="arrow-btn-prev" type="button" data-controls="prev" tabindex="-1">
+                    <i class="cxi-arrow-left"></i>
+                </button>
+                <button class="arrow-btn-next" type="button" data-controls="next" tabindex="-1">
+                    <i class="cxi-arrow-right"></i>
+                </button>
+            </div>
+            <div class="cs-carousel-inner" data-carousel-options='{
+                "nav": false,
+                "controlsContainer": "#custom-controls-news",
+                "responsive": {
+                  "0": {
+                    "items": 1,
+                    "gutter": 20
+                  },
+                  "480": {
+                    "items": 2,
+                    "gutter": 24
+                  },
+                  "700": {
+                    "items": 3,
+                    "gutter": 24
+                  },
+                  "1100": {
+                    "items": 3,
+                    "gutter": 30
+                  }
+                }
+              }'>
+                <!-- Post -->
+                @Html.Action("LatestPosts", "Widgets", new { grouped = "news,news-featuring", groupedForced = "news-featuring", take = 12, pathView = "Blog/LatestPostsIndex", area = "" })
+            </div>
+        </div>
+    </section>
+
+    <section class="container pb-5">
+        <div class="section__inner js-expand">
+            <p class="h2 section__title mb-3">Parturient convallis</p>
+            <div class="section__content js-expand-content">
+                <p>
+                    A sit tellus a curabitur ornare consectetur laoreet eget nec amet lorem porta montes suspendisse integer
+                    a ut montes suspendisse posuere faucibus vehicula suspendisse laoreet id tortor suscipit. <strong>
+                        Lacus
+                        bibendum
+                    </strong> tortor natoque porttitor cursus non adipiscing facilisi ullamcorper parturient
+                    ultricies parturient non a. Ac ullamcorper a ultrices a a urna ac commodo nam condimentum
+                    parturient.Libero suspendisse facilisis parturient elementum curabitur.Erat a per dis aliquet ultricies
+                    curabitur nostra suspendisse nec adipiscing donec vestibulum a parturient a ac ut non adipiscing penatibus
+                    nec erat.
+                </p>
+                <p>
+                    A sit tellus a curabitur ornare consectetur laoreet eget nec amet lorem porta montes suspendisse integer
+                    a ut montes suspendisse posuere faucibus vehicula suspendisse laoreet id tortor suscipit. <strong>
+                        Lacus
+                        bibendum
+                    </strong> tortor natoque porttitor cursus non adipiscing facilisi ullamcorper parturient
+                    ultricies parturient non a. Ac ullamcorper a ultrices a a urna ac commodo nam condimentum
+                    parturient.Libero suspendisse facilisis parturient elementum curabitur.Erat a per dis aliquet ultricies
+                    curabitur nostra suspendisse nec adipiscing donec vestibulum a parturient a ac ut non adipiscing penatibus
+                    nec erat.
+                </p>
+                <p>
+                    A sit tellus a curabitur ornare consectetur laoreet eget nec amet lorem porta montes suspendisse integer
+                    a ut montes suspendisse posuere faucibus vehicula suspendisse laoreet id tortor suscipit. <strong>
+                        Lacus
+                        bibendum
+                    </strong> tortor natoque porttitor cursus non adipiscing facilisi ullamcorper parturient
+                    ultricies parturient non a. Ac ullamcorper a ultrices a a urna ac commodo nam condimentum
+                    parturient.Libero suspendisse facilisis parturient elementum curabitur.Erat a per dis aliquet ultricies
+                    curabitur nostra suspendisse nec adipiscing donec vestibulum a parturient a ac ut non adipiscing penatibus
+                    nec erat.
+                </p>
+                <p>
+                    A sit tellus a curabitur ornare consectetur laoreet eget nec amet lorem porta montes suspendisse integer
+                    a ut montes suspendisse posuere faucibus vehicula suspendisse laoreet id tortor suscipit. <strong>
+                        Lacus
+                        bibendum
+                    </strong> tortor natoque porttitor cursus non adipiscing facilisi ullamcorper parturient
+                    ultricies parturient non a. Ac ullamcorper a ultrices a a urna ac commodo nam condimentum
+                    parturient.Libero suspendisse facilisis parturient elementum curabitur.Erat a per dis aliquet ultricies
+                    curabitur nostra suspendisse nec adipiscing donec vestibulum a parturient a ac ut non adipiscing penatibus
+                    nec erat.
+                </p>
+            </div>
+            <button class="btn btn-outline-primary btn-sm js-expand-button">
+                Xem thêm
+            </button>
+            <button class="btn btn-outline-primary btn-sm js-collapse-button hidden">
+                Thu gọn
+            </button>
+        </div>
+    </section>
+
+</section>
+@section scripts{
+    @Scripts.Render("~/bundles/content/default/home/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

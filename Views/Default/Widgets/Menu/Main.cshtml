@@ -1,0 +1,144 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model MenuCategory
+
+@if (Model.Id > 0)
+{
+    var u = DataCurrentHelper.UniqueSeoCode == "vi" ? "": ("/" + DataCurrentHelper.UniqueSeoCode);
+    if (!string.IsNullOrEmpty(Model.StyleContent))
+    {
+        <style>
+            @Model.StyleContent
+        </style>
+    }
+    <ul id="cd-primary-nav" style="@ViewBag.CustomStyles" class="cd-primary-nav @Model.ClassApplied data-block @Model.Identifier ">
+        @foreach (var level1st in Model.MenuLinkCategoryMappings.Where(e => e.ParentId == null && e.IsActive).OrderBy(e => e.DisplayOrder))
+        {
+            var level1stHref = "";
+        <li class="@((level1st.MenuLinkCategoryChildren.Count == 0 ? "":"has-children") + " " + (level1st.StylesheetClasses))">
+            @if (level1st.StylesheetClasses == "only-icon")
+            {
+                <a title="@level1st.UrlRewrite.Title" href="#" target="@level1st.Target"> @Html.Raw(level1st.Icon)</a>
+            }
+
+            else
+            {
+                
+                if (string.IsNullOrEmpty(level1st.HashTag))
+                {
+                    level1stHref = level1st.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level1st.UrlRewrite.Slug);
+                }
+                else { level1stHref = level1st.HashTag; }
+
+                if (level1st.MenuLinkCategoryChildren.Count > 0)
+                {
+                    <a title="@level1st.UrlRewrite.Title" href="@level1stHref" target="@level1st.Target"> @Html.Raw(level1st.Icon)   @(level1st.Alias ?? level1st.UrlRewrite.Title)</a>
+                }
+                else
+                {
+                    <a title="@level1st.UrlRewrite.Title" href="@level1stHref" target="@level1st.Target"> @Html.Raw(level1st.Icon)   @(level1st.Alias ?? level1st.UrlRewrite.Title) </a>
+                }
+            }
+            @if (level1st.MenuLinkCategoryChildren.Count > 0)
+            {
+                if (level1st.StylesheetClasses == "one-col")
+                {
+                    <ul class="cd-secondary-nav is-hidden">
+                        <li class="see-all"><a href="@level1stHref">@LanguageHelper.Translate("All_Text")</a></li>
+                        <li class="has-children">
+                            <ul class="is-hidden">
+                                @foreach (var level2nd in level1st.MenuLinkCategoryChildren.Where(e => e.IsActive).OrderBy(e => e.DisplayOrder))
+                                {
+                                    var level2ndHref = "";
+                                        if (string.IsNullOrEmpty(level2nd.HashTag))
+                                        {
+                                            level2ndHref = level2nd.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level2nd.UrlRewrite.Slug);
+                                        }
+                                        else { level2ndHref = level2nd.HashTag; }
+                                    <li> <a title="@level2nd.UrlRewrite.Title" href="@level2ndHref" target="@level2nd.Target">@Html.Raw(level2nd.Icon) @(level2nd.Alias ?? level2nd.UrlRewrite.Title) </a></li>
+                                }
+                            </ul>
+                        </li>
+
+                    </ul>
+                }
+                else
+                {
+                    <ul class="cd-secondary-nav is-hidden">
+                        <li class="go-back"><a href="#0">Menu</a></li>
+                        <li class="see-all"><a href="@level1stHref">@LanguageHelper.Translate("All_Text") @level1st.UrlRewrite.Title</a></li>
+
+                        @foreach (var level2nd in level1st.MenuLinkCategoryChildren.Where(e => e.IsActive).OrderBy(e => e.DisplayOrder))
+                        {
+
+                            <li @(level2nd.MenuLinkCategoryChildren.Count == 0 ? "" : "class=has-children")>
+                                @{
+                                    var level2ndHref = "";
+                                    if (string.IsNullOrEmpty(level2nd.HashTag))
+                                    {
+                                        level2ndHref = level2nd.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level2nd.UrlRewrite.Slug);
+                                    }
+                                    else { level2ndHref = level2nd.HashTag; }
+                                }
+                                <a title="@level2nd.UrlRewrite.Title" href="@level2ndHref" target="@level2nd.Target">@Html.Raw(level2nd.Icon) @(level2nd.Alias ?? level2nd.UrlRewrite.Title) </a>
+                                @if (level2nd.MenuLinkCategoryChildren.Count > 0)
+                                {
+                                    <ul class="is-hidden">
+                                        <li class="go-back"><a href="#0">@level2nd.UrlRewrite.Title</a></li>
+                                        <li class="see-all"><a href="@level2ndHref">@LanguageHelper.Translate("All_Text") @level2nd.UrlRewrite.Title</a></li>
+                                        <li class="has-children">
+                                            <ul>
+                                                @foreach (var level3rd in level2nd.MenuLinkCategoryChildren.Where(e => e.IsActive).OrderBy(e => e.DisplayOrder))
+                                                {
+                                                    var level3rdHref = "";
+                                                    if (string.IsNullOrEmpty(level3rd.HashTag))
+                                                    {
+                                                        level3rdHref = level3rd.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level3rd.UrlRewrite.Slug);
+                                                    }
+                                                    else { level3rdHref = level3rd.HashTag; }
+
+                                                    if (level3rd.MenuLinkCategoryChildren.Count > 0)
+                                                    {
+                                                        <li class="has-children">
+                                                            <a href="#0">@level3rd.UrlRewrite.Title</a>
+                                                            <ul class="is-hidden">
+                                                                <li class="go-back"><a href="#0">@level3rd.UrlRewrite.Title</a></li>
+
+                                                                @foreach (var level4th in level3rd.MenuLinkCategoryChildren.Where(e => e.IsActive).OrderBy(e => e.DisplayOrder))
+                                                                {
+                                                                    var level4thHref = "";
+                                                                    if (string.IsNullOrEmpty(level4th.HashTag))
+                                                                    {
+                                                                        level4thHref = level4th.UrlRewrite.Slug == "/" ? (u + "/") : (u + "/" + level4th.UrlRewrite.Slug);
+                                                                    }
+                                                                    else { level4thHref = level4th.HashTag; }
+
+                                                                    <li><a href="@level4thHref">@level4th.UrlRewrite.Title</a></li>
+                                                                }
+                                                                <li class="see-all"><a href="#">@LanguageHelper.Translate("All_Text") @level3rd.UrlRewrite.Title</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li>
+                                                            <a title="@level3rd.UrlRewrite.Title" href="@level3rdHref" target="@level3rd.Target">@Html.Raw(level3rd.Icon) @(level3rd.Alias ?? level3rd.UrlRewrite.Title) </a>
+                                                        </li>
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                }
+                            </li>
+                        }
+
+                    </ul>
+                }
+
+            }
+        </li>
+        }
+
+    </ul>
+}

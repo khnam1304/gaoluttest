@@ -1,0 +1,61 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@model List<Product>
+
+
+    @foreach (Product item in Model)
+    {
+        var slugProduct = SlugHelper.Product(item.Id);
+        <div class="product-grid-item wd-with-labels product woodmart-hover-alt col-md-3 col-sm-4 col-6  has-post-thumbnail">
+            <div class="product-element-top">
+                <a href="@slugProduct" class="product-image-link">
+                    <div class="product-labels labels-rounded">
+                        @if (item.IsNew)
+                        {
+                            <span class="featured product-label">@LanguageHelper.Translate("Hot_Text")</span>
+                        }
+                        @if (item.IsPromotion)
+                        {
+                            <span class="onsale product-label">@LanguageHelper.Translate("Sale_Text")!</span>
+                        }
+                    </div>
+                    <img src="@ImageHelper.GetResize(@item.Picture.Url, 430, 430)" alt="@item.Name" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail">
+                </a>
+                <div class="hover-img">
+                    <a href="@slugProduct">
+                        @foreach (var ppm in item.ProductPictureMappings.Where(e => e.Picture.Url != item.Picture.Url).Take(1))
+                        {
+                            <img class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" src="@ImageHelper.GetResize(ppm.Picture.Url,  430, 430)" alt="@ppm.Picture.Title">
+
+                        }
+                    </a>
+                </div>
+                <div class="woodmart-buttons wd-pos-r-t">
+                    <div class="woodmart-compare-btn product-compare-button wd-action-btn wd-compare-btn wd-style-icon"> <a href="/compare/" data-id="@item.Id" data-added-text="Compare products" class="woodmart-tltp"><span class="woodmart-tooltip-label"> Compare </span> Compare </a></div>
+                    <div class="quick-view wd-action-btn wd-quick-view-btn wd-style-icon"> <a href="@slugProduct" class="open-quick-view quick-view-button woodmart-tltp" data-id="@item.Id"><span class="woodmart-tooltip-label">Quick view</span>Quick view</a></div>
+                    <div class="woodmart-wishlist-btn wd-action-btn wd-wishlist-btn wd-style-icon"> <a href="/wishlist/" data-id="@item.Id" data-added-text="Browse Wishlist" class="woodmart-tltp"><span class="woodmart-tooltip-label">Add to wishlist</span>Add to wishlist</a></div>
+                </div>
+                <div class="quick-shop-wrapper">
+                    <div class="quick-shop-close wd-cross-button wd-size-s wd-with-text-left"><span>Close</span></div>
+                    <div class="quick-shop-form"></div>
+                </div>
+            </div>
+            <h3 class="product-title"><a href="@slugProduct">@item.Name</a></h3>
+            <div class="woodmart-product-cats">
+                @foreach (var cat in item.ProductCategoryMappings.Take(3))
+                {
+                    <a href="@SlugHelper.Category(cat.CategoryId)" title="@cat.Category.Name" rel="tag">@cat.Category.Name</a>
+                }
+            </div>
+            <div class="wrap-price">
+                <div class="swap-wrapp">
+                    <div class="swap-elements">
+                        <span class="price">
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Price.cshtml", new ViewDataDictionary { { "Product", item } }); }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+

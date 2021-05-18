@@ -1,0 +1,103 @@
+﻿@using global::Web.Helpers
+@using Web.Repositories.Entity.General
+@model ASP.Web.Core.Models.Ecommerce.View.ShoppingCartViewModel
+<div class="popup-title">
+    <a href="#" title="Shopping cart">
+        <span class="title-cart">
+            <i class="flaticon-shop"></i>
+        </span>
+        <span id="cart-status" class="ajax-cart-quantity">@Model.CartItems.Count</span>
+    </a>
+</div>
+
+<div class="popup-content">
+    <div class="cart-block-list">
+        <table class="cart">
+            <tbody>
+                @if (!Model.CartItems.Any())
+                {
+                    if (DataCurrentHelper.UniqueSeoCode == "vi")
+                    {
+                        <tr>
+                            <td colspan="3">
+                                <div class="card-body" style="text-align: center;">
+                                    <h3> <span class="text-danger">GIỎ HÀNG </span> TRỐNG</h3>
+                                    <p>
+                                        <img src="~/assets/images/cart/no-product.png" style="max-width: 100%;" alt="Giỏ hàng đang trống" />
+                                        <i class="ionicons ion-ios-cart-outline"></i> Bạn đang không có bất kỳ sản phẩm nào trong  giỏ
+                                    </p>
+                                    <a href="@SlugHelper.Category(grouped:"our-product")" class="btn btn-danger rounded-pill"> CHỌN SẢN PHẨM</a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3">
+                                <div class="card-body" style="text-align: center;">
+                                    <h3> <span class="text-danger">CART </span> IS EMPTY</h3>
+                                    <p>
+                                        <img src="~/assets/images/cart/no-product.png" style="max-width: 100%;" alt="Your cart is empty" />
+                                        <i class="ionicons ion-ios-cart-outline"></i> You don't have any item in your shopping cart
+                                    </p>
+                                    <a href="@SlugHelper.Category(grouped:"our-product")" class="btn btn-danger rounded-pill"> CHOOSE NOW</a>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                }
+                else
+                {
+                    foreach (var item in Model.CartItems)
+                    {
+                        <tr class="d-flex">
+                            <td class="product-thumbnail">
+                                <a href="@SlugHelper.Product(item.Product.Id)">
+                                    <img alt="img" style="height: 64px" src="@ImageHelper.GetResize(item.Product.Avatar)">
+                                </a>
+                            </td>
+                            <td class="product-name">
+                                <a href="@SlugHelper.Product(item.Product.Id)">@item.Product.Name</a>
+                                <span class="amount">
+                                    <span class="quantity">@item.Count x </span>
+                                    <strong>@FormatHelper.FormatCurrency(item.Product.Price)</strong>
+                                </span>
+                            </td>
+                        </tr>
+                    }
+
+                    <tr class="d-flex justify-content-between align-items-center total-price">
+                        <td>
+                            <div class="total text-uppercase">@LanguageHelper.Translate("Subtotal_Text") :</div>
+                        </td>
+                        <td class="float-right">
+                            <div class="price">@FormatHelper.FormatCurrency(Model.CartTotal)</div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="actions" colspan="3">
+                            <div class="actions-continue">
+
+                                <a href="@Url.Action("Index", "CheckOut")" class="btn btn-default float-right" style="background: #026f56; border-color: #026f56;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shopping-cart"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> @LanguageHelper.Translate("Checkout now_Text")
+                                </a>
+
+                                @if (Model.CartItems.Count > 0)
+                                {
+                                    <a href="@Url.Action("Index", "ShoppingCart")" class="btn btn-default view float-right" style="background: #8d8d99; border-color: #8d8d99;">@LanguageHelper.Translate("View all_Text") <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+

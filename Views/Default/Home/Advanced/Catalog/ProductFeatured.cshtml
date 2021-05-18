@@ -1,0 +1,22 @@
+﻿@using ASP.Web.Model.Models
+@model List<Product>
+@foreach (Product item in Model)
+{
+    <div class="col-md-4">
+        <div class="flexslider" data-plugin-options='{"directionNav":true, "controlNav": false}'>
+            <ul class="slides">
+                @foreach (ProductPictureMapping innerItem in item.ProductPictureMappings)
+                {
+                    <li>
+                        @Html.ImgTag(innerItem.Picture.Url, innerItem.Picture.Title).WithSize(800,600)
+                    </li>
+                }
+            </ul>
+        </div>
+        <h4>@item.Name</h4>
+        <p>
+            @Html.Raw(item.ShortDescription)
+        </p>
+    </div>
+}
+    

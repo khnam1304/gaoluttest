@@ -1,0 +1,8 @@
+﻿.section.js {
+    z-index: 9999;
+    background: #fff;
+}
+.cd-faq a:hover {
+    color: #6c757d !important;
+    text-decoration: underline;
+}

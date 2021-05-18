@@ -1,0 +1,31 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@model Album
+@{
+    List<AlbumPictureMapping> items = Model.AlbumPictureMappings.ToList();
+    int len = items.Count();
+}
+@for (int i = 0; i <= len - 1; i++)
+{
+    var itemDesktop = items[i];
+    if (itemDesktop.IsVisibleOnDesktop())
+    {
+        <!-- Slide x -->
+        <div class="banner-img bg-size-cover py-xl-6" style="background-image: url('@ImageHelper.GetResize(itemDesktop.getPicture(), 1920, 800)');">
+            <div class="container pt-5 pb-6">
+                @{
+                    var itemMobile = Model.getItemMobileByGroup(itemDesktop.getGroup());
+                    if (itemMobile != null)
+                    {
+                        @*<img class="woodmart-slide-mobile" src="@ImageHelper.GetResize(itemMobile.getPicture())" alt="">*@
+                    }
+                }
+                <div class="row pb-lg-6">
+                    <div class="col-lg-6 offset-lg-1 offset-xl-0 pb-4 pb-md-6">
+                        @Html.Raw(items[i].Caption)
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

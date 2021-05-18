@@ -1,0 +1,52 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<div id="main">
+    @section banners{
+    @{
+        var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path, Model.Avatar, Model.Title);
+        var paramArrs = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-size","cover"),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+    }
+    @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+    }
+    <div class="section section-bg-by-define pt-11 pb-17">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2 class="page-title text-center">@Model.Title</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section border-bottom pt-2 pb-2">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <!--start: box-breadcrumb-->
+                    @Html.Action("Breadcrumb", "Widgets", new {breadcrumbs = new List<BreadcrumbModel> {new BreadcrumbModel {Link = SlugHelper.BlogCategory(Convert.ToInt32(Model.ParentPageId)), Title = Model.ParentPage.Name}, new BreadcrumbModel {Link = "#", Title = Model.Name}}, homeIncluded = true, headingIncluded = false, area = ""})
+                    <!--end: box-breadcrumb-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="as-content">
+        <div class="section pt-10 pb-10"><div class="container"><div class="row"><div class="col-sm-12"><div class="text-center mb-1 section-pretitle">連絡を取り合う</div><h2 class="text-center section-title mtn-2">HEALTHY ORGANIC FARM</h2><div class="organik-seperator mb-6 center"><span class="sep-holder"><i class="sep-line"></i></span><div class="sep-icon"><i class="organik-flower"></i></div><span class="sep-holder"><i class="sep-line"></i></span></div></div></div><div class="row"><div class="col-sm-12"><div class="mb-6" data-icon="../../assets/organik/images/icon-location-default.png" data-lat="37.789133" data-lon="-122.402158" id="googleMap"> </div></div></div><div class="row"><div class="col-sm-3"><div class="contact-info"><div class="contact-icon"><i class="fa fa-map-marker"></i></div><div class="contact-inner"><h6 class="contact-title">Address</h6><div class="contact-content">1800 Abbot Kinney Blvd. Unit D & E<br>Venice, CA 90291</div></div></div></div><div class="col-sm-3"><div class="contact-info"><div class="contact-icon"><i class="fa fa-phone"></i></div><div class="contact-inner"><h6 class="contact-title">Hotline</h6><div class="contact-content">+0122 333 8889</div></div></div></div><div class="col-sm-3"><div class="contact-info"><div class="contact-icon"><i class="fa fa-envelope"></i></div><div class="contact-inner"><h6 class="contact-title">Email Contact</h6><div class="contact-content">organik@gmail.com<br>contact@organikstore.com</div></div></div></div><div class="col-sm-3"><div class="contact-info"><div class="contact-icon"><i class="fa fa-globe"></i></div><div class="contact-inner"><h6 class="contact-title">site</h6><div class="contact-content">www.organikstore.com</div></div></div></div></div><div class="row"><div class="col-sm-12"><hr class="mt-4 mb-7"><div class="text-center mb-1 section-pretitle">Leave us a message!</div><div class="organik-seperator mb-6 center"><span class="sep-holder"><i class="sep-line"></i></span><div class="sep-icon"><i class="organik-flower"></i></div><span class="sep-holder"><i class="sep-line"></i></span></div><div class="contact-form-wrapper">@{ Html.RenderPartial("~/Views/Default/Widgets/FeedBack/_FormPatial.cshtml", new FeedBack() { Type = "contact-us", CustomView = "ContactUs" });}</div></div></div></div></div>@using (Html.BeginScripts()) { <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?key=AIzaSyDwtb7cR_XBPEvxtQ_Yq3_xKsOWQroCTPA&sensor=false"></script> <script> googleMap();</script> }
+    </section>
+</div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @if (Model.ScriptsInsert != null)
+        {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+} 

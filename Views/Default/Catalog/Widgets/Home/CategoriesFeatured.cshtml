@@ -1,0 +1,116 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<Category>
+    @{
+        var category = new Category();
+        var categoryChildrenTab = new List<Category>();
+    }
+    @foreach (var item in Model)
+    {
+        category = item;
+        if (category.ProductCategoryMappings == null)
+        {
+            category.ProductCategoryMappings = new List<ProductCategoryMapping>();
+        }
+        categoryChildrenTab = category.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e => e.DisplayOrder).ToList();
+
+        break;
+    }
+    <!-- Product 5 col not hover start -->
+    <section class="container my-2 my-md-3 py-5 py-lg-3">
+        <div class="d-flex align-items-center justify-content-between pb-sm-1 mb-5">
+            <p class="h2 h1 mb-0">@category.Name</p>
+            <ul class="products-tabs-title" style="display:none">
+                @foreach (var item in categoryChildrenTab.Take(6))
+                {
+                    <li class="">
+                        <a class="tab-label" data-toggle="pill" href="@SlugHelper.Category(item.Id)" title="@item.Name">@item.Name</a>
+                    </li>
+                }
+            </ul>
+            <div class="tns-custom-controls cs-controls-inverse" id="custom-controls-@category.Id" tabindex="0">
+                <button type="button" data-controls="prev" tabindex="-1">
+                    <i class="cxi-arrow-left"></i>
+                </button>
+                <button type="button" data-controls="next" tabindex="-1">
+                    <i class="cxi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div class="cs-carousel pb-2">
+            <div class="cs-carousel-inner" data-carousel-options='{
+            "nav": false,
+            "controlsContainer": "#custom-controls-@category.Id",
+            "responsive": {
+              "0": {
+                "items": 1,
+                "gutter": 20
+              },
+              "480": {
+                "items": 2,
+                "gutter": 24
+              },
+              "700": {
+                "items": 3,
+                "gutter": 24
+              },
+              "1100": {
+                "items": 4,
+                "gutter": 30
+              }
+            }
+          }'>
+
+                <!-- Item -->
+                @foreach (var innerItem in category.ProductCategoryMappings)
+                {
+                    var slugProduct = SlugHelper.Product(innerItem.Product.Id);
+                    if (innerItem.Product.Picture == null)
+                    {
+                        innerItem.Product.Picture = new Picture() { };
+                    }
+                    <div>
+                        <div class="card card-product mx-auto">
+                            <div class="card-product-img">
+                                <a href="@slugProduct" class="card-img-top">
+                                    <img src="@ImageHelper.GetResize(innerItem.Product.Picture.Url, 480, 480)" alt="@innerItem.Product.Name">
+                                </a>
+                                <div class="card-product-widgets-top">
+         
+                                    @if (innerItem.Product.IsPromotion)
+                                    {
+                                        <span class="IsPromotion badge product-badge badge-danger">Sale</span>
+                                    }
+
+                                    @if (innerItem.Product.IsFocus)
+                                    {
+                                        <span class="IsFocus badge product-badge badge-primary">Hot</span>
+                                    }
+                                    <div class="star-rating ml-auto">
+                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Rating.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                    </div>
+                                </div>
+                                <div class="card-product-widgets-bottom">
+                                    <a href="#" class="btn-wishlist ml-auto" data-toggle="tooltip" data-placement="left"
+                                       title="yêu thích"></a>
+                                </div>
+                            </div>
+                            <div class="card-body pb-2">
+                                <p class="h3 card-product-title text-truncate mb-2">
+                                    <a href="shop-single.html" class="nav-link">@innerItem.Product.Name</a>
+                                </p>
+                                <div class="d-flex align-items-center">
+                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="text-center pb-3 pt-4 pt-md-5">
+            <a href="@SlugHelper.Category(category.Id)" class="btn btn-outline-primary btn-lg">Xem thêm</a>
+        </div>
+    </section>
+
+

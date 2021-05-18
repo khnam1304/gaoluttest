@@ -1,0 +1,1056 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="New Arrivals_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Explore all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Discover now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Loading to Insight_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Opening Hours_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Userful Links_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Photo Activity_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Customer reviews_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Your_Recently_Viewed_Items_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="NewsLetterSuccessful" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="NewsLetterEmail_Placeholder" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Price ranges_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Sizes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Brands_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="All category_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Colors_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="See all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Wrote_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Tagged_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Manufacturer_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Availability_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="In_stock_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Out_of_stock_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Original price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Special price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Sku_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Add_to_cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Buy_now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Yes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="No_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="This Review Helpful To You_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Overview_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Send Inquiry_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Add to wishlist_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="item_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been added to your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been removed from your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been updated on your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been move from shopping cart to wishlist" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="can't move from shopping cart to wishlist, please try again_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Subtotal_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Checkout now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="View all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Your cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Check out - Step_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Checkout Completed_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Login successfully_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="You've selected_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="FILTER &amp; REFINE reset_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Please wait, loading..._Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="How can we contact you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Drop Us A Message_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="When is the best time of day to reach you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Send copy to my-email_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Any time_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Morning_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Evening_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="I have a  question/comment about a service_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Say's Hi_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Get a quotes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Other reason_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Could you tell us why you've contacting us_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Invalid phone number, must start with zero and include 10 or 11 digits_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="or press_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Rewardpoints_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Address_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Wishlist_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Order_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Profile_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Quantity_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="on Inventory_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="City/ State province_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="District_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="List of locations nearby to you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Location not found_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="addresses found_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Select one_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Unit_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name=" Be the first to review this product_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="I want said_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Display purchased information in the comment section_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Waiting_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Number of products purchased_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="There are no reviews yet, please be the first to comment on this product_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Home_Text" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="What are you looking for_Text" xml:space="preserve">
+    <value>What are you looking for</value>
+  </data>
+  <data name="NoSuggestionNotice_Text" xml:space="preserve">
+    <value>NoSuggestionNotice</value>
+  </data>
+  <data name="Your email address_Text" xml:space="preserve">
+    <value>Your email address</value>
+  </data>
+  <data name="No_Image_Available_Text" xml:space="preserve">
+    <value>No Image Available</value>
+  </data>
+  <data name="Load_more_Text" xml:space="preserve">
+    <value>Load more</value>
+  </data>
+  <data name="Read_more_Text" xml:space="preserve">
+    <value>Read more</value>
+  </data>
+  <data name="Search Article_Text" xml:space="preserve">
+    <value>Search Article</value>
+  </data>
+  <data name="Categories_Text" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Popular Posts_Text" xml:space="preserve">
+    <value>Popular Posts</value>
+  </data>
+  <data name="Search by Tags_Text" xml:space="preserve">
+    <value>Search by Tags</value>
+  </data>
+  <data name="Share this post_Text" xml:space="preserve">
+    <value>Share this post</value>
+  </data>
+  <data name="Comments_Text" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Send_Text" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Our_Product_Text" xml:space="preserve">
+    <value>Our Product</value>
+  </data>
+  <data name="No_Review_Text" xml:space="preserve">
+    <value>No Review</value>
+  </data>
+  <data name="Contact_Us_Text" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Category_Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Shared_Text" xml:space="preserve">
+    <value>Shared</value>
+  </data>
+  <data name="Description_Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Reviews_Text" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="Your_Comment_Text" xml:space="preserve">
+    <value>Your Comment</value>
+  </data>
+  <data name="Reviews_for_this_product_Text" xml:space="preserve">
+    <value>Reviews for this product</value>
+  </data>
+  <data name="Title_Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Message_Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Submit_Text" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Other_Comments_Text" xml:space="preserve">
+    <value>Other Comments</value>
+  </data>
+  <data name="Loading_Text" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Filter_Category_Text" xml:space="preserve">
+    <value>Filter Category</value>
+  </data>
+  <data name="Filter_Price_Text" xml:space="preserve">
+    <value>Filter Price</value>
+  </data>
+  <data name="Search_Products_Text" xml:space="preserve">
+    <value>Search Products</value>
+  </data>
+  <data name="Filter_by_price_Text" xml:space="preserve">
+    <value>Filter by price</value>
+  </data>
+  <data name="Filter_Text" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Product_Tags_Text" xml:space="preserve">
+    <value>Product Tags</value>
+  </data>
+  <data name="Tags_Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Disabled_Review_Text" xml:space="preserve">
+    <value>Disabled Review</value>
+  </data>
+  <data name="No_Comments_Text" xml:space="preserve">
+    <value>No Comments</value>
+  </data>
+  <data name="Product_Related_Text" xml:space="preserve">
+    <value>Product Related</value>
+  </data>
+  <data name="NewsLetterSuccessful_Text" xml:space="preserve">
+    <value>News letter Subscribed successful, Thank you!</value>
+  </data>
+  <data name="Suggest_By_Page_Text" xml:space="preserve">
+    <value>Suggest By Page</value>
+  </data>
+  <data name="Suggest_By_Category_Text" xml:space="preserve">
+    <value>Suggest By Category</value>
+  </data>
+  <data name="Suggest_By_Product_Text" xml:space="preserve">
+    <value>Suggest By Product</value>
+  </data>
+  <data name="Suggest_By_Blog_Category_Text" xml:space="preserve">
+    <value>Suggest By Blog Category</value>
+  </data>
+  <data name="Suggest_By_Post_Text" xml:space="preserve">
+    <value>Suggest By Post</value>
+  </data>
+  <data name="Product_Text" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="Infomation_Text" xml:space="preserve">
+    <value>Infomation</value>
+  </data>
+  <data name="Useful link_Text" xml:space="preserve">
+    <value>Useful link</value>
+  </data>
+  <data name="Scroll to top_Text" xml:space="preserve">
+    <value>Scroll to top</value>
+  </data>
+  <data name="Language_Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="items_Text" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="All_Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Hot_Text" xml:space="preserve">
+    <value>Hot</value>
+  </data>
+  <data name="Sale_Text" xml:space="preserve">
+    <value>Sale</value>
+  </data>
+  <data name="Has_Text" xml:space="preserve">
+    <value>Has</value>
+  </data>
+  <data name="product is tagged to this_Text" xml:space="preserve">
+    <value>product is tagged to this</value>
+  </data>
+  <data name="Sort by price: low to high_Text" xml:space="preserve">
+    <value>Sort by price: low to high</value>
+  </data>
+  <data name="Sort by price: high to low_Text" xml:space="preserve">
+    <value>Sort by price: high to low</value>
+  </data>
+  <data name="Sort by popularity_Text" xml:space="preserve">
+    <value>Sort by popularity</value>
+  </data>
+  <data name="Sort by newness_Text" xml:space="preserve">
+    <value>Sort by newness</value>
+  </data>
+  <data name="Sort by name: A to Z_Text" xml:space="preserve">
+    <value>Sort by name: A to Z</value>
+  </data>
+  <data name="Sort by name: Z back A_Text" xml:space="preserve">
+    <value>Sort by name: Z back A</value>
+  </data>
+  <data name="Discover_Text" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Featured category_Text" xml:space="preserve">
+    <value>Featured category</value>
+  </data>
+  <data name="Showing_Text" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="of_Text" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="results_Text" xml:space="preserve">
+    <value>results</value>
+  </data>
+  <data name="Out_Text" xml:space="preserve">
+    <value>Out</value>
+  </data>
+  <data name="of stock_Text" xml:space="preserve">
+    <value>of stock</value>
+  </data>
+  <data name="NewsLetterEmailDuplicated_Text" xml:space="preserve">
+    <value>Email is duplicated, please try again</value>
+  </data>
+  <data name="Contact to price quote_Text" xml:space="preserve">
+    <value> Ask price quote</value>
+  </data>
+  <data name="New Arrivals_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Explore all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Discover now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Loading to Insight_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Opening Hours_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Userful Links_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Photo Activity_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Customer reviews_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Your_Recently_Viewed_Items_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="NewsLetterSuccessful" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="NewsLetterEmail_Placeholder" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Price ranges_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Sizes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Brands_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="All category_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Colors_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="See all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Wrote_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Tagged_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Manufacturer_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Availability_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="In_stock_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Out_of_stock_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Original price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Special price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Sku_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Add_to_cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Buy_now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Yes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="No_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="This Review Helpful To You_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Overview_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Send Inquiry_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Price_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Add to wishlist_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="item_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been added to your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been removed from your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been updated on your shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="has been move from shopping cart to wishlist" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="can't move from shopping cart to wishlist, please try again_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Subtotal_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Checkout now_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="View all_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Your cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Shopping cart_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Check out - Step_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Checkout Completed_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Login successfully_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="You've selected_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="FILTER &amp; REFINE reset_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Please wait, loading..._Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="How can we contact you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Drop Us A Message_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="When is the best time of day to reach you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Send copy to my-email_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Any time_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Morning_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Evening_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="I have a  question/comment about a service_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Say's Hi_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Get a quotes_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Other reason_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Could you tell us why you've contacting us_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Invalid phone number, must start with zero and include 10 or 11 digits_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="or press_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Rewardpoints_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Address_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Wishlist_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Order_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Profile_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Quantity_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="on Inventory_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="City/ State province_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="District_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="List of locations nearby to you_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Location not found_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="addresses found_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Select one_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Unit_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name=" Be the first to review this product_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="I want said_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Display purchased information in the comment section_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Waiting_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Number of products purchased_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="There are no reviews yet, please be the first to comment on this product_Text" xml:space="preserve">
+    <value>Text::un-translated</value>
+  </data>
+  <data name="Home_Text" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="What are you looking for_Text" xml:space="preserve">
+    <value>What are you looking for</value>
+  </data>
+  <data name="NoSuggestionNotice_Text" xml:space="preserve">
+    <value>NoSuggestionNotice</value>
+  </data>
+  <data name="Your email address_Text" xml:space="preserve">
+    <value>Your email address</value>
+  </data>
+  <data name="No_Image_Available_Text" xml:space="preserve">
+    <value>No Image Available</value>
+  </data>
+  <data name="Load_more_Text" xml:space="preserve">
+    <value>Load more</value>
+  </data>
+  <data name="Read_more_Text" xml:space="preserve">
+    <value>Read more</value>
+  </data>
+  <data name="Search Article_Text" xml:space="preserve">
+    <value>Search Article</value>
+  </data>
+  <data name="Categories_Text" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Popular Posts_Text" xml:space="preserve">
+    <value>Popular Posts</value>
+  </data>
+  <data name="Search by Tags_Text" xml:space="preserve">
+    <value>Search by Tags</value>
+  </data>
+  <data name="Share this post_Text" xml:space="preserve">
+    <value>Share this post</value>
+  </data>
+  <data name="Comments_Text" xml:space="preserve">
+    <value>Comments</value>
+  </data>
+  <data name="Send_Text" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Our_Product_Text" xml:space="preserve">
+    <value>Our Product</value>
+  </data>
+  <data name="No_Review_Text" xml:space="preserve">
+    <value>No Review</value>
+  </data>
+  <data name="Contact_Us_Text" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Category_Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Shared_Text" xml:space="preserve">
+    <value>Shared</value>
+  </data>
+  <data name="Description_Text" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Reviews_Text" xml:space="preserve">
+    <value>Reviews</value>
+  </data>
+  <data name="Your_Comment_Text" xml:space="preserve">
+    <value>Your Comment</value>
+  </data>
+  <data name="Reviews_for_this_product_Text" xml:space="preserve">
+    <value>Reviews for this product</value>
+  </data>
+  <data name="Title_Text" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Message_Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Submit_Text" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Other_Comments_Text" xml:space="preserve">
+    <value>Other Comments</value>
+  </data>
+  <data name="Loading_Text" xml:space="preserve">
+    <value>Loading</value>
+  </data>
+  <data name="Filter_Category_Text" xml:space="preserve">
+    <value>Filter Category</value>
+  </data>
+  <data name="Filter_Price_Text" xml:space="preserve">
+    <value>Filter Price</value>
+  </data>
+  <data name="Search_Products_Text" xml:space="preserve">
+    <value>Search Products</value>
+  </data>
+  <data name="Filter_by_price_Text" xml:space="preserve">
+    <value>Filter by price</value>
+  </data>
+  <data name="Filter_Text" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Product_Tags_Text" xml:space="preserve">
+    <value>Product Tags</value>
+  </data>
+  <data name="Tags_Text" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Disabled_Review_Text" xml:space="preserve">
+    <value>Disabled Review</value>
+  </data>
+  <data name="No_Comments_Text" xml:space="preserve">
+    <value>No Comments</value>
+  </data>
+  <data name="Product_Related_Text" xml:space="preserve">
+    <value>Product Related</value>
+  </data>
+  <data name="NewsLetterSuccessful_Text" xml:space="preserve">
+    <value>News letter Subscribed successful, Thank you!</value>
+  </data>
+  <data name="Suggest_By_Page_Text" xml:space="preserve">
+    <value>Suggest By Page</value>
+  </data>
+  <data name="Suggest_By_Category_Text" xml:space="preserve">
+    <value>Suggest By Category</value>
+  </data>
+  <data name="Suggest_By_Product_Text" xml:space="preserve">
+    <value>Suggest By Product</value>
+  </data>
+  <data name="Suggest_By_Blog_Category_Text" xml:space="preserve">
+    <value>Suggest By Blog Category</value>
+  </data>
+  <data name="Suggest_By_Post_Text" xml:space="preserve">
+    <value>Suggest By Post</value>
+  </data>
+  <data name="Product_Text" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="Infomation_Text" xml:space="preserve">
+    <value>Infomation</value>
+  </data>
+  <data name="Useful link_Text" xml:space="preserve">
+    <value>Useful link</value>
+  </data>
+  <data name="Scroll to top_Text" xml:space="preserve">
+    <value>Scroll to top</value>
+  </data>
+  <data name="Language_Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="items_Text" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="All_Text" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="Hot_Text" xml:space="preserve">
+    <value>Hot</value>
+  </data>
+  <data name="Sale_Text" xml:space="preserve">
+    <value>Sale</value>
+  </data>
+  <data name="Has_Text" xml:space="preserve">
+    <value>Has</value>
+  </data>
+  <data name="product is tagged to this_Text" xml:space="preserve">
+    <value>product is tagged to this</value>
+  </data>
+  <data name="Sort by price: low to high_Text" xml:space="preserve">
+    <value>Sort by price: low to high</value>
+  </data>
+  <data name="Sort by price: high to low_Text" xml:space="preserve">
+    <value>Sort by price: high to low</value>
+  </data>
+  <data name="Sort by popularity_Text" xml:space="preserve">
+    <value>Sort by popularity</value>
+  </data>
+  <data name="Sort by newness_Text" xml:space="preserve">
+    <value>Sort by newness</value>
+  </data>
+  <data name="Sort by name: A to Z_Text" xml:space="preserve">
+    <value>Sort by name: A to Z</value>
+  </data>
+  <data name="Sort by name: Z back A_Text" xml:space="preserve">
+    <value>Sort by name: Z back A</value>
+  </data>
+  <data name="Discover_Text" xml:space="preserve">
+    <value>Discover</value>
+  </data>
+  <data name="Featured category_Text" xml:space="preserve">
+    <value>Featured category</value>
+  </data>
+  <data name="Showing_Text" xml:space="preserve">
+    <value>Showing</value>
+  </data>
+  <data name="of_Text" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="results_Text" xml:space="preserve">
+    <value>results</value>
+  </data>
+  <data name="Out_Text" xml:space="preserve">
+    <value>Out</value>
+  </data>
+  <data name="of stock_Text" xml:space="preserve">
+    <value>of stock</value>
+  </data>
+  <data name="NewsLetterEmailDuplicated_Text" xml:space="preserve">
+    <value>Email is duplicated, please try again</value>
+  </data>
+  <data name="Contact to price quote_Text" xml:space="preserve">
+    <value> Ask price quote</value>
+  </data>
+</root>

@@ -1,0 +1,17 @@
+﻿@using global::Web.Helpers
+@model List<ASP.Web.Model.Models.BlogCategory>
+<ul class="nav nav-dark">
+    @foreach (var item in Model)
+    {
+        <li><a class="bold nav-link" style="font-weight: bold" href="@SlugHelper.BlogCategory(item.Id)">
+            
+                <span>@item.Name</span>
+                <span class="pl-2 font-weight-normal text-muted">@item.BlogPostCategoryMappings.Count</span>
+            </a>
+    </li>
+        foreach (var itemInner in item.ChildCategories)
+        {
+            <li><a class="nav-link" href="@SlugHelper.BlogCategory(itemInner.Id)">@itemInner.Name</a> <span class="pl-2 font-weight-normal text-muted">@itemInner.BlogPostCategoryMappings.Count</span></li>
+        }
+    }
+</ul>

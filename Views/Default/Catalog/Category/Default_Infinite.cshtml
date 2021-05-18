@@ -1,0 +1,262 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        ViewBag.filterByCurrent = Request["filterby"] ?? "";
+        ViewBag.typeCurrent = Request["type"] ?? "all";
+        ViewBag.sortOrderCurrent = Request["sortorder"];
+        ViewBag.searchByCurrent = Request["searchby"];
+        ViewBag.idCurrent = Request["id"] ?? (category.Id + "");
+        ViewBag.pageCurrent = Request["page"] ?? ("1");
+        List<FilterOptionView> listFilterOptionCurrent = DataWhereHelper.ParseFilters(ViewBag.ListFilters);
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/default", "~/bundles/content/default/catalog/category/css/infinite", "~/bundles/content/default/pagelist/css")
+    }
+    <div id="main">
+        <div class="section border-bottom breadcrumbs-wrapper pt-2 pb-2" style="background-image: url(/as-images/background/bg-breadcrumb.jpg)!important;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(Convert.ToInt32(category.ParentCategoryId)), Title = category.CategoryParent.Name }, new BreadcrumbModel { Link = "#", Title = category.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section pb-7">
+            <div class="container page-full-content page-content-left shop-list-filters">
+                <!-- Main Content -->
+                <div class="mt-3 mb-3">
+                    <div class="row gutters-3">
+
+                        <div class="col-lg-12 col-md-12">
+
+                            <!-- Shop Toolbar -->
+                            <div class="card mb-3">
+                                <div class="card-body d-flex justify-content-end align-items-center py-2">
+                                    <ol class="breadcrumb d-none d-md-flex p-0 mb-0 mr-auto">
+                                        <li class="breadcrumb-item">
+                                            <div class="result-count">
+                                                @Html.Action("QuicklyStatistics", "BaseCategory", new { id = ViewBag.idCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, area = "" })
+                                            </div>
+                                        </li>
+                                    </ol>
+                                    <div class="dropdown dropdown-hover">
+                                        <form action="@SlugHelper.Category(category.Id)/page/@(Model.PageNumber)/" method="get">
+                                           
+                                            @Html.DropDownList("sortorder", new SelectList(
+                                                     new Dictionary<string, string>
+                                                     {
+                                                         {"price", LanguageHelper.Translate("Sort by price: low to high_Text")},
+                                                         {"price_desc", LanguageHelper.Translate("Sort by price: high to low_Text")},
+                                                         {"featured", LanguageHelper.Translate("Sort by popularity_Text")},
+                                                         {"new", LanguageHelper.Translate("Sort by newness_Text")},
+                                                         {"name", LanguageHelper.Translate("Sort by name: A to Z_Text")},
+                                                         {"name_desc", LanguageHelper.Translate("Sort by name: Z back A_Text")}
+
+                                                     },
+                                                     "Key", "Value", ViewBag.sortOrderCurrent), new { id = "sortorder", @class = "btn btn-light btn-sm border rounded-pill" })
+                                            
+                                        </form>
+                                        
+                                    </div>
+                                    <a href="?view=grid" class="btn btn-icon rounded-pill btn-sm  btn@(Request.QueryString["view"] != "grid"? "-outline":"")-primary ml-3" data-toggle="tooltip" title="Show Grid"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></a>
+                                    <a href="?view=image" class="btn btn-icon rounded-pill btn-sm btn@(Request.QueryString["view"] == "grid"? "-outline":"")-primary ml-1" data-toggle="tooltip" title="Show Image"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg></a>
+                                </div>
+                            </div>
+                            <!-- /Shop Toolbar -->
+                            <!-- Shop Grid -->
+                            <!-- block List start -->
+                            <div class="list-product-wrapper">
+                                @{
+                                    Html.RenderPartial("~/Views/Default/Catalog/Category/Default_Infinite_Partial.cshtml");
+
+                                }
+                            </div>
+                            
+                            <!-- block List end -->
+                            <!-- status elements -->
+                            <div class="scroller-status">
+                                <div class="timeline-wrapper infinite-scroll-request">
+                                    <div>
+                                        <div class="timeline-item">
+                                            <div class="animated-background">
+                                                <div class="background-masker header-top"></div>
+                                                <div class="background-masker header-left"></div>
+                                                <div class="background-masker header-right"></div>
+                                                <div class="background-masker header-bottom"></div>
+                                                <div class="background-masker subheader-left"></div>
+                                                <div class="background-masker subheader-right"></div>
+                                                <div class="background-masker subheader-bottom"></div>
+                                                <div class="background-masker content-top"></div>
+                                                <div class="background-masker content-first-end"></div>
+                                                <div class="background-masker content-second-line"></div>
+                                                <div class="background-masker content-second-end"></div>
+                                                <div class="background-masker content-third-line"></div>
+                                                <div class="background-masker content-third-end"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="timeline-item">
+                                            <div class="animated-background">
+                                                <div class="background-masker header-top"></div>
+                                                <div class="background-masker header-left"></div>
+                                                <div class="background-masker header-right"></div>
+                                                <div class="background-masker header-bottom"></div>
+                                                <div class="background-masker subheader-left"></div>
+                                                <div class="background-masker subheader-right"></div>
+                                                <div class="background-masker subheader-bottom"></div>
+                                                <div class="background-masker content-top"></div>
+                                                <div class="background-masker content-first-end"></div>
+                                                <div class="background-masker content-second-line"></div>
+                                                <div class="background-masker content-second-end"></div>
+                                                <div class="background-masker content-third-line"></div>
+                                                <div class="background-masker content-third-end"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="timeline-item">
+                                            <div class="animated-background">
+                                                <div class="background-masker header-top"></div>
+                                                <div class="background-masker header-left"></div>
+                                                <div class="background-masker header-right"></div>
+                                                <div class="background-masker header-bottom"></div>
+                                                <div class="background-masker subheader-left"></div>
+                                                <div class="background-masker subheader-right"></div>
+                                                <div class="background-masker subheader-bottom"></div>
+                                                <div class="background-masker content-top"></div>
+                                                <div class="background-masker content-first-end"></div>
+                                                <div class="background-masker content-second-line"></div>
+                                                <div class="background-masker content-second-end"></div>
+                                                <div class="background-masker content-third-line"></div>
+                                                <div class="background-masker content-third-end"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="infinite-scroll-last">@LanguageHelper.Translate("Congratulations, you have reached the end of the category_Text")</p>
+                                <p class="infinite-scroll-error">@LanguageHelper.Translate("No more pages to load_Text")</p>
+
+                            </div>
+                            @if (Model.PageCount > 1)
+                            {
+                                <div class="load-more">
+                                    <button class="button view-more-button"> <i class="fa fa-angle-double-down" aria-hidden="true"></i> @LanguageHelper.Translate("View more_Text")</button>
+                                </div>
+                            }
+                           
+
+                            <!-- /Shop Grid -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Main Content -->
+                <div class="section pt-12 pb-9">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-center section-pretitle">@LanguageHelper.Translate("Discover_Text")</div>
+                                <div class="section-title-wrapper">
+                                    <h4 class="text-center section-title mtn-2">@LanguageHelper.Translate("Featured category_Text")</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="my-3">
+                            <!-- Category's Stores -->
+                            <div class="row categories-grid gutters-3">
+                                <div class="col-sm-6 col-md-4">
+                                    <a href="@SlugHelper.Category(grouped: "our-product")">
+                                        <div class="card zoom-hover">
+                                            <div data-cover="/as-images/category/new-arrivals-banners7.jpg?q=80&w=750" data-xs-height="150px" data-sm-height="272px" data-md-height="246px" data-lg-height="324px" data-xl-height="400px"></div>
+                                            <div class="card-img-overlay card-img-overlay-transparent">
+                                                <h2 class="card-title bold">2019 </h2>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                @{
+                                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "cat-1,cat-2,cat-3,cat-4", take = 4, pathView = "Widgets/Shop/CategoriesFeatured", area = "" })
+                                }
+                                <a href="@SlugHelper.Category(grouped: "our-product")" style="left: 67%;border-radius: 15px!important;color: #f40;" class="btn btn btn-light shadow-sm sa-btn">@LanguageHelper.Translate("See all_Text") <i data-feather="arrow-right"></i></a>
+
+                            </div>
+                            <!-- Category's Stores -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <section class="padding-bottom-60">
+                    <div class="container">
+                        <div class="title text-center m-bottom-2">
+                            <div class="page-title color">
+                                <h3 class="title-main">@LanguageHelper.Translate("Product_Text")</h3>
+                                <div class="title title-icon"><h2 class="title-h2">@LanguageHelper.Translate("Your_Recently_Viewed_Items_Text")</h2></div>
+                            </div>
+                        </div>
+                        <div id="featured-8" class="mb-4">
+                            <div class="product-grid product">
+                                @Html.Action("ProductViewed", "Catalog", new { pathView = "Widgets/Shop/ProductViewed", area = "" })
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Shop Area end -->
+    <!-- Filter Modal start -->
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title">@LanguageHelper.Translate("FILTER & REFINE_Text")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Filter Modal end-->
+    @section scripts
+    {
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/default", "~/bundles/content/default/catalog/category/js/infinite")
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-product")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+
+            var currentSubLink = $($(".list-tree a[href='@SlugHelper.Category(grouped: category.Grouped)']"));
+            if (currentSubLink != null) {
+                currentSubLink.parent().addClass('mm-active');
+            }
+            $(".ads-books").hover(function () {
+
+                $(this).toggleClass("csstransforms3d");
+            })
+            jQuery(document).ready(function() {
+                Category.init();
+            });
+        });
+        </script>
+    }

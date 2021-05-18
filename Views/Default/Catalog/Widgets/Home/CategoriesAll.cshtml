@@ -1,0 +1,79 @@
+﻿@using global::Web.Helpers
+@model List<ASP.Web.Model.Models.Category>
+
+    <div class="row">
+        <div class="col-sm-12 p-0">
+            <div class="text-center">
+                <ul class="masonry-filter">
+                    <li><a href="#" data-filter="" class="active">@LanguageHelper.Translate("All_Text")</a></li>
+                    @foreach (var item in Model)
+                    {
+                        <li><a href="#" data-filter=".@item.Id">@item.Name</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="product-grid masonry-grid-post">
+            @foreach (var item in Model)
+            {
+                foreach (var innerItem in item.ProductCategoryMappings)
+                {
+                    <div class="col-lg-3 col-md-6 col-sm-12 product-item masonry-item text-center @item.Id">
+                        <div class="product-thumb">
+                            <a href="@SlugHelper.Product(innerItem.Product.Id)">
+                                <div class="badges">
+                                    @if (innerItem.Product.IsNew)
+                                    {
+                                        <span class="hot">@LanguageHelper.Translate("Hot_Text")</span>
+                                    }
+                                    @if (innerItem.Product.IsPromotion)
+                                    {
+                                        <span class="onsale">@LanguageHelper.Translate("Sale_Text")!</span>
+                                    }
+                                </div>
+                                @if (innerItem.Product.StockQuantity == 0)
+                                {
+                                    <span class="outofstock"><span>@LanguageHelper.Translate("Out_Text")</span>@LanguageHelper.Translate("of stock_Text")</span>
+                                }
+
+                                <img src="@ImageHelper.GetResize(innerItem.Product.Picture.Url, 300, 300)" alt="@innerItem.Product.Name" />
+                            </a>
+                            <div class="product-action">
+                                <span class="add-to-cart">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to cart"></a>
+                                </span>
+                                <span class="wishlist">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Add to wishlist"></a>
+                                </span>
+                                <span class="quickview">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Quickview"></a>
+                                </span>
+                                <span class="compare">
+                                    <a href="#" data-toggle="tooltip" data-placement="top" title="Compare"></a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <a href="@SlugHelper.Product(innerItem.Product.Id)">
+                                <h2 class="title">@innerItem.Product.Name</h2>
+                                <span class="price">
+                                    @if (innerItem.Product.IsPromotion)
+                                    {
+                                        <del>@FormatHelper.FormatCurrency(innerItem.Product.SpecialPrice)</del>
+                                    }
+                                    <ins>@FormatHelper.FormatCurrency(innerItem.Product.Price)</ins>
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="loadmore-contain">
+            <a class="organik-btn small" href="/en/our-product">@LanguageHelper.Translate("Load_more_Text") </a>
+        </div>
+    </div>
+
+

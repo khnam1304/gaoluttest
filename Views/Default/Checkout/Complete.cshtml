@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    var step = int.Parse(Request["step"] ?? "9");
+    ViewBag.Title = LanguageHelper.Translate("Checkout Completed_Text");
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+}
+@{
+    Html.RenderPartial("~/Views/Default/CheckOut/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Complete.cshtml");
+}
+@section scripts{
+    <script>
+
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+}

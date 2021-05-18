@@ -1,0 +1,415 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@using Web.Repositories.Entity.Infrastructure
+@model Web.Model.Models.Customer
+@{
+    ViewBag.Title = Model.MainAddress.FullName + "'s Profile";
+    var scope = Request.QueryString["scope"] ?? "all";
+    var segment = Request.QueryString["segment"] ?? "profile";
+    if (scope == "quotes")
+    {
+        Layout = "~/Views/Shared/_LayoutEmpty.cshtml";
+    }
+}
+@{
+    var categoryDefined = new NbContext().Categories.AsNoTracking().FirstOrDefault(e => e.Grouped == "quotes") ?? new Category();
+    var listQuotes = categoryDefined.CategoryChildren.Where(e => e.IsActive).OrderByDescending(e => e.DisplayOrder).Take(3).ToList();
+}
+@if (scope == "all")
+{
+    @section styles{
+
+        @Styles.Render("~/bundles/content/default/account/base/css", "~/bundles/content/default/account/profile/css")
+
+        <style>
+            .table th, .table td {
+                padding: 3px 15px;
+                vertical-align: bottom;
+                border-top: 1px dotted #f1eeea;
+            }
+
+                .table td.key {
+                    text-align: right;
+                    font-weight: 500;
+                    color: #026f56;
+                }
+
+                .table td.value {
+                }
+
+            .form-control {
+                border: 1px solid #f1eeea;
+            }
+        </style>
+    }
+
+    {
+        <div id="wrapper">
+            <div id="content">
+                <ul>
+                    <li>Needed helps</li>
+                    <li>1.</li>
+                    <li>2.</li>
+                </ul>
+            </div>
+            <div class="water-drop"></div>
+            <div class="button button-floating"></div>
+            <div class="button-floating-shadow">
+
+            </div>
+            <div class="button button-sub" data-color="purple">
+
+            </div>
+            <div class="button button-sub" data-color="green"></div>
+            <div class="button button-sub" data-color="pink"></div>
+            <div class="button button-sub" data-color="indigo"></div>
+
+
+        </div>
+        Html.RenderPartial("~/Views/Default/Account/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_Profile.cshtml");
+
+
+    }
+
+    @section scripts
+    {
+        <!-- Hotjar Tracking Code for https://donavidev.minhanhsolution.vn -->
+        <script>
+            (function (h, o, t, j, a, r) {
+                h.hj = h.hj || function () { (h.hj.q = h.hj.q || []).push(arguments) };
+                h._hjSettings = { hjid: 1445355, hjsv: 6 };
+                a = o.getElementsByTagName('head')[0];
+                r = o.createElement('script'); r.async = 1;
+                r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+        </script>
+        @Scripts.Render("~/bundles/content/default/account/base/js", "~/bundles/content/default/account/profile/js")
+         <script>
+             $('input.tapatar').tapatar({
+                   image_url_prefix: '/content/default/default/account/profile/css/tapatar-master/img/',
+                   default_image: '@Model.Avatar'
+
+               });
+
+               function avatarObserverChanged(selector, callback) {
+                   var input = $(selector);
+                   var oldvalue = input.val();
+                   setInterval(function () {
+                       if (input.val() != oldvalue) {
+                           oldvalue = input.val(); callback(oldvalue);
+                       }
+                   }, 3000);
+               }
+               avatarObserverChanged('.tapatar.tptr-file-input', function (data) {
+                   $.post("/account/update-profile", { name: "avatar", value: data })
+                       .done(function (ref) {
+                           $(".tptr-inner").css("background", "#5fbd74");
+                       });
+               });
+
+         </script>
+        @if (segment == "profile")
+        {
+            <script>
+           $(document).ready(function () {
+
+               
+               //editables
+               $.fn.editable.defaults.mode = 'popup';
+
+               $('#UserName').editable({
+                   url: '/account/update-profile',
+                   name: 'username',
+                   title: 'Enter username'
+               });
+
+               $('#Gender').editable({
+                   url: '/account/update-profile',
+                   name: 'gender',
+                   pk: '@Model.AddressId',
+                   prepend: "--",showbuttons: false,
+                   source: [
+                       { value: '1', text: 'Male' },
+                       { value: '2', text: 'Female' }, { value: '0', text: 'Other' }
+                   ],
+                   display: function (value, sourceData) {
+                       var colors = { "0": "gray", '1': "brown", '2': "blue", '': "green" },
+                           elem = $.grep(sourceData, function (o) { return o.value == value; });
+
+                       if (elem.length) {
+                           $(this).text(elem[0].text).css("color", colors[value]);
+                       } else {
+                           $(this).empty();
+                       }
+                   }
+               });
+
+               $('#FullName').editable({
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'fullname',
+                   title: 'Enter FullName',
+                   validate: function (value) {
+                       if ($.trim(value) == '') return 'This field is required';
+                       return false;
+                   }
+               });
+
+               $('#DateOfBirth').editable(
+                   {
+                       url: '/account/update-profile',
+                       pk: '@Model.AddressId',
+                       combodate: {
+                           minYear: 1945,
+                           maxYear: 2019,
+                           minuteStep: 1
+                       },
+                       name: 'dateofbirth',
+                       title: 'Select Day/Month/Year'
+
+                });
+               $('#Email').editable({
+                   url: '/account/update-profile',
+                   name: 'email',
+                   title: 'Enter your email',
+                   validate: function (value) {
+                       if (HvHelpers.IsEmail(value) == false) return 'This field is not email';
+                       if ($.trim(value) == '') return 'This field is required';
+                   }
+               });
+
+               $('#Phone').editable({
+                   url: '/account/update-profile',
+                   pk: '@Model.AddressId',
+                   name: 'phone',
+                   title: 'Enter your phone',
+                   validate: function (value) {
+                       if ($.trim(value) == '') return 'This field is required';
+
+                   }
+               });
+               //modify buttons style
+               $.fn.editableform.buttons =
+                   '<button type="submit" class="btn btn-success editable-submit btn-mini"><i class="icon-ok icon-white"></i>' + Resources._("Save Instance") + '</button>' +
+                   '<button type="button" class="btn editable-cancel btn-mini"><i class="icon-remove"></i>' + Resources._("Cancel") + '</button>';
+
+               $('#user .editable').on('hidden', function (e, reason) {
+                   if (reason === 'save' || reason === 'nochange') {
+                       var $next = $(this).closest('tr').next().find('.editable');
+                       if ($('#autoopen').is(':checked')) {
+                           setTimeout(function () {
+                               $next.editable('show');
+                           }, 300);
+                       } else {
+                           $next.focus();
+                       }
+                   }
+               });
+
+             
+              
+            });
+            </script>
+        }
+        else if (segment == "order")
+        {
+            <script>
+           $(document).ready(function () {
+
+               $(".order-print").click(function (e) {
+                   e.preventDefault();
+                      $.print(".invoice-form");({
+
+                      });
+                   return false;
+                 });
+
+
+            $('.order-repeat').jConfirm({
+                question: 'Bạn re-order lại đơn hoàn này?',
+                confirm_text: 'Vâng!',
+                deny_text: ' Thôi.',
+
+            }).on('confirm', function (e) {
+                var btn = $(this);
+                swal({
+                          title: "Ghi chú của bạn:",
+                          text: "Sau khi nhập ghi chú (có thể để trắng) và chọn đồng ý đơn hàng này của bạn sẽ được khởi tạo lại",
+                          type: "input",
+                          confirmButtonText: "Đồng ý",
+                          cancelButtonText: "Thôi",
+                          showCancelButton: true,
+                          closeOnConfirm: true,
+                          inputPlaceholder: ""
+                        }, function (inputValue) {
+                            if (inputValue === false) return false;
+                            $.post("/account/order-repeat", { orderId: btn.attr("id").split("-")[1], noteText: inputValue })
+                              .done(function (data) {
+                                  if (data == 'True') {
+
+                                      swal({
+                                          title: "Hoàn tất",
+                                          text: "Chúc mừng, bạn đã đặt hàng lại thành công, hệ thống sẽ tự reload lại!",
+                                          type: "success",
+                                          confirmButtonText: "Đồng ý"
+                                      });
+                                      setTimeout(function () {
+
+                                          window.location.href = "?segment=order";
+                                      }, 1200)
+                                  }
+                                  else {
+                                      swal({
+                                            title: "Ồ, có lỗi xảy ra",
+                                            text: "Không thể đặt hàng lúc này, bạn vui lòng thử lại!",
+                                            type: "error",
+                                            confirmButtonText: "Thử lại"
+                                      });
+                                      // That’s all we know.
+                                  }
+                              });
+
+                        });
+
+                    //do something on confirm
+                });
+
+           $('.order-cancel').jConfirm({
+                question: 'Bạn muốn hủy đơn hoàn này?',
+                confirm_text: 'Vâng!',
+                deny_text: ' Thôi.',
+
+            }).on('confirm', function(e){
+                       var self = this;
+                       $.post("/account/order-cancel", { orderId: self.id.split("-")[1] })
+                          .done(function (data) {
+                              if (data == 'True') {
+                                  swal({
+                                          title: "Hoàn tất",
+                                          text: "Bạn đã hủy đơn hàng thành công, cảm ơn bạn!",
+                                          type: "success",
+                                          confirmButtonText: "Đồng ý"
+                                  });
+
+                                  $(self).remove();
+                                  $(self).parent().remove();
+                                  $(self).parent().parent().remove();
+                              }
+                              else swal({
+                                            title: "Ồ, có lỗi xảy ra",
+                                            text: "Không thể hủy đơn hàng lúc này, bạn vui lòng thử lại!",
+                                            type: "error",
+                                            confirmButtonText: "Thử lại"
+                                        });
+                          });
+
+
+              });
+              
+              });
+
+            </script>
+        }
+        else if (segment == "address")
+        {
+        <script>
+             // Trigger element to fadeIn or fadeOut
+              $("[data-fade]").each(function() {
+  	            $(this).click(function() {
+  		            var $sel = $(this).data("fade"),
+  				            $in = $sel.split(",")[0],
+  				            $out = $sel.split(",")[1];
+
+  		            if($in) {
+		  	            $($in).fadeIn();
+  		            }
+  		            if($out) {
+		  	            $($out).fadeOut();
+                    }
+	  	            return false;
+  	            });
+              });
+               $.ajax({
+                    url: '@Url.Action("UpdateAddress", "Account")',
+                    type: 'GET',
+                    cache: false,
+                }).done(function(result){
+                    $('.addresses-entries').html(result);
+                    $(".addresses-entries .edit").click(function (e) {
+                       e.preventDefault();
+                         $.ajax({
+                            type: 'GET',
+                            url: $(this).attr("data-url"),
+                             success: function (response) {
+                                 console.log("response", response);
+
+                                 $('.addresses-entries').html(response);
+                                //$("#secondTab").html(response);
+                                //$('ul.nav.nav-tabs a:eq(1)').html('Edit');
+                                //$('ul.nav.nav-tabs a:eq(1)').tab('show');
+                            }
+                        });
+                       return false;
+                    });
+                    $('.addresses-entries .delete').jConfirm({
+                        question: 'Bạn muốn xóa địa chỉ này?',
+                        confirm_text: 'Vâng!',
+                        deny_text: ' Thôi.',
+
+                    }).on('confirm', function(e){
+                               var self = this;
+                               $.post($(this).attr("data-url"), { })
+                                  .done(function (data) {
+                                      if (data.success == true) {
+                                          swal({
+                                                  title: "Hoàn tất",
+                                                  text: "Bạn đã xóa thành công, cảm ơn bạn!",
+                                                  type: "success",
+                                                  confirmButtonText: "Đồng ý"
+                                          });
+
+                                          $(self).remove();
+                                          $(self).parent().remove();
+                                          $(self).parent().parent().remove();
+                                      }
+                                      else swal({
+                                                    title: "Ồ, có lỗi xảy ra",
+                                                    text: "Không thể xóa địa chỉ lúc này, bạn vui lòng thử lại!",
+                                                    type: "error",
+                                                    confirmButtonText: "Thử lại"
+                                                });
+                                  });
+
+
+                      });
+
+                });
+        </script>
+        }
+        else if(segment == "rewardpoints")
+        {
+            <script>
+                $.ajax({
+                        url: '/api/general/get-point-conversion-rate?type=-1&point=' + $("#current-points").text(),
+                        type: 'GET',
+                        cache: false,
+                    }).done(function(result){
+                        console.log(result);
+                        $("#points-to-money").text(HvHelpers.formatNumber(result[0].Value));
+                    });
+
+                $.ajax({
+                        url: '/api/general/get-point-conversion-rules',
+                        type: 'GET',
+                        cache: false,
+                    }).done(function(result){
+                        console.log(result);
+                        
+                    });
+                // 
+            </script>
+        }
+
+    }
+}

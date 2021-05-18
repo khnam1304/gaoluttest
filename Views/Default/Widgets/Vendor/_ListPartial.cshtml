@@ -1,0 +1,117 @@
+﻿@using global::Web.Helpers
+@{
+    ViewBag.pid = Request.QueryString["pid"] ?? "-1";
+    ViewBag.did = Request.QueryString["did"] ?? "-1";
+    ViewBag.bylocation = Request.QueryString["bylocation"] ?? "false";
+}
+<form action="@Request.Url.GetLeftPart(UriPartial.Path).Replace("http","http")" method="get">
+    <div class="site-group-form region-bind-able">
+        <div class="fitler-item padding-filter">
+            <label style="display:none">@LanguageHelper.Translate("City/ State province_Text"):</label>
+            <select id="distributor-province" name="pid" class="distributor-getter" data-child="#distributor_district" data-bind='options: stateProvinces,  optionsText: "Id", optionsCaption: "@LanguageHelper.Translate("City/ State province_Text")", value: stateProvince, valueUpdate: "blur" '>
+
+            </select>
+        </div>
+        @if (ViewBag.groupId != -1)
+        {
+            <div class="filter-item hidden" data-bind="with: stateProvince">
+                <label>@LanguageHelper.Translate("District_Text"):</label>
+                <select id="distributor-district" name="did" class="distributor-getter" data-bind='options: Districts, optionsText: "Name", optionsCaption: "--@LanguageHelper.Translate("Select one_Text")--", value: $root.selectedChoice, optionsValue:"Id", valueUpdate: "blur"'>
+
+                </select>
+            </div>
+        }
+        <button type="submit" id="pp-btn"><i class="fa fa-search"></i></button>
+        <a href="?pid=-1&did=-1&bylocation=true" id="my-location-btn"><i class="fa fa-location-arrow"></i></a>
+    </div>
+</form>
+<div>
+    <span id="list-vendor-loader" style="display: none; width: 100%; text-align: center; position: absolute; margin-top: 5px; font-style: italic;"> Loading... </span>
+    <div id="list-vendor">
+        @Html.Action("ListVendor", "Widgets", new {ViewBag.groupId, pageSize = 5000, ViewBag.pid, ViewBag.did, area = ""})
+    </div>
+</div>
+@using (Html.BeginScripts())
+{
+    <script>
+        HvHelpers.loadJs("Scripts/jquery.validate.js", $.validator, function() {
+            HvHelpers.loadJs("Scripts/jquery.validate.unobtrusive.js", $.unobtrusive, function() {
+                HvHelpers.loadJs("Scripts/jquery.unobtrusive-ajax.js", $.unobtrusiveAjax);
+            });
+        }, 'asyn');
+    </script>
+    <script>
+        var stateProvinces = [];
+        var ViewModelRegion = function(stateProvince, district) {
+
+            var self = this; // Scope Trick
+            this.stateProvince = ko.observable(stateProvince).extend({ required: true });
+            this.stateProvince.subscribe(function() {
+                self.district(undefined);
+            });
+            this.selectedChoice = ko.observable(district);
+            this.district = ko.observable(district).extend({ required: true });
+        };
+        $.region = new ViewModelRegion('@ViewBag.pid', '@ViewBag.did');
+        // Instantiate the viewModelCheckout
+        var fnStarted = function(ret) {
+            stateProvinces = ret;
+            $(".region-bind-able").each(function() {
+                ko.applyBindings($.region, this);
+            });
+            var text = '@ViewBag.pid';
+            $("#distributor-province option").each(function () {
+                var self = this;
+                var theText = $(self).text();
+                $(self).val(theText);
+                if (parseInt(theText) === parseInt(text)) $(self).attr('selected', 'selected');
+                $.each(window.stateProvinces, function(i, item) {
+                    if (item.Id === parseInt(theText)) {
+                        $(self).text(item["Name"]);
+                    }
+                });
+
+            }).trigger("change");
+            $("#distributor-province_").change(function () {
+                var form = $(this).parents("form");
+                form.submit();
+            });
+            $(".filter-item").removeClass("hidden");
+        }
+        if (window.stateProvinces.length === 0) new Services("general/get-state-province", { isAll: true }, function(ret) { fnStarted(ret); }).get();
+        else fnStarted(window.stateProvinces);
+    </script>
+    <script>
+        PagedOnComplete_List = function() {
+            HvHelpers.scrollTo('#list-vendor', 101);
+        };
+    </script>
+    <script src="~/content/plugins/googlemaps-marker/js/index.js"></script>
+    if (ViewBag.pid == "-1" && ViewBag.did == "-1" && ViewBag.bylocation == "true")
+    {
+        <script>
+            if (!!navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+
+                    window.masterMap.init(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
+                    $("#my-location-btn").html('<i class="fa fa-map-marker"></i>').css("background", "gray");
+                    $("#result .distance").show();
+                    $("#result .count").html('@LanguageHelper.Translate("List of locations nearby to you_Text")');
+                },function(failure) {
+                    if(failure.message.indexOf("Only secure origins are allowed") == 0) {
+                        // Secure Origin issue.
+                        $("#result .count").html('@LanguageHelper.Translate("Only secure origins are allowed_Text")');
+                    }
+                    else 
+                    $("#result .count").html(failure.message);
+                });
+            }
+        </script>
+    }
+    else if (ViewBag.pid == "-1" && ViewBag.did == "-1")
+    {
+        <script>
+            window.mapZoom = 5;    
+        </script>
+    }
+}

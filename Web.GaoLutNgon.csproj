@@ -1,0 +1,817 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D893C115-B3B4-4417-9C95-794C9A3AD2EC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Web</RootNamespace>
+    <AssemblyName>Web</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <WebGreaseLibPath>..\gaolut\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Assets\images\shared\clock-1.svg" />
+    <Content Include="Assets\images\vendor\icon-marker.png" />
+    <Content Include="Assets\wait-connect\index.html" />
+    <Content Include="Assets\wait-connect\style.css" />
+    <Content Include="Assets\wait-connect\timer.js" />
+    <Content Include="Content\Default\default\account\base\css\1.0-jquery.passwordstrength.css" />
+    <Content Include="Content\Default\default\account\base\css\1.1-jconfirm.css" />
+    <Content Include="Content\Default\default\account\base\css\1.1-pwdwidget.css" />
+    <Content Include="Content\Default\default\account\base\css\1.2-tel.css" />
+    <Content Include="Content\Default\default\account\base\css\9.0-style.css" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.0-jquery.validate.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.1-jconfirm.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.1-jquery.cascading-drop-down.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.1-jquery.validate.unobtrusive.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.1-pwdwidget.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.1-superplaceholder.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.2-jquery.unobtrusive-ajax.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.3-form-cache.js" />
+    <Content Include="Content\Default\default\account\base\js\libs\1.4-jquery.passstrength.js" />
+    <Content Include="Content\Default\default\account\credits\css\1.0-style.css" />
+    <Content Include="Content\Default\default\account\credits\js\1.0-scripts.js" />
+    <Content Include="Content\Default\default\account\login-ajax\css\1.0-style.transfer.css" />
+    <Content Include="Content\Default\default\account\login-ajax\img\back-face.jpg" />
+    <Content Include="Content\Default\default\account\login-ajax\img\bg-sign-in.jpg" />
+    <Content Include="Content\Default\default\account\login-ajax\img\bg-sign-up.jpg" />
+    <Content Include="Content\Default\default\account\login-ajax\img\loading.svg" />
+    <Content Include="Content\Default\default\account\login-ajax\js\1.0-scripts.js" />
+    <Content Include="Content\Default\default\account\login\css\1.0-style.transfer.css" />
+    <Content Include="Content\Default\default\account\login\img\back-face.jpg" />
+    <Content Include="Content\Default\default\account\login\img\bg-sign-in.jpg" />
+    <Content Include="Content\Default\default\account\login\img\bg-sign-up.jpg" />
+    <Content Include="Content\Default\default\account\login\img\loading.svg" />
+    <Content Include="Content\Default\default\account\login\js\1.0-scripts.js" />
+    <Content Include="Content\Default\default\account\profile\css\9.0-style.css" />
+    <Content Include="Content\Default\default\account\profile\css\9.0-style.transfer.css" />
+    <Content Include="Content\Default\default\account\profile\img\bg-1.jpg" />
+    <Content Include="Content\Default\default\account\profile\img\bg-2.jpg" />
+    <Content Include="Content\Default\default\account\profile\js\9.0-scripts.js" />
+    <Content Include="Content\Default\default\account\profile\js\list-pagination\1.1-list.pagination.js" />
+    <Content Include="Content\Default\default\account\profile\js\tapatar-master\1.0-tapatar.js" />
+    <Content Include="Content\Default\default\account\register-fullstep\css\1.0-addfont.transfer.css" />
+    <Content Include="Content\Default\default\account\register-fullstep\css\1.0-plugins.css" />
+    <Content Include="Content\Default\default\account\register-fullstep\css\1.1-style.transfer.css" />
+    <Content Include="Content\Default\default\account\register-fullstep\img\bg-left.png" />
+    <Content Include="Content\Default\default\account\register-fullstep\img\bg.png" />
+    <Content Include="Content\Default\default\account\register-fullstep\js\1.0-jquery.uniform.js" />
+    <Content Include="Content\Default\default\account\register-fullstep\js\1.1-jquery.mask.js" />
+    <Content Include="Content\Default\default\account\register-fullstep\js\1.3-sweetalert.js" />
+    <Content Include="Content\Default\default\account\register-fullstep\js\9.0-scripts.js" />
+    <Content Include="Content\Default\default\account\register\css\1.0-addfont.transfer.css" />
+    <Content Include="Content\Default\default\account\register\css\1.0-plugins.css" />
+    <Content Include="Content\Default\default\account\register\css\1.1-style.transfer.css" />
+    <Content Include="Content\Default\default\account\register\css\9.1-style-responsive.transfer.css" />
+    <Content Include="Content\Default\default\account\register\img\bg-left.png" />
+    <Content Include="Content\Default\default\account\register\img\bg.png" />
+    <Content Include="Content\Default\default\account\register\js\1.0-jquery.uniform.js" />
+    <Content Include="Content\Default\default\account\register\js\1.1-jquery.mask.js" />
+    <Content Include="Content\Default\default\account\register\js\1.3-sweetalert.js" />
+    <Content Include="Content\Default\default\account\register\js\9.0-scripts.js" />
+    <Content Include="Content\Default\default\blog\blog-post\css\1.0-slick.css" />
+    <Content Include="Content\Default\default\blog\blog-post\css\9.0-blog.transfer.css" />
+    <Content Include="Content\Default\default\blog\blog-post\default\css\9.0-all.transfer.css" />
+    <Content Include="Content\Default\default\blog\blog-post\js\1.0-slick.js" />
+    <Content Include="Content\Default\default\blog\blog-post\js\9.0-main.js" />
+    <Content Include="Content\Default\default\cart-inline\css\1.0-all.css" />
+    <Content Include="Content\Default\default\cart-inline\css\1.1-thanhhm-custom.css" />
+    <Content Include="Content\Default\default\cart-inline\js\1.0-all.js" />
+    <Content Include="Content\Default\default\cart\css\1.0-all.css" />
+    <Content Include="Content\Default\default\cart\css\1.1-thanhhm-custom.css" />
+    <Content Include="Content\Default\default\cart\js\1.0-all.js" />
+    <Content Include="Content\Default\default\catalog\category\css\default\9.1-style-responsive.transfer.css" />
+    <Content Include="Content\Default\default\catalog\category\css\filter\9.1-style-responsive.transfer.css" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\1-colio.css" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\2-loader-ellips.css" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\9-all.transfer.css" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\images\arrow.png" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\images\label-1.png" />
+    <Content Include="Content\Default\default\catalog\category\css\infinite\images\label-2.png" />
+    <Content Include="Content\Default\default\catalog\category\js\infinite\2-colio.js" />
+    <Content Include="Content\Default\default\catalog\category\js\infinite\3-infinite-scroll.pkgd.js" />
+    <Content Include="Content\Default\default\catalog\category\js\infinite\6-index.js" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-emojionearea.css" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-hunterPopup.css" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-rating-histogram\9.0-styles.css" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-rating-histogram\9.1-style-reponsive.css" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-rating-star\css\1.0-star-rating.transfer.css" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-rating-star\img\loading.gif" />
+    <Content Include="Content\Default\default\catalog\product\default\css\9.0-all.transfer.css" />
+    <Content Include="Content\Default\default\catalog\product\js\1.0-lightgallery.js" />
+    <Content Include="Content\Default\default\catalog\product\js\1.0-lightgallery\1.1-lg-fullscreen.js" />
+    <Content Include="Content\Default\default\catalog\product\js\1.0-lightgallery\1.2-lg-zoom.js" />
+    <Content Include="Content\Default\default\catalog\product\js\1.0-lightgallery\1.3-lg-video.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\1.0-emojionearea.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\1.0-floatlabel.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\1.0-jquery-popup.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\1.0-rating-histogram\9.0-scripts.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\1.0-rating-star\js\star-rating.js" />
+    <Content Include="Content\Default\default\catalog\product\js\2.0-productreview\9.0-script.js" />
+    <Content Include="Content\Default\default\catalog\product\js\9.0-index.js" />
+    <Content Include="Content\Default\default\checkout\css\1.0-jquery-colorbox\1.0-all.transfer.css" />
+    <Content Include="Content\Default\default\checkout\css\1.0-jquery-colorbox\9.0-custom.css" />
+    <Content Include="Content\Default\default\checkout\css\1.0-jquery-colorbox\images\controls.png" />
+    <Content Include="Content\Default\default\checkout\css\1.0-jquery-colorbox\images\loading.gif" />
+    <Content Include="Content\Default\default\checkout\css\1.0-zangdar.css" />
+    <Content Include="Content\Default\default\checkout\css\9.1-style.reponsive.transfer.css" />
+    <Content Include="Content\Default\default\checkout\js\1.0-jquery-colorbox\1.0-all.js" />
+    <Content Include="Content\Default\feedback\css\9.0-all.transfer.css" />
+    <Content Include="Content\Default\feedback\css\9.1-form-default.transfer.css" />
+    <Content Include="Content\Default\feedback\js\9.0-all.js" />
+    <Content Include="Content\Default\feedback\js\9.1-form-default.js" />
+    <Content Include="Content\Default\sharedraw\css\bootstrap.min.css" />
+    <Content Include="Content\Default\shared\css\3.0-main\img\banner_bg_desktop.jpg" />
+    <Content Include="Content\Default\shared\css\3.0-main\img\bg_call_section.jpg" />
+    <Content Include="Content\Default\shared\js\1.1-bootstrap\js\1.0-jquery.slim.js" />
+    <Content Include="Content\Plugins\googlemaps-marker\css\index.css" />
+    <Content Include="Content\Plugins\googlemaps-marker\js\index.deprecated.js" />
+    <Content Include="Content\Plugins\googlemaps-marker\js\index.js" />
+    <Content Include="Content\Plugins\googlemaps-marker\js\infobox.js" />
+    <Content Include="Gadgets\Comment\css\img\comment-like.png" />
+    <Content Include="Gadgets\Comment\css\img\default-avatar-comment.png" />
+    <Content Include="Gadgets\Comment\css\img\dislike-icon.png" />
+    <Content Include="Gadgets\Comment\css\img\share-icon.png" />
+    <Content Include="Gadgets\Comment\css\main.css" />
+    <Content Include="Gadgets\Comment\css\profile.css" />
+    <Content Include="Gadgets\Comment\getprofiles.htm" />
+    <Content Include="Gadgets\Comment\index.htm" />
+    <Content Include="Gadgets\Comment\js\hv.helper.js" />
+    <Content Include="Gadgets\Comment\js\main.js" />
+    <Content Include="Gadgets\Comment\posttowall.htm" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\shared\all\loading.svg" />
+    <Content Include="packages.config" />
+    <Content Include="App_Config\Default\App.config" />
+    <Content Include="App_Config\Default\Connections.config" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Baybuom.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-HLThufap.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Nhatban.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Ongdo.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Thufap2.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Thufap3.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Thufapfan.ttf" />
+    <Content Include="Content\Default\sharedraw\css\fonts\thu-phap\VNI-Viettay.ttf" />
+    <Content Include="Content\Default\feedback\img\cd-icon-arrow.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-budget.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-check.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-phone.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-email.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-message.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-radio.svg" />
+    <Content Include="Content\Default\feedback\img\cd-icon-user.svg" />
+    <Content Include="Content\Default\feedback\img\cd-required.svg" />
+    <Content Include="Content\Default\sharedraw\css\fonts\Flaticon.woff2" />
+    <Content Include="Content\Default\sharedraw\css\fonts\Flaticon.woff" />
+    <Content Include="Images\shared\all\loading.webp" />
+    <Content Include="App_Data\Cache_Files\Helpers~~CultureHelpers~~1.json" />
+    <Content Include="App_Data\Cache_Files\Helpers~~UrlRewriteAlternate~~.json" />
+    <Content Include="App_Data\Cache_Files\Helpers~~UrlRewrite~~0_False.json" />
+    <Content Include="App_Data\Cache_Files\Helpers~~UrlRewrite~~1_False.json" />
+    <Content Include="App_Data\Cache_Files\Pages~~Page72~~vi~~trang-chu.html~.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-cate-1-category-1-Widgets^Home^CategorySpecial.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-cate-2-category-1-Widgets^Home^CategorySpecial.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-linked-by-115_-category-1-Widgets^Home^ProductTab.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-linked-by-121_-category-1-Widgets^Home^ProductTab.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-our-product-category-1-Widgets^Home^CategoriesFeaturedAll.json" />
+    <Content Include="App_Data\Cache_Files\PatialView~~CategorySpecial~~Home-1_-focus-our-product-category-1-Widgets^Home^CategoriesMenuAll.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-footer-content-opening-hours.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-footer-content-photo-activity.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-footer-content-userful-links.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-footer-content.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-footer-copyright.json" />
+    <Content Include="App_Data\Cache_Files\StaticBlock~~Caller~~1_-home-donavi-app.json" />
+    <Content Include="App_Data\Cache_Files\UrlCached.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^avatar^blogpost^740x^2019^05^26^redlink-1558848075796.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^avatar^blogpost^740x^2019^06^03^organik-1559555715704.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^avatar^blogpost^740x^2019^06^03^organik-1559555965919.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^1920x800^2019^07^19^donavi-1563526406618.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^1920x800^2019^07^19^donavi-1563526789490.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^05^31^organik-1559295837713.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^06^03^organik-1559554951518.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^07^16^donavi-1563253463328.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^07^16^donavi-1563253600829.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^07^18^donavi-1563457206142.jpg.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^07^18^donavi-1563457206994.jpg.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^300x^2019^07^19^donavi-1563532875103.png.json" />
+    <Content Include="App_Data\Cache_Files\UrlOnline~~http~^^beautyfullsmedia.selectgo.vn^^uploads-1^custom^images^500x^2019^07^19^donavi-1563521941239.png.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~0-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~0_00-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~185000-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~185000_00-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~25000-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~25000_00-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~30000-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Currency~~30000_00-1-{0~#_##0} ₫.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^album^1920x^2019^07^19^donavi-1563526406618.png-1920x800-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^album^1920x^2019^07^19^donavi-1563526789490.png-1920x800-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^blogpost^740x^2019^05^26^redlink-1558848075796.png--1x-1-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^blogpost^740x^2019^06^03^organik-1559555715704.png--1x-1-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^blogpost^740x^2019^06^03^organik-1559555965919.png--1x-1-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^page^784x^2019^07^19^donavi-1563521941239.png-500x-1-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^05^31^organik-1559295837713.png-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^06^03^organik-1559554951518.png-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^07^16^donavi-1563253463328.png-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^07^16^donavi-1563253600829.png-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^07^18^donavi-1563457206142.jpg-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^07^18^donavi-1563457206994.jpg-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Image~~http~^^beautyfullsmedia.selectgo.vn^uploads-1^avatar^product^1200x^2019^07^19^donavi-1563532875103.png-300x300-100-.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-BlogCategory-5.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-BlogPost-10.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-BlogPost-11.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-BlogPost-9.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-10.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-23.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-26.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-27.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-28.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-29.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-31.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-32.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Category-our-product.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Product-58.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Product-60.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Product-64.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Product-65.json" />
+    <Content Include="App_Data\Cache_Files\Utils~~Url~~vi-Product-66.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~AlbumByPattern~~1_-home-banner-promotion-of-category.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~Album~~1_-home-slider--1_.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~Album~~1_-shared~~clients-partners--1_.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~LatestPosts~~-1-news_-news-featuring-3-%24-0-1_.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~Menu~~1_-main-menu--1_.json" />
+    <Content Include="App_Data\Cache_Files\Widgets~~TestimonialSpecial~~1_-latest-4.json" />
+    <Content Include="Content\Default\sharedraw\css\fonts\woodmart\S6u9w4BMUTPHh6UVSwaPGR_p.woff2" />
+    <Content Include="Content\Default\sharedraw\css\fonts\woodmart\S6uyw4BMUTPHjxAwXjeu.woff2" />
+    <Content Include="Content\Default\default\catalog\product\css\2.0-productreview\1.0-rating-star\font\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Default\default\account\register\font\IcoMoon.ttf" />
+    <Content Include="Content\Default\default\account\register-fullstep\font\IcoMoon.ttf" />
+    <Content Include="Content\Default\default\catalog\product\js\7.0-index.js" />
+    <Content Include="Content\Default\shared\css\1.2-addfonts\fonts\fa\fa-brands-400.woff2" />
+    <Content Include="Content\Default\shared\css\1.2-addfonts\fonts\fa\fa-regular-400.woff2" />
+    <Content Include="Content\Default\shared\css\1.2-addfonts\fonts\fa\fa-solid-900.woff2" />
+    <None Include="Properties\PublishProfiles\Gaolutngon-web.pubxml" />
+    <None Include="Properties\PublishProfiles\Redlink-web.pubxml" />
+    <Content Include="Scripts\bussiness\listing.js" />
+    <Content Include="Scripts\global-resources\en-US.js" />
+    <Content Include="Scripts\global-resources\ja-JP.js" />
+    <Content Include="Scripts\global-resources\translate.js" />
+    <Content Include="Scripts\global-resources\vi-VN.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <None Include="Scripts\jquery-3.5.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.5.1.js" />
+    <Content Include="Scripts\jquery-3.5.1.min.js" />
+    <Content Include="Scripts\jquery-3.5.1.slim.js" />
+    <Content Include="Scripts\jquery-3.5.1.slim.min.js" />
+    <Content Include="Scripts\jquery-opp-1.6.1.js" />
+    <Content Include="Scripts\jquery-ui-1.8.20.min.js" />
+    <Content Include="Scripts\jquery.timeago.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery-3.5.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.5.1.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\knockout-latest.js" />
+    <Content Include="Scripts\main\app.js" />
+    <Content Include="Scripts\main\helpers.js" />
+    <Content Include="Scripts\main\main.js" />
+    <Content Include="Scripts\main\services.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <None Include="Scripts\_references.js" />
+    <Content Include="Views\Default\AuthExternal\Callback.cshtml" />
+    <Content Include="Views\Default\AuthExternal\LoginFail.cshtml" />
+    <Content Include="Views\Default\AuthExternal\LoginSuccess.cshtml" />
+    <Content Include="Views\Default\Blog\BlogCategory\Default.cshtml" />
+    <Content Include="Views\Default\Blog\BlogCategory\Default_Gallery.cshtml" />
+    <Content Include="Views\Default\Blog\BlogCategory\Default_Recruitment.cshtml" />
+    <Content Include="Views\Default\Blog\BlogCategory\Default_Video.cshtml" />
+    <Content Include="Views\Default\Blog\BlogPost\Default.cshtml" />
+    <Content Include="Views\Default\Blog\BlogTag.cshtml" />
+    <Content Include="Views\Default\Blog\Partial\Aside.cshtml" />
+    <Content Include="Views\Default\Blog\Partial\Gallery.cshtml" />
+    <Content Include="Views\Default\Blog\Partial\Standard.cshtml" />
+    <Content Include="Views\Default\Blog\Partial\Video.cshtml" />
+    <Content Include="Views\Default\Blog\Widgets\BlogCategory\Archives.cshtml" />
+    <Content Include="Views\Default\Blog\Widgets\BlogCategory\PopularPosts.cshtml" />
+    <Content Include="Views\Default\Blog\Widgets\BlogCategory\PopularTags.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\ByAjax\Partial\QuicklyStatistics.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\ByAjax\_ListPartial.cshtml" />
+    <Content Include="Views\Default\Catalog\Manufacturer.cshtml" />
+    <Content Include="Views\Default\Catalog\ProductTag.cshtml" />
+    <Content Include="Views\Default\Catalog\Product\Embed.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\ProductFocus.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\CategoryLeft.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductViewed.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\TagLeft.cshtml" />
+    <Content Include="Views\Default\Home\Advanced\Blog\HomeGallery.cshtml" />
+    <Content Include="Views\Default\Home\Advanced\Catalog\CategoryFeatured.cshtml" />
+    <Content Include="Views\Default\Home\Advanced\Catalog\CategoryLeft.cshtml" />
+    <Content Include="Views\Default\Home\Advanced\Catalog\ProductFeatured.cshtml" />
+    <Content Include="Views\Default\Home\Advanced\Catalog\TagLeft.cshtml" />
+    <Content Include="Views\Default\Home\SpecialPage.cshtml" />
+    <Content Include="Views\Default\Home\Topics\10.cshtml" />
+    <Content Include="Views\Default\Home\Topics\11.cshtml" />
+    <Content Include="Views\Default\Home\Topics\12.cshtml" />
+    <Content Include="Views\Default\Home\Topics\13.cshtml" />
+    <Content Include="Views\Default\Home\Topics\14.cshtml" />
+    <Content Include="Views\Default\Home\Topics\15.cshtml" />
+    <Content Include="Views\Default\Home\Topics\16.cshtml" />
+    <Content Include="Views\Default\Home\Topics\17.cshtml" />
+    <Content Include="Views\Default\Home\Topics\18.cshtml" />
+    <Content Include="Views\Default\Home\Topics\29.cshtml" />
+    <Content Include="Views\Default\Home\Topics\3.cshtml" />
+    <Content Include="Views\Default\Home\Topics\30.cshtml" />
+    <Content Include="Views\Default\Home\Topics\32.cshtml" />
+    <Content Include="Views\Default\Home\Topics\35.cshtml" />
+    <Content Include="Views\Default\Home\Topics\37.cshtml" />
+    <Content Include="Views\Default\Home\Topics\4.cshtml" />
+    <Content Include="Views\Default\Home\Topics\5.cshtml" />
+    <Content Include="Views\Default\Home\Topics\6.cshtml" />
+    <Content Include="Views\Default\Home\Topics\8.cshtml" />
+    <Content Include="Views\Default\Home\Topics\9.cshtml" />
+    <Content Include="Views\Default\Home\Topics\template-default.cshtml" />
+    <Content Include="Views\Default\Home\Topics\template-empty.cshtml" />
+    <Content Include="Views\Default\Home\Topics\template-home.cshtml" />
+    <Content Include="Views\Default\Home\Topics\template-onepage.cshtml" />
+    <Content Include="Views\Default\Home\Topics\template-pagestatic.cshtml" />
+    <Content Include="Views\Default\Search\Box.cshtml" />
+    <Content Include="Views\Default\Search\BoxBlog.cshtml" />
+    <Content Include="Views\Default\Search\BoxIndex.cshtml" />
+    <Content Include="Views\Default\Search\Index.cshtml" />
+    <Content Include="Views\Default\Search\Trends.cshtml" />
+    <Content Include="Views\Default\Shared\Component\Mobile\_Header.cshtml" />
+    <Content Include="Views\Default\Shared\Component\Mobile\_Side.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_Header.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_Language.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_MetaHead.cshtml" />
+    <Content Include="Views\Default\Shared\Schema\Website\_SearchAction.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_BreadcrumbList.cshtml" />
+    <Content Include="Views\Default\Shared\Schema\_ItemList.cshtml" />
+    <Content Include="Views\Default\Shared\Schema\_ItemListService.cshtml" />
+    <Content Include="Views\Default\Shared\Schema\_NewsArticle.cshtml" />
+    <Content Include="Views\Default\Shared\Schema\_Organization.cshtml" />
+    <Content Include="Views\Default\Shared\_Layout.cshtml" />
+    <Content Include="Views\Default\Shared\_LayoutEmpty.cshtml" />
+    <Content Include="Views\Default\StaticBlock\1.cshtml" />
+    <Content Include="Views\Default\StaticBlock\10.cshtml" />
+    <Content Include="Views\Default\StaticBlock\14.cshtml" />
+    <Content Include="Views\Default\StaticBlock\15.cshtml" />
+    <Content Include="Views\Default\StaticBlock\2.cshtml" />
+    <Content Include="Views\Default\StaticBlock\21.cshtml" />
+    <Content Include="Views\Default\StaticBlock\28.cshtml" />
+    <Content Include="Views\Default\StaticBlock\3.cshtml" />
+    <Content Include="Views\Default\StaticBlock\30-protected.cshtml" />
+    <Content Include="Views\Default\StaticBlock\30.cshtml" />
+    <Content Include="Views\Default\StaticBlock\31.cshtml" />
+    <Content Include="Views\Default\StaticBlock\32.cshtml" />
+    <Content Include="Views\Default\StaticBlock\33.cshtml" />
+    <Content Include="Views\Default\StaticBlock\34.cshtml" />
+    <Content Include="Views\Default\StaticBlock\4.cshtml" />
+    <Content Include="Views\Default\StaticBlock\5.cshtml" />
+    <Content Include="Views\Default\StaticBlock\6.cshtml" />
+    <Content Include="Views\Default\StaticBlock\7.cshtml" />
+    <Content Include="Views\Default\StaticBlock\8.cshtml" />
+    <Content Include="Views\Default\StaticBlock\9.cshtml" />
+    <Content Include="Views\Default\StaticBlock\Caller.cshtml" />
+    <Content Include="Views\Default\StaticBlock\CallerReturnDefault.cshtml" />
+    <Content Include="Views\Default\System\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Default\System\Error\NotFound.cshtml" />
+    <Content Include="Views\Default\System\Error\UnAuthenticated.cshtml" />
+    <Content Include="Views\Default\System\PageGuide\List.cshtml" />
+    <Content Include="Views\Default\Widgets\Album\AboutUs.cshtml" />
+    <Content Include="Views\Default\Widgets\Album\ClientsPartners.cshtml" />
+    <Content Include="Views\Default\Widgets\Album\General.cshtml" />
+    <Content Include="Views\Default\Widgets\Album\Home.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\AssociatedProducts.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\LatestPosts.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\LatestPostsIndex.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\MostviewedPosts.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\PopularTags.cshtml" />
+    <Content Include="Views\Default\Widgets\Blog\PopularTagsIndex.cshtml" />
+    <Content Include="Views\Default\Widgets\FeedBack\Form.cshtml" />
+    <Content Include="Views\Default\Widgets\FeedBack\FormContactUs.cshtml" />
+    <Content Include="Views\Default\Widgets\FeedBack\FormOnlyMail.cshtml" />
+    <Content Include="Views\Default\Widgets\FeedBack\FormRecruitmentCustomized.cshtml" />
+    <Content Include="Views\Default\Shared\Component\Mobile\_Language.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\ProductTab.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\CategorySpecial.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\CategoriesMenuAll.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\CategoriesFeatured.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\CategoriesMenuAll.cshtml" />
+    <Content Include="Views\Default\Checkout\Complete.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\Action.cshtml" />
+    <Content Include="Views\Default\ShoppingCart\en\_Index.cshtml" />
+    <Content Include="Views\Default\ShoppingCart\vi\_Index.cshtml" />
+    <Content Include="Views\Default\Checkout\en\_Index.cshtml" />
+    <Content Include="Views\Default\Checkout\en\_Complete.cshtml" />
+    <Content Include="Views\Default\Checkout\vi\_Index.cshtml" />
+    <Content Include="Views\Default\Checkout\vi\_Complete.cshtml" />
+    <Content Include="Views\Default\Checkout\Error.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\CategoriesFeatured.cshtml" />
+    <Content Include="Views\Default\Account\en\_Profile.cshtml" />
+    <Content Include="Views\Default\Account\vi\_Profile.cshtml" />
+    <Content Include="Views\Default\Account\_partial\Address.cshtml" />
+    <Content Include="Views\Default\Account\vi\_LoginDirect.cshtml" />
+    <Content Include="Views\Default\Account\en\_LoginDirect.cshtml" />
+    <Content Include="Views\Default\Blog\BlogCategory\Default_Faq.cshtml" />
+    <Content Include="Views\Default\Account\ForgotPass.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\ProductTab_Mobile.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_Orverride.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\Default_Infinite_Partial.cshtml" />
+    <Content Include="Views\Default\Web.config" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\Price.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Layout\BrowseCategories.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\ProductPromotion.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\ProductNew.cshtml" />
+    <Content Include="Views\Default\Home\Topics\5-protected.cshtml" />
+    <Content Include="Views\Default\Home\Topics\16-protected.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Layout\BrowseMobileCategories.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\_AddPartial.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\_ListPartial.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\Add.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\Histogram.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\Index.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\ProductReview\List.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\YouMayAlsoLike.cshtml" />
+    <Content Include="Views\Default\Widgets\Album\Home_Button.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Home\Rating.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\Rating.cshtml" />
+    <None Include="Views\Default\Widgets\FeedBack\_FormPatial.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Main.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Mega.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Minified.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Sub.cshtml" />
+    <Content Include="Views\Default\Widgets\OurTeam\List.cshtml" />
+    <Content Include="Views\Default\Widgets\OurTeam\_ListPartial.cshtml" />
+    <Content Include="Views\Default\Widgets\Shared\NewsLetterSubscription.cshtml" />
+    <Content Include="Views\Default\ShoppingCart\Index.cshtml" />
+    <Content Include="Views\Default\ShoppingCart\CartSummary.cshtml" />
+    <Content Include="Views\Default\Shared\Component\_LoginPartial.cshtml" />
+    <Content Include="Views\Default\Checkout\Index.cshtml" />
+    <Content Include="Views\Default\ShoppingCart\CartPopup.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\Default_Infinite.cshtml" />
+    <Content Include="Views\Default\_ViewStart.cshtml" />
+    <Content Include="Views\Default\Widgets\Vendor\List.cshtml" />
+    <Content Include="Views\Default\Widgets\Vendor\_ListPartial.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\SiteMap.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Footer.cshtml" />
+    <Content Include="Views\Default\Widgets\Menu\Blog.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Oauth.config" />
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Default\Account\ChangePass.cshtml" />
+    <Content Include="Views\Default\Account\Login.cshtml" />
+    <Content Include="Views\Default\Account\LoginDirect.cshtml" />
+    <Content Include="Views\Default\Account\Profile.cshtml" />
+    <Content Include="Views\Default\Account\RecoveryPass.cshtml" />
+    <Content Include="Views\Default\Account\Register.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\ByAjax\List.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\Default.cshtml" />
+    <Content Include="Views\Default\Catalog\Category\Default_Filter.cshtml" />
+    <Content Include="Views\Default\Catalog\Product\Default.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\CategoriesProductsSpecial.cshtml" />
+    <Content Include="Views\Default\Catalog\Widgets\Shop\Price.cshtml" />
+    <Content Include="Views\Default\Widgets\Shared\Breadcrumb.cshtml" />
+    <Content Include="Views\Default\Widgets\Testimonials\Special.cshtml" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\ToolController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\CatalogController.cs" />
+    <Compile Include="Controllers\WidgetsController.cs" />
+    <Compile Include="Controllers\StaticBlockController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\DataConfigsHelper.cs" />
+    <Compile Include="Helpers\DataCurrentHelper.cs" />
+    <Compile Include="Helpers\CoreHelpers.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Cache_Flags\Helpers~~CultureHelpers\" />
+    <Folder Include="App_Data\Cache_Flags\Helpers~~UrlRewriteAlternate\" />
+    <Folder Include="App_Data\Cache_Flags\Helpers~~UrlRewrite\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~BlogCategory\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~BlogPost\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~Category\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~Manufacturer\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~Page\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~ProductTag\" />
+    <Folder Include="App_Data\Cache_Flags\Pages~~Product\" />
+    <Folder Include="App_Data\Cache_Flags\PatialView~~BlogCategorySpecial\" />
+    <Folder Include="App_Data\Cache_Flags\PatialView~~CategorySpecial\" />
+    <Folder Include="App_Data\Cache_Flags\PatialView~~TagSpecial\" />
+    <Folder Include="App_Data\Cache_Flags\Search~~Query\" />
+    <Folder Include="App_Data\Cache_Flags\Search~~Suggest\" />
+    <Folder Include="App_Data\Cache_Flags\StaticBlock~~Caller\" />
+    <Folder Include="App_Data\Cache_Flags\Utils~~Currency\" />
+    <Folder Include="App_Data\Cache_Flags\Utils~~GetBlogCategoryByGroupeds\" />
+    <Folder Include="App_Data\Cache_Flags\Utils~~Image\" />
+    <Folder Include="App_Data\Cache_Flags\Utils~~ToUnsign\" />
+    <Folder Include="App_Data\Cache_Flags\Utils~~Url\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~AlbumByPattern\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~Album\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~GallerySelectivity\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~LatestPosts\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~MegaMenu\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~Menu\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~MostviewedPosts\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~OurStaffs\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~PopularTags\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~ProductClassify\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~SearchTrends\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~TestimonialSpecial\" />
+    <Folder Include="App_Data\Cache_Flags\Widgets~~Trends\" />
+    <Folder Include="App_Data\Cache_UnFlags\BaseCategory~~CategoryDefaultId\" />
+    <Folder Include="App_GlobalResources\" />
+    <Folder Include="Content\Default\default\checkout-completed\css\" />
+    <Folder Include="Content\Default\default\home\css\" />
+    <Folder Include="Content\Default\default\home\js\" />
+    <Folder Include="Content\Default\sharedraw\css\addfonts\" />
+    <Folder Include="Content\Default\shared\css\1.1-bootstrap\css\" />
+    <Folder Include="Content\Default\shared\css\1.2-addfonts\css\" />
+    <Folder Include="Content\Default\shared\css\2.0-third-party\" />
+    <Folder Include="Content\Default\shared\js\2.0-third-party\" />
+    <Folder Include="Images\customers\" />
+    <Folder Include="Images\shared\1\" />
+    <Folder Include="Skins\store-1\" />
+    <Folder Include="Skins\store-3\" />
+    <Folder Include="Views\Default\Home\BlogPost\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\bin - Copy\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AS+.Oauth2Login">
+      <HintPath>..\..\bin - Copy\AS+.Oauth2Login.dll</HintPath>
+    </Reference>
+    <Reference Include="AS+.Web.Core">
+      <HintPath>..\..\bin - Copy\AS+.Web.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AS+.Web.Model">
+      <HintPath>..\..\bin - Copy\AS+.Web.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="AS+.Web.Repositories.Entity">
+      <HintPath>..\..\bin - Copy\AS+.Web.Repositories.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="AS+.Web.SERPs">
+      <HintPath>..\..\bin - Copy\AS+.Web.SERPs.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac">
+      <HintPath>..\..\bin - Copy\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\..\bin - Copy\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="BundleTransformer.Core">
+      <HintPath>..\..\bin - Copy\BundleTransformer.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CaptchaMvc">
+      <HintPath>..\..\bin - Copy\CaptchaMvc.dll</HintPath>
+    </Reference>
+    <Reference Include="ClosedXML">
+      <HintPath>..\..\bin - Copy\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery">
+      <HintPath>..\..\bin - Copy\CsQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml">
+      <HintPath>..\..\bin - Copy\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\..\bin - Copy\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.Extended">
+      <HintPath>..\..\bin - Copy\EntityFramework.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\..\bin - Copy\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>..\..\bin - Copy\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>..\..\bin - Copy\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="LinqKit">
+      <HintPath>..\..\bin - Copy\LinqKit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.WebApi.Extensions.Compression.Server">
+      <HintPath>..\..\..\Sample\Venmer\bin\Microsoft.AspNet.WebApi.Extensions.Compression.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin - Copy\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\..\bin - Copy\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes">
+      <HintPath>..\..\bin - Copy\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\bin - Copy\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NRedisSessionProvider">
+      <HintPath>..\..\bin - Copy\NRedisSessionProvider.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceKit.Common">
+      <HintPath>..\..\bin - Copy\NServiceKit.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceKit.Interfaces">
+      <HintPath>..\..\bin - Copy\NServiceKit.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceKit.Redis">
+      <HintPath>..\..\bin - Copy\NServiceKit.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="NServiceKit.Text">
+      <HintPath>..\..\bin - Copy\NServiceKit.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\..\..\Sample\Venmer\bin\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Sample\Venmer\bin\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Pipelines.Sockets.Unofficial">
+      <HintPath>..\..\bin - Copy\Pipelines.Sockets.Unofficial.dll</HintPath>
+    </Reference>
+    <Reference Include="StackExchange.Redis">
+      <HintPath>..\..\bin - Copy\StackExchange.Redis.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Diagnostics.PerformanceCounter">
+      <HintPath>..\..\bin - Copy\System.Diagnostics.PerformanceCounter.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Pipelines, Version=5.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.IO.Pipelines.5.0.1\lib\net461\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Extensions.Compression.Core">
+      <HintPath>..\..\..\Sample\Venmer\bin\System.Net.Http.Extensions.Compression.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Sample\Venmer\bin\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\gaolut\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Sample\Venmer\bin\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\..\..\Sample\Venmer\bin\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\bin - Copy\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49375</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://127.0.0.1:1504</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!--<Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>-->
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

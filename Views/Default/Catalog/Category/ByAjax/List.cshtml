@@ -1,0 +1,236 @@
+﻿﻿@using global::Web.Helpers
+@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using global::Web.Helpers
+@using PagedList.Mvc
+@using System.Text.RegularExpressions
+@model PagedList.IPagedList<Web.Model.Models.ProductCategoryMapping>
+    <input id="found-item-total" type="hidden" value="@FormatHelper.StandardNumber(Model.TotalItemCount)" />
+    <input id="page-number" name="page-number" type="hidden" value="@(Model.PageNumber)" />
+    <input id="page-size" name="page-size" type="hidden" value="@(Model.PageSize)" />
+    <input id="item-count" type="hidden" value="@(Model.Count)" />
+    @if (Request.QueryString["view"] == "list")
+    {
+        <div class="product-list product ">
+
+            @if (Model.Count > 0)
+            {
+                foreach (var innerItem in Model)
+                {
+                    var url = @SlugHelper.Product(innerItem.ProductId);
+
+                    <div class="item product-item" data-id="@innerItem.ProductId">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">
+                                <div class="product-thumb">
+                                    <div class="product-container item-img">
+                                        <div class="product-image-container">
+                                            <a class="product-img-link" href="@url" title="@innerItem.Product.Name">
+                                                <img class="w-100" src="@ImageHelper.GetResize(innerItem.Product.Avatar,300,300)" alt="@innerItem.Product.Name">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="product-label">
+                                    @if (innerItem.Product.IsHighlight)
+                                    {
+                                        <span class="product-flash">@LanguageHelper.Translate("Hot_Text")</span>
+                                    }
+                                    @if (innerItem.Product.IsPromotion)
+                                    {
+                                        <span class="product-flash sale">@LanguageHelper.Translate("Sale_Text")</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-sm-12">
+                                <div class="content-right">
+                                    <h2>
+                                        <a href="@url">@innerItem.Product.Name</a>
+                                    </h2>
+                                    <div class="price font-600 color-default">
+                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                    </div>
+
+                                    <div class="des">
+                                        @Html.Raw(innerItem.Product.ShortDescription)
+                                    </div>
+
+                                    @*<div class="product-actions button  d-flex align-items-center">
+                                            @if (innerItem.Product.CallForPrice == true)
+                                            {
+                                                <a href="@SlugHelper.Page(grouped:"contact-us")" class="btn " style=" height: 38px;line-height: 30px;margin-top: 2px;"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="margin-bottom:1px" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-mail"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> @LanguageHelper.Translate("Send Inquiry_Text").ToUpper() </span></a>
+
+                                            }
+                                            else
+                                            {
+                                                if (innerItem.Product.DisableBuyButton == 1)
+                                                {
+                                                    <a href="#" class="btn add-to-cart@((innerItem.Product.DisableBuyButton != 1 || innerItem.Product.Price == 0) ? "-disabled":"")"> <img src="/as-images/cart/add-to-cart.svg" alt="Shopping Cart" class="replaced-svg"> @LanguageHelper.Translate("Add_to_cart_Text")</a>
+
+                                                }
+                                                else if (innerItem.Product.DisableBuyButton == 3)
+                                                {
+                                                    <a href="callto:+@Regex.Match(innerItem.Product.TextInsteadBuyButton.Replace(".", ""), @" \d+").Value" class="btn call-us" title="Please call to details"> <i class="fa fa-phone" style="font-size: 20px"></i> @innerItem.Product.TextInsteadBuyButton </a>
+                                                }
+                                            }
+
+                                            <i class="fa fa-heart add-to-wishlist@(innerItem.Product.DisableWishlistButton == true ? "-disabled":"")" aria-hidden="true"></i>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            }
+            else
+            {
+
+                <div class="not-found">
+                    <div class="med card-section">
+                        <p style="padding-top: .33em">
+                            Không tìm thấy dữ liệu nào <em> </em> thỏa mãn các điều kiện.
+                        </p>
+                        <p style="margin-top: 1em">Đề xuất:</p>
+                        <ul style="margin-left: 1.3em; margin-bottom: 2em">
+
+                            <li> Hãy đảm bảo rằng tất cả các từ đều được viết đúng chính tả. </li>
+                            <li> Thử các từ khoá khác. </li>
+                            <li> Thử các từ khoá chung chung hơn. </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        if (Model.Count > 0)
+        {
+            foreach (var innerItem in Model)
+            {
+                var url = @SlugHelper.Product(innerItem.ProductId);
+                <div class="col pb-sm-2 mb-grid-gutter" data-id="@innerItem.ProductId">
+                    <div class="card card-product mx-auto">
+                        <div class="card-product-img">
+                            <a href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Title" class="card-img-top">
+                                <img src="@ImageHelper.GetResize(innerItem.Product.Avatar, 480, 480)" alt="@innerItem.Product.Picture.Title">
+                            </a>
+                            <div class="card-product-widgets-top">
+                                @if (innerItem.Product.IsPromotion)
+                                {
+                                    <span class="IsPromotion badge product-badge badge-danger">Sale</span>
+                                }
+
+                                @if (innerItem.Product.IsFocus)
+                                {
+                                    <span class="IsFocus badge product-badge badge-primary">Hot</span>
+                                }
+                                <div class="star-rating ml-auto">
+                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Rating.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                </div>
+                            </div>
+                            <div class="card-product-widgets-bottom">
+                                <a href="#" class="btn-wishlist ml-auto" data-toggle="tooltip" data-placement="left"
+                                   title="Yêu thích"></a>
+                            </div>
+                        </div>
+                        <div class="card-body pb-2">
+                            <p class="card-product-title text-truncate mb-2">
+
+                                <a href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Name" class="nav-link">@innerItem.Product.Name</a>
+                            </p>
+                            <div class="d-flex align-items-center">
+                                <span class="h5 d-inline-block mb-0">
+                                    @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                </span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @*<div class="d-flex align-items-center mb-2 pb-1">
+                                <div class="mt-n2">
+                                    <div class="custom-control cs-custom-size-option cs-custom-size-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="size-1" id="l-1">
+                                        <label for="l-1" class="cs-custom-option-label">L</label>
+                                    </div>
+                                    <div class="custom-control cs-custom-size-option cs-custom-size-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="size-1" id="m-1" checked>
+                                        <label for="m-1" class="cs-custom-option-label">M</label>
+                                    </div>
+                                    <div class="custom-control cs-custom-size-option cs-custom-size-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="size-1" id="s-1">
+                                        <label for="s-1" class="cs-custom-option-label">S</label>
+                                    </div>
+                                </div>
+                                <div class="ml-auto">
+                                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="color-1" id="blue-1" value="Blue"
+                                               checked>
+                                        <label for="blue-1" class="cs-custom-option-label">
+                                            <span class="cs-color-swatch" style="background-color: #6a9bf4;"></span>
+                                        </label>
+                                    </div>
+                                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="color-1" id="orange-1" value="Orange">
+                                        <label for="orange-1" class="cs-custom-option-label">
+                                            <span class="cs-color-swatch" style="background-color: #ff9d50;"></span>
+                                        </label>
+                                    </div>
+                                    <div class="custom-control cs-custom-color-option cs-custom-color-option-sm custom-control-inline">
+                                        <input type="radio" class="custom-control-input" name="color-1" id="green-1" value="Green">
+                                        <label for="green-1" class="cs-custom-option-label">
+                                            <span class="cs-color-swatch" style="background-color: #16c995;"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <button type="button" class="btn btn-primary btn-block">
+                                <i class="cxi-cart align-middle mt-n1 mr-2"></i>
+                                Thêm vào giỏ hàng
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            }
+
+        }
+        else
+        {
+
+            <div class="not-found">
+                <div class="med card-section">
+                    <p style="padding-top: .33em">
+                        Không tìm thấy dữ liệu nào <em> </em> thỏa mãn các điều kiện.
+                    </p>
+                    <p style="margin-top: 1em">Đề xuất:</p>
+                    <ul style="margin-left: 1.3em; margin-bottom: 2em">
+
+                        <li> Hãy đảm bảo rằng tất cả các từ đều được viết đúng chính tả. </li>
+                        <li> Thử các từ khoá khác. </li>
+                        <li> Thử các từ khoá chung chung hơn. </li>
+                    </ul>
+                </div>
+            </div>
+        }
+    }
+
+    @if (Model.PageCount > 0)
+    {
+        <div class="pagination-wrap" style="display:none">
+            @Html.PagedListPager(Model, page => Url.Action("ListProductsByCategoryId", "CategoryPlus", new { id = ViewBag.idCurrent, sortOrder = ViewBag.sortOrderCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, view = ViewBag.viewCurrent, page, pageSize = Model.PageSize }),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" }, new AjaxOptions
+                {
+                    HttpMethod = "GET",
+                    UpdateTargetId = "list-products-by-category",
+                    LoadingElementId = "list-products-by-category-loader",
+                    OnComplete = "PagedOnComplete_List"
+                }))
+            @*@Html.PagedListPager(Model, page => Url.Action("Page", "Home", new { ViewBag.sortOrder, page }), new PagedListRenderOptions { LinkToFirstPageFormat = "<< First", LinkToPreviousPageFormat = "<i class='fa fa-angle-left'></i> Prev", LinkToNextPageFormat = "Next <i class='fa fa-angle-right'></i>", LinkToLastPageFormat = "Last >>" })*@
+        </div>
+    }
+

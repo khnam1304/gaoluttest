@@ -1,0 +1,17 @@
+﻿@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/home/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+<section class="as-content">
+    <div class="page-title-block project-title-block"><h3 class="title">Sitemap</h3></div><div class="sitemap-block"><div class="container"><div class="sitemap-product"><div class="block-title">Sản phẩm</div><ul class="sitemap-list"><li class="title">Căn hộ cao cấp</li><li><a href="#">Imperia Garden</a></li><li><a href="#">Imperia Sky Garden</a></li><li><a href="#">Valencia Garden</a></li></ul><ul class="sitemap-list"><li class="title">Villa & nhà phố</li><li><a href="#">Villa Park</a></li><li><a href="#">Park Riverside</a></li><li><a href="#">Park Riverside Premium</a></li><li><a href="#">River Park</a></li><li><a href="#">RioVista</a></li></ul><ul class="sitemap-list"><li class="title">Bất động sản nghỉ dưỡng</li><li><a href="#">Movenpick Resort Waverly Phú Quốc</a></li></ul><ul class="sitemap-list"><li class="title">Villa & khách sạn</li><li><a href="#">Sol Beach House Phú Quốc by Melia</a></li></ul></div><div class="sitemap-menu"><div class="block-title">Về REDLINK</div><ul class="sitemap-menu-list"><li><a href="#">Giới thiệu</a></li><li><a href="#">Ban lãnh đạo</a></li><li><a href="#">Dự án</a></li><li><a href="#">Tin tức về REDLINK</a></li><li><a href="#">Tin tức dự án</a></li><li><a href="#">Sự kiện</a></li><li><a href="#">Thư viện ảnh</a></li><li><a href="#">Thư viện video</a></li><li><a href="#">Tài liệu dự án</a></li><li><a href="#">Liên hệ</a></li></ul></div></div></div>
+</section>
+@section scripts{
+    @Scripts.Render("~/bundles/content/default/home/js")
+    @if (Model.ScriptsInsert != null)
+    {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+}
+

@@ -1,0 +1,42 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+@{
+    var p = ViewData["Product"] as Product;
+}
+@if (p.DisplayStockPrice == true)
+{
+    <ins class="h5 d-inline-block text-danger mb-0">@FormatHelper.FormatCurrency(p.OriginalPrice)</ins>
+}
+else
+{
+    if (p.IsPromotion)
+    {
+
+        if (p.SpecialPriceByPercent > 0)
+        {
+            <ins class="h5 d-inline-block text-danger mb-0">@p.SpecialPriceByPercent %</ins>
+        }
+        else if (p.SpecialPrice > 0)
+        {
+            <ins class="h5 d-inline-block text-danger mb-0">@FormatHelper.FormatCurrency(p.SpecialPrice)</ins>
+        }
+        <del class="d-inline-block ml-2 pl-1 text-muted">@FormatHelper.FormatCurrency(p.Price)</del>
+    }
+    else
+    {
+        if (p.CallForPrice == true)
+        {
+            <ins style="font-size: 11px;color: red;text-transform: uppercase;">@LanguageHelper.Translate("Contact to price quote_Text")</ins>
+        }
+        else if (p.ProductType != null && p.ProductType.Name.Contains("Grouped") == true)
+        {
+            <ins class="h5 d-inline-block text-danger mb-0">@LanguageHelper.Translate("Từ_Text") @FormatHelper.FormatCurrency(p.LowPrice)</ins>
+        }
+        else
+        {
+
+            <ins class="h5 d-inline-block text-danger mb-0">@FormatHelper.FormatCurrency(p.Price)</ins>
+        }
+
+    }
+}

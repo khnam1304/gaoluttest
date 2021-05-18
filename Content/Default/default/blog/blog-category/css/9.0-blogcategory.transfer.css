@@ -1,0 +1,13 @@
+﻿.widget.widget_posts_widget .item .info .title {
+    font-weight: 500;
+    line-height: 18px;
+    margin-bottom: 0px;
+}
+.widget.widget_posts_widget .item .info .time-ago {
+    font-size: 10px;
+    color: #f40;
+    font-weight: 700;
+}
+.widget.widget_posts_widget .item .thumb img {
+    max-width: 100% !important;
+}

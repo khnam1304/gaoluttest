@@ -1,0 +1,5 @@
+﻿@using global::Web.Helpers
+<a>
+    <i class="pe-7s-graph1"></i>
+    @LanguageHelper.Translate("Showing_Text") <ins id="found-item"> @(ViewBag.refinedStyledCategory == 0 ? 0 : 1) - @FormatHelper.StandardNumber(ViewBag.refinedStyledCategory)</ins> @LanguageHelper.Translate("of_Text")  @FormatHelper.StandardNumber(ViewBag.refinedStyledCategory)  @LanguageHelper.Translate("results_Text") 
+</a>

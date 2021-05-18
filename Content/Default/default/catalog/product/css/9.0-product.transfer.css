@@ -1,0 +1,9 @@
+@media only screen and (max-width: 575px) {
+    .list_articles ul li {
+        width: 100%;
+    }
+    ul.list_feat li {
+        width: 45%;
+        height: 220px;
+    }
+}

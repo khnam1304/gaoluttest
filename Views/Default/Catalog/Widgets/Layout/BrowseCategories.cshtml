@@ -1,0 +1,153 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+               <ul id="menu-categories" class="menu wd-cat-nav dropdowns-loaded">
+                   @foreach (var item in Model)
+                   {
+                       if (!item.CategoryChildren.Any())
+                       {
+
+                           <li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat item-level-0 menu-item-design-default menu-simple-dropdown item-event-hover">
+                               <a title="@item.Name" href="@SlugHelper.Category(item.Id)" class="woodmart-nav-link">
+                                   @foreach (var img in DataWhereHelper.ExtractImagesCategory(item.PresentationImages, defaultImage: "/as-images/shared/light-bulb-1.svg", skip: 1, take: 1))
+                                   {
+                                       <img src="@img.Src" alt="@img.Alt" width="18" height="18" class="category-icon">
+                                   }
+                                   <span class="nav-link-text">@item.Name</span>
+                               </a>
+                           </li>
+                       }
+                       else if (item.CategoryChildren.Any() && item.CategoryChildren.Any(e => e.CategoryChildren.Any()))
+                       {
+                           <li id="menu-item-8011" class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-8011 item-level-0 menu-item-design-sized menu-mega-dropdown item-event-hover menu-item-has-children dropdown-load-ajax dropdown-with-height">
+                               <a href="#" title="@item.Name" class="woodmart-nav-link">
+                                   @foreach (var img in DataWhereHelper.ExtractImagesCategory(item.PresentationImages, defaultImage: "/as-images/shared/flower-1.svg", skip: 1, take: 1))
+                                   {
+                                       <img src="@img.Src" alt="@img.Alt" width="18" height="18" class="category-icon">
+                                   }
+                                   <span class="nav-link-text">@item.Name</span>
+                               </a>
+                               <div class="sub-menu-dropdown color-scheme-dark" style="min-height: 495px;">
+                                   <div class="container">
+                                       <div class="vc_row wpb_row vc_row-fluid vc_row-o-content-top vc_row-flex">
+                                           @foreach (var innerItem in item.CategoryChildren)
+                                           {
+                                               <div class="wpb_column vc_column_container vc_col-sm-3">
+                                                   <div class="vc_column-inner">
+                                                       <div class="wpb_wrapper">
+                                                           <div class="wpb_single_image wpb_content_element vc_align_left vc_custom_1502109599466 rtl-cat-right img-1">
+                                                               <figure class="wpb_wrapper vc_figure">
+                                                                   <div class="vc_single_image-wrapper vc_box_border_grey">
+                                                                       @foreach (var img in DataWhereHelper.ExtractImagesCategory(innerItem.PresentationImages, defaultImage: "/as-images/shared/flower-1.svg", skip: 1, take: 1))
+                                                                       {
+                                                                           <img src="@img.Src" alt="@img.Alt" width="118" height="118" style="background: #9e9e9e17; padding: 12px;" class="vc_single_image-img">
+                                                                       }
+                                                                   </div>
+                                                               </figure>
+                                                           </div>
+                                                           <ul class="sub-menu mega-menu-list">
+                                                               <li class="">
+                                                                   <a href="@SlugHelper.Category(@innerItem.Id)" title="@innerItem.Name"><span class="nav-link-text">@innerItem.Name</span></a>
+                                                                   <ul class="sub-sub-menu">
+                                                                       @foreach (var innerItem2x in innerItem.CategoryChildren)
+                                                                       {
+
+                                                                           <li><a href="@SlugHelper.Category(@innerItem2x.Id)" title="@innerItem2x.Name"><span class="nav-link-text">@innerItem2x.Name</span></a></li>
+                                                                       }
+                                                                   </ul>
+                                                               </li>
+                                                           </ul>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           }
+                                           </div>
+                                   </div>
+                               </div>
+                           </li>
+                       }
+                       else
+                       {
+                           <li id="menu-item-8011" class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-8011 item-level-0 menu-item-design-sized menu-mega-dropdown item-event-hover menu-item-has-children dropdown-load-ajax dropdown-with-height">
+                               <a href="#" title="@item.Name" class="woodmart-nav-link">
+                                   @foreach (var img in DataWhereHelper.ExtractImagesCategory(item.PresentationImages, defaultImage: "/as-images/shared/flower-1.svg", skip: 1, take: 1))
+                                   {
+                                       <img src="@img.Src" alt="@img.Alt" width="18" height="18" class="category-icon">
+                                   }
+                                   <span class="nav-link-text">@item.Name</span>
+                               </a>
+                               <div class="sub-menu-dropdown color-scheme-dark" style="min-height: 495px;">
+                                   <div class="container">
+                                       <div class="vc_row wpb_row vc_row-fluid svg-color rtl-cat-margin vc_custom_1501503456175 vc_row-o-content-top vc_row-flex">
+                                           <div class="wpb_column vc_column_container vc_col-sm-9">
+                                               <div class="vc_column-inner vc_custom_1491464148927">
+                                                   <div class="wpb_wrapper row">
+                                                       @foreach (var innerItem in item.CategoryChildren)
+                                                       {
+                                                           <div class="vc_row wpb_row vc_inner vc_row-fluid vc_row-o-content-top vc_row-flex vc_col-sm-4">
+                                                               <div class="wpb_column vc_column_container">
+                                                                   <div class="vc_column-inner vc_custom_1491550062693">
+                                                                       <div class="wpb_wrapper">
+                                                                           <ul class="sub-menu mega-menu-list">
+                                                                               <li class="">
+                                                                                   <a href="@SlugHelper.Category(innerItem.Id)" title="@innerItem.Name"><span class="nav-link-text" style="font-weight: 300;">@innerItem.Name</span></a>
+                                                                               </li>
+                                                                           </ul>
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                       }
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="wpb_column rtl-cat-banner vc_column_container vc_col-sm-3">
+                                               <div class="vc_column-inner vc_custom_1501504499570">
+                                                   <div class="wpb_wrapper">
+                                                       <div class="vc_row wpb_row vc_inner vc_row-fluid vc_custom_1491466272153">
+                                                           <div class="wpb_column vc_column_container vc_col-sm-12">
+                                                               <div class="vc_column-inner vc_custom_1491466426404">
+                                                                   <div class="wpb_wrapper">
+                                                                       <div class="promo-banner-wrapper">
+                                                                           <div class="promo-banner banner-vr-align-bottom banner-hr-align-left banner- banner-hover-none color-scheme-dark banner-btn-size-small banner-btn-style-default wd-display-image  with-btn banner-btn-position-hover cursor-pointer" onclick="window.location.href='#'">
+                                                                               @if (item.Presentation != "" && item.Presentation.Length > 300)
+                                                                               {
+                                                                                   @Html.Raw(item.Presentation)
+                                                                               }
+                                                                               else
+                                                                               {
+                                                                                   <div class="main-wrapp-img">
+                                                                                       <div class="banner-image">
+                                                                                           <img width="318" height="496" src="https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1.png" class="promo-banner-image attachment-full" alt="" srcset="https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1.png 318w, https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1-96x150.png 96w, https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1-192x300.png 192w, https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1-64x100.png 64w, https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1-147x230.png 147w, https://woodmart.xtemos.com/wp-content/uploads/2017/01/banner-half-menu-4-1-314x490.png 314w" sizes="(max-width: 318px) 100vw, 318px">
+                                                                                       </div>
+                                                                                   </div>
+                                                                                   <div class="wrapper-content-banner ">
+                                                                                       <div class="content-banner text-left content-width-100">
+                                                                                           <div class="banner-title-wrap banner-title-large">
+                                                                                               <h4 class="banner-title woodmart-font-weight-">MAN’S CASUAL COLLECTION</h4>
+                                                                                           </div>
+                                                                                           <div class="banner-btn-wrapper">
+                                                                                               <div id="wd-5fbdd2285ba5b" class="woodmart-button-wrapper text-left"><a class="btn btn-color-black btn-style-default btn-shape-rectangle btn-size-small">SHOP NOW</a></div>
+                                                                                           </div>
+                                                                                       </div>
+                                                                                   </div>
+                                                                               }
+
+                                                                           </div>
+                                                                       </div>
+                                                                   </div>
+                                                               </div>
+                                                           </div>
+                                                       </div>
+                                                   </div>
+                                               </div>
+                                           </div>
+
+
+                                       </div>
+                                   </div>
+                               </div>
+                           </li>
+                       }
+                   }
+               </ul>

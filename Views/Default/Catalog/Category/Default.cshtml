@@ -1,0 +1,850 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@using Web.Core.Models
+@using Web.Model.Models
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        Category category = DataWhereHelper.ParseCategory(ViewBag.Category);
+        ViewBag.filterByCurrent = Request["filterby"] ?? "";
+        ViewBag.typeCurrent = Request["type"] ?? "all";
+        ViewBag.sortOrderCurrent = Request["sortorder"];
+        ViewBag.searchByCurrent = Request["searchby"];
+        ViewBag.idCurrent = Request["id"] ?? (category.Id + "");
+        ViewBag.pageCurrent = Request["page"] ?? ("1");
+        ViewBag.pageSizeCurrent = Request["pageSize"] ?? ("12");
+        ViewBag.viewCurrent = Request["view"] ?? "grid";
+        List<FilterOptionView> listFilterOptionCurrent = DataWhereHelper.ParseFilters(ViewBag.ListFilters);
+    }
+    @section styles{
+        @Styles.Render("~/bundles/content/default/catalog/category/css/filter")
+    }
+
+    <!-- Promo bar -->
+    <section class="cs-promo-bar bg-primary py-2">
+        <div class="container d-flex justify-content-center">
+            <div class="cs-carousel cs-controls-inverse">
+                <div class="cs-carousel-inner" data-carousel-options='{"mode": "gallery", "nav": false}'>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Up to 70% Off.</strong>
+                        <a href="#" class="text-light">Shop our latest sale offers</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Money back guarantee.</strong>
+                        <a href="#" class="text-light">Learn more</a>
+                    </div>
+                    <div class="font-size-xs text-light px-2">
+                        <strong class="mr-1">Friendly customer support.</strong>
+                        <a href="#" class="text-light">Contact 24/7</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Breadcrumb + Active filters -->
+    <nav class="bg-secondary mb-3" aria-label="breadcrumb">
+        <div class="container d-sm-flex align-items-center">
+            @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.Category(Convert.ToInt32(category.ParentCategoryId)), Title = category.CategoryParent.Name }, new BreadcrumbModel { Link = "#", Title = category.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+            <hr class="d-sm-none">
+            <!-- <div class="ml-auto py-2">
+              <a class="active-filter pl-0" href="#">Dresses</a>
+              <a class="active-filter" href="#">Yellow</a>
+              <a class="active-filter" href="#">Cotton</a>
+              <a class="active-filter text-dark pr-0" href="#">Clear all</a>
+            </div> -->
+        </div>
+    </nav>
+
+
+    <!-- Shop catalog -->
+    <section class="container pt-3 pb-5 pb-md-6 mb-2 mb-lg-0">
+
+
+        <!-- Toolbar + Pagination -->
+        <div class="row mb-4 pb-2">
+            <div class="col-md-3 pr-lg-4 mb-3 mb-md-0">
+
+                <!-- Show / hide filters on Desktop -->
+                <div class="d-none d-lg-block">
+                    <button type="button" class="btn btn-primary btn-block d-none d-lg-block"
+                            data-filters-hide="#filtersSidebar">
+                        <i class="cxi-filter-1 mr-1"></i>
+                        Ẩn Lọc
+                    </button>
+                    <button type="button" class="btn btn-primary btn-block mt-0 d-lg-none" data-filters-show="#filtersSidebar">
+                        <i class="cxi-filter-2 mr-1"></i>
+                        Hiện Lọc
+                    </button>
+                </div>
+
+                <!-- Show / hide filters (off-canvas) on Mobile -->
+                <button type="button" class="btn btn-primary btn-block mt-0 d-lg-none" data-toggle="offcanvas"
+                        data-target="filtersOffcanvas">
+                    <i class="cxi-filter-2 mr-1"></i>
+                    Hiện Lọc
+                </button>
+            </div>
+
+            <div class="col-md-9">
+                <div class="d-flex align-items-center">
+                    <div class="form-inline flex-nowrap mr-3 mr-xl-5">
+                        <label for="sorting-top" class="font-weight-bold text-nowrap mr-2 pr-1 d-none d-lg-block">Sắp xếp</label>
+                        <select id="sorting-top" class="custom-select">
+                            <option>Tùy chọn</option>
+                            <option>Sản phẩm bán chạy</option>
+                            <option>Theo bảng chữ cái A-Z</option>
+                            <option>Theo bảng chữ cái Z-A</option>
+                            <option>Giá từ thấp tới cao</option>
+                            <option>Mới nhất</option>
+                        </select>
+                    </div>
+                    <div class="form-inline flex-nowrap d-none d-sm-flex mr-3 mr-xl-5">
+                        <label for="pager-top" class="font-weight-bold text-nowrap mr-2 pr-1 d-none d-lg-block">Hiển thị</label>
+                        <select id="pager-top" class="custom-select">
+                            <option>12</option>
+                            <option>24</option>
+                            <option>48</option>
+                            <option>72</option>
+                            <option>96</option>
+                        </select>
+                        <span class="font-size-sm text-muted text-nowrap ml-2 d-none d-lg-block">sản phẩm/trang</span>
+                    </div>
+                    <nav class="ml-auto" aria-label="Pagination">
+                        <ul class="pagination mb-0">
+                            <li class="page-item d-sm-none">
+                                <span class="page-link page-link-static">1 / 5</span>
+                            </li>
+                            <li class="page-item active d-none d-sm-block" aria-current="page">
+                                <span class="page-link">
+                                    1
+                                    <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="cxi-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row flex-lg-nowrap">
+
+            <!-- Filters (sidebar) -->
+            <div id="filtersSidebar" class="col-lg-3 pr-lg-4">
+                <div id="filtersOffcanvas" class="cs-offcanvas cs-offcanvas-collapse">
+                    <div class="cs-offcanvas-cap align-items-center border-bottom mb-3">
+                        <p class="h5 mb-0">Shop filters</p>
+                        <button class="close mr-n1" type="button" data-dismiss="offcanvas" aria-label="Close">
+                            <span class="h2 font-weight-normal mt-n1 mb-0" aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="cs-offcanvas-body accordion-alt pb-4">
+                        <!-- Category -->
+                        <div class="card border-bottom">
+                            <div class="card-header pt-0 pb-3" id="category-panel">
+                                <h6 class="accordion-heading">
+                                    <a href="#category" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="category">
+                                        Danh mục
+                                        <span class="accordion-indicator"></span>
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="collapse" id="category" aria-labelledby="category-panel">
+                                <div class="cs-widget-data-list cs-filter">
+                                    <div class="input-group-overlay mb-3">
+                                        <input type="text" class="cs-filter-search form-control form-control-sm appended-form-control" placeholder="Search the clothes">
+                                        <div class="input-group-append-overlay">
+                                            <span class="input-group-text">
+                                                <i class="cxi-search font-size-sm"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "our-product", take = 1, pathView = "Widgets/Shop/CategoriesMenuAll", area = "" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Price -->
+                        <div class="card border-bottom">
+                            <div class="card-header py-3" id="price-panel">
+                                <p class="accordion-heading">
+                                    <a href="#price" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="price">
+                                        Khoảng giá
+                                        <span class="accordion-indicator"></span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="collapse" id="price" aria-labelledby="price-panel">
+                                <div class="cs-widget pl-1 pr-3 pb-4 mt-n3">
+                                    <div class="cs-range-slider" data-start-min="250" data-start-max="680" data-min="0" data-max="1000"
+                                         data-step="1">
+                                        <div class="cs-range-slider-ui"></div>
+                                        <div class="d-flex align-items-center mt-3">
+                                            <div class="w-50">
+                                                <div class="form-group position-relative mb-0">
+                                                    <input type="number" class="form-control form-control-sm cs-range-slider-value-min">
+                                                </div>
+                                            </div>
+                                            <div class="mx-1 px-2 font-size-xs">—</div>
+                                            <div class="w-50">
+                                                <div class="form-group position-relative mb-0">
+                                                    <input type="number" class="form-control form-control-sm cs-range-slider-value-max">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Color -->
+                        <div class="card border-bottom">
+                            <div class="card-header py-3" id="color-panel">
+                                <p class="accordion-heading">
+                                    <a href="#color" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="color">
+                                        Màu Sắc
+                                        <span class="accordion-indicator"></span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="collapse" id="color" aria-labelledby="color-panel">
+                                <div class="d-flex nav-justified pb-3">
+                                    <div class="nav-item text-center">
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-black" value="Black">
+                                            <label for="c-black" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #111;"></span>
+                                            </label>
+                                            <label for="c-black" class="cs-custom-color-option-description mt-n1">Đen </label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-dark-blue" value="Dark blue">
+                                            <label for="c-dark-blue" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #0c2c7e;"></span>
+                                            </label>
+                                            <label for="c-dark-blue" class="cs-custom-color-option-description mt-n1">Xanh đậm</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-purple" value="Purple">
+                                            <label for="c-purple" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #a27ac9;"></span>
+                                            </label>
+                                            <label for="c-purple" class="cs-custom-color-option-description mt-n1">Tím</label>
+                                        </div>
+                                    </div>
+                                    <div class="nav-item text-center">
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-blue-gray" value="Blue-gray">
+                                            <label for="c-blue-gray" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #c0dded;"></span>
+                                            </label>
+                                            <label for="c-blue-gray" class="cs-custom-color-option-description mt-n1">Xanh xám</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-beige" value="Beige">
+                                            <label for="c-beige" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #d8c1ad;"></span>
+                                            </label>
+                                            <label for="c-beige" class="cs-custom-color-option-description mt-n1">xám</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-green" value="Green">
+                                            <label for="c-green" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #67ba92;"></span>
+                                            </label>
+                                            <label for="c-green" class="cs-custom-color-option-description mt-n1">Xanh lá</label>
+                                        </div>
+                                    </div>
+                                    <div class="nav-item text-center">
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-yellow" value="Yellow">
+                                            <label for="c-yellow" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #fcd164;"></span>
+                                            </label>
+                                            <label for="c-yellow" class="cs-custom-color-option-description mt-n1">Vàng</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-brown" value="Brown">
+                                            <label for="c-brown" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #874e19;"></span>
+                                            </label>
+                                            <label for="c-brown" class="cs-custom-color-option-description mt-n1">Nâu</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-orange" value="Orange">
+                                            <label for="c-orange" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #fb9620;"></span>
+                                            </label>
+                                            <label for="c-orange" class="cs-custom-color-option-description mt-n1">Da cam</label>
+                                        </div>
+                                    </div>
+                                    <div class="nav-item text-center">
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-red" value="Red">
+                                            <label for="c-yellow" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #f75151;"></span>
+                                            </label>
+                                            <label for="c-yellow" class="cs-custom-color-option-description mt-n1">Đỏ</label>
+                                        </div>
+                                        <div class="custom-control cs-custom-color-option">
+                                            <input type="checkbox" class="custom-control-input" id="c-white" value="White">
+                                            <label for="c-white" class="cs-custom-option-label">
+                                                <span class="cs-color-swatch" style="background-color: #f1f1f1;"></span>
+                                            </label>
+                                            <label for="c-white" class="cs-custom-color-option-description mt-n1">Trắng</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Size -->
+                        <div class="card border-bottom">
+                            <div class="card-header py-3" id="size-panel">
+                                <p class="accordion-heading">
+                                    <a href="#size" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="size">
+                                        Loại
+                                        <span class="accordion-indicator"></span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="collapse show" id="size" aria-labelledby="size-panel">
+                                <div class="cs-widget-data-list">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="xs">
+                                                <label for="xs" class="custom-control-label">
+                                                    <span class="cs-filter-item-text">Gạo Tươi</span>
+                                                    <span class="pl-1 text-muted">(16)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="s">
+                                                <label for="s" class="custom-control-label">
+                                                    <span class="cs-filter-item-text">Thực Phẩm Sạch</span>
+                                                    <span class="pl-1 text-muted">(12)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Xuát cứ -->
+                        <div class="card border-bottom">
+                            <div class="card-header py-3" id="size-panel">
+                                <p class="accordion-heading">
+                                    <a href="#xuatxu" role="button" data-toggle="collapse" aria-expanded="true" aria-controls="xuatxu">
+                                        Xuất xứ
+                                        <span class="accordion-indicator"></span>
+                                    </a>
+                                </p>
+                            </div>
+                            <div class="collapse show" id="xuatxu" aria-labelledby="size-panel">
+                                <div class="cs-widget-data-list">
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="xuat-xu-xs">
+                                                <label for="xuat-xu-xs" class="custom-control-label">
+                                                    <span class="cs-filter-item-text">ANFOOD</span>
+                                                    <span class="pl-1 text-muted">(16)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="xuat-xu-s">
+                                                <label for="xuat-xu-s" class="custom-control-label">
+                                                    <span class="cs-filter-item-text">THIỀN VIỆN THƯỜNG CHIẾU</span>
+                                                    <span class="pl-1 text-muted">(12)</span>
+                                                </label>
+                                            </div>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Product grid -->
+            <div class="col">
+                @{ Html.RenderPartial("~/Views/Default/Catalog/Category/ByAjax/_ListPartial.cshtml"); }
+
+
+                <!-- Toolbar + Pagination -->
+                <div class="d-flex align-items-center pt-md-4">
+                    <div class="form-inline flex-nowrap mr-3 mr-xl-5 pt-1">
+                        <label for="sorting-bottom" class="font-weight-bold text-nowrap mr-2 pr-1 d-none d-md-block">
+                            Sắp
+                            xếp
+                        </label>
+                        <select id="sorting-bottom" class="custom-select">
+                            <option>Tùy chọn</option>
+                            <option>Sản phẩm bán chạy</option>
+                            <option>Theo bảng chữ cái A-Z</option>
+                            <option>Theo bảng chữ cái Z-A</option>
+                            <option>Giá từ thấp tới cao</option>
+                            <option>Mới nhất</option>
+                        </select>
+                    </div>
+                    <div class="form-inline flex-nowrap d-none d-sm-flex mr-3 mr-xl-5 pt-1">
+                        <label for="pager-bottom" class="font-weight-bold text-nowrap mr-2 pr-1 d-none d-md-block">
+                            Hiển
+                            thị
+                        </label>
+                        <select id="pager-bottom" class="custom-select">
+                            <option>12</option>
+                            <option>24</option>
+                            <option>48</option>
+                            <option>72</option>
+                            <option>96</option>
+                        </select>
+                        <span class="font-size-sm text-muted text-nowrap ml-2 d-none d-md-block">sản phẩm/trang</span>
+                    </div>
+                    <nav class="pt-1 ml-auto" aria-label="Pagination">
+                        <ul class="pagination mb-0">
+                            <li class="page-item d-sm-none">
+                                <span class="page-link page-link-static">1 / 5</span>
+                            </li>
+                            <li class="page-item active d-none d-sm-block" aria-current="page">
+                                <span class="page-link">
+                                    1
+                                    <span class="sr-only">(current)</span>
+                                </span>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="cxi-arrow-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <section class="pt-5 pb-5">
+                    <div class="section__inner js-expand">
+
+                        <div class="section__content js-expand-content">
+                            @Html.Raw(category.getPresentation())
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm js-expand-button">
+                            Xem thêm
+                        </button>
+                        <button class="btn btn-outline-primary btn-sm js-collapse-button hidden">
+                            Thu gọn
+                        </button>
+                    </div>
+                </section>
+
+            </div>
+        </div>
+    </section>
+
+    <div id="main" style="display:none">
+
+
+        <div class="section pb-7">
+            <div class="container page-full-content page-content-left shop-list-filters">
+                <!-- Main Content -->
+                <div class="mt-3 mb-3">
+                    <div class="row gutters-3">
+
+                        <!-- Shop Filters -->
+                        <div class="col-lg-3 col-md-4">
+                            <div class="accordion accordion-caret accordion-sidebar d-none d-md-block">
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#filter-categories" data-toggle="collapse" aria-expanded="true" aria-controls="filter-categories" role="button" class="h6">
+                                            @LanguageHelper.Translate("All category_Text").ToUpper()
+                                        </a>
+                                    </div>
+                                    <div id="filter-categories" class="panel-collapse collapse" style="margin-left: -24px;background: #e5e6ec21;">
+                                        <div class="card-body">
+                                            @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "our-product", take = 1, pathView = "Widgets/Shop/CategoriesMenuAll", area = "" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @using (Ajax.BeginForm("ListProductsByCategoryId", "CategoryPlus", new AjaxOptions
+                                {
+                                    UpdateTargetId = "list-products-by-category",
+                                    HttpMethod = "GET",
+                                    LoadingElementId = "list-products-by-category-loader",
+                                    OnComplete = "PagedOnComplete_List"
+                                }))
+                                {
+                                    <input type="hidden" name="id" value="@ViewBag.idCurrent" />
+                                    <input id="filterby" type="hidden" name="filterby" value="@ViewBag.filterByCurrent" />
+                                    <input id="type" type="hidden" name="type" value="@(ViewBag.typeCurrent ?? "all")" />
+                                    <input type="hidden" name="view" value="@ViewBag.viewCurrent">
+                                    <input type="hidden" name="sortorder" value="@ViewBag.sortOrderCurrent" />
+                                    <input type="hidden" name="pagesize" value="@ViewBag.pageSizeCurrent">
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <a href="#filter-price" data-toggle="collapse" aria-expanded="true" aria-controls="filter-price" role="button" class="h6">
+                                                @LanguageHelper.Translate("Price ranges_Text")
+                                            </a>
+                                        </div>
+                                        <div id="filter-price" class="panel-collapse collapse">
+                                            <div class="card-body">
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    @{
+                                                        var min = DataCurrentHelper.UniqueSeoCode == "vi" ? 5000 : 5;
+                                                        var max = DataCurrentHelper.UniqueSeoCode == "vi" ? 500000 : 500;
+                                                        var rangePrices = DataWhereHelper.ParseRangePrices(min, max, ViewBag.filterByCurrent);
+                                                    }
+                                                    <input type="text" value="@rangePrices[0]" data-val="@rangePrices[0]" data-min="@min" class="form-control form-control-sm text-center bold roboto-condensed bg-light mr-2 minw-0" id="price-slider-min">
+                                                    <input type="text" value="@rangePrices[1]" data-val="@rangePrices[1]" data-max="@max" class="form-control form-control-sm text-center bold roboto-condensed bg-light ml-2 minw-0" id="price-slider-max">
+                                                </div>
+                                                <div id="price-slider"></div>
+                                                <div class="clear"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    foreach (var item in listFilterOptionCurrent)
+                                    {
+                                        if (item.Flags == "{{product::attributes}}")
+                                        {
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <a href="#filter-pa-@item.Id" style="color:dimgray" data-toggle="collapse" aria-expanded="true" aria-controls="filter-@item.Id" role="button" class="h6">
+                                                        @item.Name
+                                                    </a>
+                                                </div>
+                                                <div id="filter-pa-@item.Id" class="panel-collapse collapse">
+                                                    <div class="card-body myFilters" data-option-type="filterby" data-option-group="pa">
+                                                        @{
+                                                            if (item.Name == "Colors" || item.Name == "Màu sắc")
+                                                            {
+                                                                <div class="color-options">
+                                                                    @foreach (var innerItem in item.FilterOptionValueViews)
+                                                                    {
+                                                                        var idComplex = (item.Id + "-" + innerItem.Id);
+                                                                        <div data-option-value="pa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" class="custom-control custom-checkbox custom-radio-color custom-control-inline radio-checkbox isotopeFilter" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                            <input type="checkbox" data-link="pa-@idComplex" id="pa-@idComplex" class="custom-control-input" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                            <label class="custom-control-label" for="pa-@idComplex" style="background-color: @innerItem.Value"> @innerItem.Name </label>
+                                                                        </div>
+                                                                    }
+                                                                </div>
+
+                                                            }
+                                                            else
+                                                            {
+                                                                foreach (var innerItem in item.FilterOptionValueViews)
+                                                                {
+                                                                    var idComplex = (item.Id + "-" + innerItem.Id);
+                                                                    <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="pa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                        <input type="checkbox" class="custom-control-input" data-link="pa-@idComplex" id="pa-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                        <label class="custom-control-label " for="pa-@idComplex">@innerItem.Name</label>
+                                                                    </div>
+                                                                }
+                                                            }
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (item.Flags == "{{product::specificationattributes}}")
+                                        {
+
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <a href="#filter-sa-@item.Id" style="color:dimgray" data-toggle="collapse" aria-expanded="true" aria-controls="filter-@item.Id" role="button" class="h6">
+                                                        @item.Name
+                                                    </a>
+                                                </div>
+                                                <div id="filter-sa-@item.Id" class="panel-collapse collapse">
+                                                    <div class="card-body myFilters" data-option-type="filterby" data-option-group="sa">
+                                                        @{
+                                                            foreach (var innerItem in item.FilterOptionValueViews)
+                                                            {
+                                                                var idComplex = (item.Id + "-" + innerItem.Id);
+                                                                <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="sa-@idComplex" data-title="@(item.Name + "-" + innerItem.Name)" data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                    <input type="checkbox" class="custom-control-input" data-link="sa-@idComplex" id="sa-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "")>
+                                                                    <label class="custom-control-label " for="sa-@idComplex">@innerItem.Name</label>
+                                                                </div>
+
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                        else if (item.Flags == "{{product::manufacturers}}")
+                                        {
+
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    <a href="#filter-brands" data-toggle="collapse" aria-expanded="true" aria-controls="filter-brands" role="button" class="h6">
+                                                        @LanguageHelper.Translate("Brands_Text")
+                                                    </a>
+                                                </div>
+                                                <div id="filter-brands" class="panel-collapse collapse">
+                                                    <div class="card-body myFilters" data-option-type="filterby" data-option-group="ma">
+                                                        <div class="input-group input-group-sm input-group-search mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <button class="btn btn-light" type="button"><i data-feather="search"></i></button>
+                                                            </div>
+                                                            <input type="text" class="form-control border-0" id="search-brands" placeholder="Search...">
+                                                        </div>
+                                                        <div class="brands-list">
+                                                            @{
+                                                                foreach (var innerItem in item.FilterOptionValueViews)
+                                                                {
+                                                                    var idComplex = (9 + "-" + innerItem.Id);
+                                                                    <div class="custom-control custom-checkbox radio-checkbox isotopeFilter" data-option-value="ma-@idComplex" data-title="@(LanguageHelper.Translate("Brands_Text") + "-" + innerItem.Name)">
+                                                                        <input type="checkbox" class="custom-control-input" data-link="ma-@idComplex" id="ma-@idComplex" @(ViewBag.filterByCurrent.Contains("" + idComplex) ? "checked" : "") data-toggle="tooltip" data-placement="right" title="" data-original-title="@innerItem.Count @LanguageHelper.Translate("items_Text")">
+                                                                        <label class="custom-control-label " for="ma-@idComplex">@innerItem.Name <small class="counter">@innerItem.Count</small></label>
+                                                                    </div>
+
+                                                                }
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        }
+
+                                    }
+                                }
+
+
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <a href="#filter-tagspopular" data-toggle="collapse" aria-expanded="true" aria-controls="filter-colors" role="button" class="h6">
+                                            @LanguageHelper.Translate("Product_Tags_Text").ToUpper() <svg xmlns="http://www.w3.org/2000/svg" width="32" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f40;"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                        </a>
+                                    </div>
+                                    <div id="filter-tagspopular" class="panel-collapse collapse">
+                                        <div class="card-body">
+                                            <div class="tagcloud">
+                                                @Html.Action("TagsPopular", "Catalog", new { pathView = "Widgets/Shop/TagLeft" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="ads-books">
+                                    <div class="books">
+                                        <div class="book">
+                                            @Html.Action("Caller", "StaticBlock", new { identifier = "category-leftbanner", area = "", noWrapper = true })
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Shop Filters -->
+
+                        <div class="col-lg-9 col-md-8">
+
+                            <!-- Shop Toolbar -->
+                            <div class="card mb-3">
+                                <div class="card-body d-flex justify-content-end align-items-center py-2">
+                                    <button class="btn btn-sm btn-outline-primary rounded-pill d-block d-md-none mr-auto" id="filterButton" data-toggle="modal" data-target="#filterModal"><i data-feather="filter"></i> @LanguageHelper.Translate("FILTER & REFINE_Text")</button>
+                                    <ol class="breadcrumb d-none d-md-flex p-0 mb-0 mr-auto">
+                                        <li class="breadcrumb-item">
+                                            <div class="result-count">
+                                                @Html.Action("QuicklyStatistics", "CategoryPlus", new { id = ViewBag.idCurrent, filterBy = ViewBag.filterByCurrent, searchBy = ViewBag.searchByCurrent, pageSize = ViewBag.pageSizeCurrent, area = "" })
+                                            </div>
+                                        </li>
+                                    </ol>
+                                    <div class="dropdown dropdown-hover">
+                                        @using (Ajax.BeginForm("ListProductsByCategoryId", "CategoryPlus", new AjaxOptions
+                                        {
+                                            UpdateTargetId = "list-products-by-category",
+                                            HttpMethod = "GET",
+                                            LoadingElementId = "list-products-by-category-loader",
+                                            OnComplete = "PagedOnComplete_List"
+                                        }))
+                                        {
+                                            <input id="id" type="hidden" name="id" value="@ViewBag.idCurrent" />
+                                            <input id="type" type="hidden" name="type" value="@(ViewBag.typeCurrent ?? "all")" />
+                                            <input type="hidden" name="filterby" value="@ViewBag.filterByCurrent" />
+                                            <input type="hidden" name="searchBy" value="@ViewBag.searchByCurrent">
+                                            <input type="hidden" name="pagesize" value="@ViewBag.pageSizeCurrent">
+                                            <input type="hidden" name="view" value="@ViewBag.viewCurrent">
+                                            @Html.DropDownList("sortorder", new SelectList(
+                                                     new Dictionary<string, string>
+                                                     {
+                                                         {"featured", LanguageHelper.Translate("Sort by popularity_Text")},
+
+
+                                                         {"price", LanguageHelper.Translate("Sort by price: low to high_Text")},
+                                                         {"price_desc", LanguageHelper.Translate("Sort by price: high to low_Text")},
+
+                                                         {"rate", LanguageHelper.Translate("Sort by rate: Top rate_Text")},
+                                                         {"promotion", LanguageHelper.Translate("Sort by rate: Top promotion_Text")},
+                                                         {"new", LanguageHelper.Translate("Sort by newness_Text")},
+                                                         {"name", LanguageHelper.Translate("Sort by name: A to Z_Text")},
+                                                         {"name_desc", LanguageHelper.Translate("Sort by name: Z back A_Text")}
+
+                                                     },
+                                                     "Key", "Value", ViewBag.sortOrderCurrent), new { id = "sortorder", name = "sortorder", @class = "btn btn-light btn-sm border rounded-pill" })
+                                            ;
+                                        }
+
+                                    </div>
+                                    <a href="?view=grid" class="btn btn-icon rounded-pill btn-sm  btn@(Request.QueryString["view"] == "list"? "-outline":"")-primary ml-3" data-toggle="tooltip" title="Show Grid"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></a>
+                                    <a href="?view=list" class="btn btn-icon rounded-pill btn-sm btn@(Request.QueryString["view"] != "list"? "-outline":"")-primary ml-1" data-toggle="tooltip" title="Show List"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3" y2="6"></line><line x1="3" y1="12" x2="3" y2="12"></line><line x1="3" y1="18" x2="3" y2="18"></line></svg></a>
+
+                                </div>
+                            </div>
+                            <!-- /Shop Toolbar -->
+                            <!-- Shop Grid -->
+                            <div class="card with-sidebar mt-3">
+                                <div class="filters-active element-emphasis-strong" style="display:none;">
+                                    <h3 class="strong-header element-header" style="display:none;">
+                                        @LanguageHelper.Translate("You've selected_Text") :
+                                    </h3>
+                                    <!-- dynamic added selected filters -->
+                                    <ul class="filters-list list-unstyled">
+                                        <li></li>
+                                    </ul>
+                                    <button type="button" class="filters-clear btn btn-small btn-block">
+                                        @LanguageHelper.Translate("FILTER & REFINE reset_Text")
+                                    </button>
+                                </div>
+
+                                <button type="button" class="btn btn-default btn-small visible-xs" data-texthidden="Hide Filters" data-textvisible="Show Filters" id="toggleListFilters"></button>
+                                @{ Html.RenderPartial("~/Views/Default/Catalog/Category/ByAjax/_ListPartial.cshtml"); }
+
+                            </div>
+                            <!-- /Shop Grid -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Main Content -->
+                <div class="section pt-12 pb-9">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="text-center section-pretitle">@LanguageHelper.Translate("Discover_Text")</div>
+                                <div class="section-title-wrapper">
+                                    <h4 class="text-center section-title mtn-2">@LanguageHelper.Translate("Featured category_Text")</h4>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="my-3">
+                            <!-- Category's Stores -->
+                            <div class="row categories-grid gutters-3">
+                                <div class="col-sm-6 col-md-4">
+                                    <a href="@SlugHelper.Category(grouped: "our-product")?type=all&sortorder=new&page=1">
+                                        <div class="card zoom-hover">
+                                            <div data-cover="../../assets/images/category/new-arrivals-banners7.jpg?q=80&w=750" data-xs-height="150px" data-sm-height="272px" data-md-height="246px" data-lg-height="324px" data-xl-height="400px"></div>
+                                            <div class="card-img-overlay card-img-overlay-transparent">
+                                                <h2 class="card-title bold">@DateTime.Now.Year </h2>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                @if (DataCurrentHelper.UniqueSeoCode == "en")
+                                {
+                                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "cate-1,cate-2,cate-3,cate-4,", take = 40, pathView = "Widgets/Shop/CategoriesFeatured", area = "" })
+                                }
+                                else
+                                {
+                                    @Html.Action("CategoriesSpecial", "Catalog", new { groupOf = "cate-1,cate-2,cate-3,cate-4,", take = 40, pathView = "Widgets/Shop/CategoriesFeatured", area = "" })
+                                }
+                                <a href="@SlugHelper.Category(grouped: "our-product")" style="left: 67%;border-radius: 15px!important;color: #f40;" class="btn btn btn-light shadow-sm sa-btn">@LanguageHelper.Translate("See all_Text") <i data-feather="arrow-right"></i></a>
+
+                            </div>
+                            <!-- Category's Stores -->
+
+                        </div>
+                    </div>
+                </div>
+
+                <section class="padding-bottom-60">
+                    <div class="container">
+                        <div class="title text-center m-bottom-2">
+                            <div class="page-title color">
+                                <h3 class="title-main">@LanguageHelper.Translate("Product_Text")</h3>
+                                <div class="title title-icon"><h2 class="title-h2">@LanguageHelper.Translate("Your_Recently_Viewed_Items_Text")</h2></div>
+                            </div>
+                        </div>
+                        <div id="featured-8" class="mb-4">
+                            <div class="product-grid product">
+                                @Html.Action("ProductViewed", "Catalog", new { pathView = "Widgets/Shop/ProductViewed", area = "" })
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+    <!-- Shop Area end -->
+    <!-- Filter Modal start -->
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title">@LanguageHelper.Translate("FILTER & REFINE_Text")</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body p-0">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Filter Modal end-->
+    @section scripts
+    {
+        @Scripts.Render("~/bundles/content/default/catalog/category/js/filter")
+        <script>
+        $(document).ready(function () {
+            var currentLink = $($(".main-menu a[href='@SlugHelper.Category(grouped: "our-product")']"));
+            if (currentLink != null) {
+                currentLink.parent().addClass('active');
+            }
+
+            var currentSubLink = $($(".list-tree a[href='@SlugHelper.Category(grouped: category.Grouped)']"));
+            if (currentSubLink != null) {
+                currentSubLink.parent().addClass('mm-active');
+            }
+            $(".ads-books").hover(function () {
+
+                $(this).toggleClass("csstransforms3d");
+            })
+        });
+        </script>
+    }

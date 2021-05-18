@@ -1,0 +1,14 @@
+﻿@model List<ASP.Web.Model.Models.Category>
+@foreach (var item in Model)
+{
+    <li>
+        <a href="@Utils.GetUrlCategory(item.Id)">@LanguageHelper.Translate("Tất cả_Text")</a>
+    </li>
+    foreach (var innerItem in item.CategoryChildren.Where(e => e.IsActive))
+    {
+        <li>
+            <a href="@Utils.GetUrlCategory(innerItem.Id)">@innerItem.Name</a>
+        </li>
+    }
+}
+ 

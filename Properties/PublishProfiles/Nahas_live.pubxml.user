@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAA8RcVsGlGekaKgrVeB+RRtwAAAAACAAAAAAAQZgAAAAEAACAAAABy4Vd0+87I592+tl1N2XjtqKL7igyT7A1hjGMRGjZuSAAAAAAOgAAAAAIAACAAAADnatm+ht0H4LpFNFthMqG7RBVpmXcLhEfqabL0dEFWZyAAAAB07MnLggCRcyBAl6tIJJraPIEq7ZyUFewXewoD0FJpykAAAACNxoyLLJNxz5QTkaeATgnFy5UEFpMAlZAeQaU1Czrst+XrDo9V5uDZkHl3fdUP9L95dyrAn44s2yV2K2N+Tt5V</EncryptedPassword>
+    <_PublishTargetUrl>ftp://nahas.com.vn/httpdocs</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Assets/images/cart/add-to-cart.svg">
+      <publishTime>10/08/2020 18:15:26</publishTime>
+    </File>
+    <File Include="bin/AS+.Oauth2Login.dll">
+      <publishTime>08/22/2018 11:50:12</publishTime>
+    </File>
+    <File Include="bin/AS+.Web.Core.dll">
+      <publishTime>10/26/2020 19:29:15</publishTime>
+    </File>
+    <File Include="bin/AS+.Web.Model.dll">
+      <publishTime>10/26/2020 18:21:50</publishTime>
+    </File>
+    <File Include="bin/AS+.Web.Repositories.Entity.dll">
+      <publishTime>10/26/2020 18:21:50</publishTime>
+    </File>
+    <File Include="bin/AS+.Web.SERPs.dll">
+      <publishTime>10/26/2020 18:21:50</publishTime>
+    </File>
+    <File Include="bin/HtmlSanitizationLibrary.dll">
+      <publishTime>06/02/2014 10:27:14</publishTime>
+    </File>
+    <File Include="bin/Web.dll">
+      <publishTime>10/08/2020 15:58:32</publishTime>
+    </File>
+    <File Include="Content/Default/default/cart/css/1.0-all.css">
+      <publishTime>10/08/2020 18:10:49</publishTime>
+    </File>
+    <File Include="Content/Default/default/cart/css/1.1-thanhhm-custom.css">
+      <publishTime>10/08/2020 18:11:23</publishTime>
+    </File>
+    <File Include="Content/Default/default/catalog/category/css/filter/9.0-style-all.transfer.css">
+      <publishTime>10/08/2020 16:52:05</publishTime>
+    </File>
+    <File Include="Content/Default/default/search/css/9.0-style.transfer.css">
+      <publishTime>10/26/2020 19:39:50</publishTime>
+    </File>
+    <File Include="Content/Default/default/search/css/9.1-style.reponsive.css">
+      <publishTime>10/26/2020 18:52:55</publishTime>
+    </File>
+    <File Include="Content/Default/default/search/css/all.css">
+      <publishTime>10/07/2020 19:52:22</publishTime>
+    </File>
+    <File Include="Content/Default/shared/css/3.0-main/1.1-style.ecommerce.transfer.css">
+      <publishTime>10/26/2020 18:01:16</publishTime>
+    </File>
+    <File Include="Content/Default/shared/css/3.0-main/9.8.1-main-style-custom.transfer.css">
+      <publishTime>10/07/2020 20:07:38</publishTime>
+    </File>
+    <File Include="Content/Default/shared/js/3.0-main/9.0-as-cart.js">
+      <publishTime>10/08/2020 06:32:20</publishTime>
+    </File>
+    <File Include="Content/Default/utils/jquery-autocomplete/css/jquery.autocomplete.css">
+      <publishTime>10/26/2020 18:45:57</publishTime>
+    </File>
+    <File Include="Views/Default/Account/en/_Profile.cshtml">
+      <publishTime>10/08/2020 06:43:31</publishTime>
+    </File>
+    <File Include="Views/Default/Account/vi/_Profile.cshtml">
+      <publishTime>10/08/2020 06:48:58</publishTime>
+    </File>
+    <File Include="Views/Default/Blog/BlogCategory/Default.cshtml">
+      <publishTime>10/07/2020 19:48:13</publishTime>
+    </File>
+    <File Include="Views/Default/Blog/BlogPost/Default.cshtml">
+      <publishTime>10/07/2020 19:49:06</publishTime>
+    </File>
+    <File Include="Views/Default/Catalog/Category/ByAjax/List.cshtml">
+      <publishTime>10/08/2020 18:19:34</publishTime>
+    </File>
+    <File Include="Views/Default/Catalog/Category/ByAjax/Partial/QuicklyStatistics.cshtml">
+      <publishTime>10/07/2020 18:33:16</publishTime>
+    </File>
+    <File Include="Views/Default/Catalog/Category/ByAjax/_ListPartial.cshtml">
+      <publishTime>10/07/2020 19:34:27</publishTime>
+    </File>
+    <File Include="Views/Default/Catalog/Category/Default_Filter.cshtml">
+      <publishTime>10/08/2020 16:56:04</publishTime>
+    </File>
+    <File Include="Views/Default/Catalog/Product/Default.cshtml">
+      <publishTime>10/08/2020 18:13:42</publishTime>
+    </File>
+    <File Include="Views/Default/Checkout/vi/_Index.cshtml">
+      <publishTime>10/08/2020 18:09:39</publishTime>
+    </File>
+    <File Include="Views/Default/Search/Box.cshtml">
+      <publishTime>10/26/2020 18:48:59</publishTime>
+    </File>
+    <File Include="Views/Default/Search/BoxIndex.cshtml">
+      <publishTime>10/26/2020 18:46:56</publishTime>
+    </File>
+    <File Include="Views/Default/Search/Index.cshtml">
+      <publishTime>10/26/2020 18:43:05</publishTime>
+    </File>
+    <File Include="Views/Default/Search/Trends.cshtml">
+      <publishTime>10/26/2020 18:12:56</publishTime>
+    </File>
+    <File Include="Views/Default/Shared/Component/_Language.cshtml">
+      <publishTime>10/07/2020 19:31:47</publishTime>
+    </File>
+    <File Include="Views/Default/Shared/_Layout.cshtml">
+      <publishTime>10/08/2020 16:45:15</publishTime>
+    </File>
+    <File Include="Views/Default/Widgets/FeedBack/Form.cshtml">
+      <publishTime>10/08/2020 15:53:12</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,86 @@
+﻿.pagination > .active > a, .pagination > .active > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    background: #fff !important;
+    color: #17696a;
+    border-radius: 8px !important;
+    border-color: #fff !important;
+}
+
+.cs-range-slider-ui {
+    height: 0.125rem;
+    margin: 3rem 0;
+    border: 0;
+    background-color: #dadbdd;
+    box-shadow: none;
+}
+
+    .cs-range-slider-ui .noUi-connect {
+        background-color: #17696a;
+    }
+
+    .cs-range-slider-ui .noUi-handle {
+        top: 50%;
+        width: 0.875rem;
+        height: 0.875rem;
+        margin-top: -0.4375rem;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        box-shadow: none;
+        background-color: #17696a;
+    }
+
+        .cs-range-slider-ui .noUi-handle::before, .cs-range-slider-ui .noUi-handle::after {
+            display: none;
+        }
+
+        .cs-range-slider-ui .noUi-handle:focus {
+            outline: none;
+        }
+
+    .cs-range-slider-ui .noUi-pips-horizontal {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+    }
+
+    .cs-range-slider-ui .noUi-marker-normal {
+        display: none;
+    }
+
+    .cs-range-slider-ui .noUi-marker-horizontal.noUi-marker {
+        width: 1px;
+        background-color: #d3d8e0;
+    }
+
+    .cs-range-slider-ui .noUi-marker-horizontal.noUi-marker-large {
+        height: .5rem;
+    }
+
+    .cs-range-slider-ui .noUi-value {
+        padding-top: .125rem;
+        color: #1e212c;
+        font-size: 0.65rem;
+        font-weight: 700;
+    }
+
+    .cs-range-slider-ui .noUi-tooltip {
+        padding: 0.25rem 0.5rem;
+        border: 0;
+        background-color: #424551;
+        color: #fff;
+        font-size: 0.75rem;
+        line-height: 1.2;
+        border-radius: 0.25rem;
+    }
+
+    .cs-range-slider-ui.cs-no-pips {
+        margin-bottom: 1.5rem;
+    }
+
+        .cs-range-slider-ui.cs-no-pips .noUi-pips {
+            display: none;
+            visibility: hidden;
+            opacity: 0;
+        }
+
+html:not([dir=rtl]) .cs-range-slider-ui.noUi-horizontal .noUi-handle {
+    right: -0.4375rem;
+}

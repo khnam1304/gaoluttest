@@ -1,0 +1,50 @@
+﻿@using ASP.Web.Model.Models
+@using global::Web.Helpers
+@model List<Product>
+
+
+    @foreach (Product item in Model)
+    {
+        var slugProduct = SlugHelper.Product(item.Id);
+
+        <!-- Item -->
+        <div>
+            <div class="card card-product mx-auto">
+                <div class="card-product-img">
+                    <a href="@slugProduct" class="card-img-top">
+                        <img src="@ImageHelper.GetResize(@item.Picture.Url, 800, 800)" alt="@item.Name">
+                    </a>
+                    <div class="card-product-widgets-top">
+                        @if (item.IsNew)
+                        {
+                            <span class="featured product-label">@LanguageHelper.Translate("Hot_Text")</span>
+                        }
+                        @if (item.IsPromotion)
+                        {
+                            <span class="onsale product-label">@LanguageHelper.Translate("Sale_Text")!</span>
+                        }
+                    <div class="star-rating ml-auto">
+                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Rating.cshtml", new ViewDataDictionary { { "Product", item } }); }
+                    </div>
+                    </div>
+                    <div class="card-product-widgets-bottom">
+                        <a href="#" class="btn-wishlist ml-auto" data-toggle="tooltip" data-placement="left"
+                           title="Yêu thích"></a>
+                    </div>
+                </div>
+                <div class="card-body bg-0 pb-2">
+                    <p class="h3 card-product-title text-truncate mb-2">
+                        <a href="@slugProduct" class="nav-link">@item.Name</a>
+                    </p>
+                    <div class="d-flex align-items-center">
+                        <span class="h5 d-inline-block mb-0">
+                            @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Home/Price.cshtml", new ViewDataDictionary { { "Product", item } }); }
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    }
+

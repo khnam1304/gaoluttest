@@ -1,0 +1,85 @@
+﻿@using ASP.Web.Model.Models
+@using Newtonsoft.Json
+@using PagedList.Mvc
+@model PagedList.IPagedList<ASP.Web.Model.Models.User>
+<ul class="team-list animate-group">
+    @if (Model.Count > 0)
+    {
+        foreach (User item in Model)
+        {
+            var postion = "";
+                <li class="col-md-3 col-sm-6">
+                    <div class="thumbnail animate">
+                        <img alt="" src="@ImageHelper.GetResize(item.Avatar)" /> 
+                        @if (item.Profile != null) {
+                            <span class="image-overlay">
+                                @foreach (var profile in JsonConvert.DeserializeObject<List<DictionaryModel>>(item.Profile))
+                                {
+                                    if (profile.key == "postion") { postion = profile.value; }
+                                    else {
+                                    <a href="@profile.value" target="_blank">
+                                        <i data-original-title="@profile.key" data-placement="top" class="tooltips fa fa-@profile.key circle-icon circle-small"></i>
+                                    </a> 
+                                   } 
+                                }
+                            </span>
+                        }
+                    </div>
+
+                    <h3>@item.FullName</h3> 
+
+                    <div>@postion</div>
+
+                    <div class="team-member-description">
+                        <p>@Html.Raw(item.Brief)</p>
+                    </div>
+                </li>
+                @*<li class="col-md-3 col-sm-6">
+                    <div class="thumbnail animate"><img alt="" src="assets/images/team-2.jpg" /> <span class="image-overlay"><a href="http://www.linkedin.com" target="_blank"><i data-original-title="Linkedin" data-placement="top" class="tooltips fa fa-linkedin circle-icon circle-small"></i></a> <a href="http://www.github.com" target="_blank"><i data-original-title="Github" data-placement="top" class="tooltips fa fa-github circle-icon circle-small"></i></a></span></div>
+
+                    <h3>Ella Patterson</h3>
+
+                    <div>Web Editor</div>
+
+                    <div class="team-member-description">
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <strong>Lorem ipsum dolor</strong> sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6">
+                    <div class="thumbnail animate"><img alt="" src="assets/images/team-3.jpg" /> <span class="image-overlay"><a href="http://www.twitter.com" target="_blank"><i data-original-title="Twitter" data-placement="top" class="tooltips fa fa-twitter circle-icon circle-small"></i></a> <a href="http://plus.google.com" target="_blank"><i data-original-title="Google+" data-placement="top" class="tooltips fa fa-google-plus circle-icon circle-small"></i></a></span></div>
+
+                    <h3>Mark Johnson</h3>
+
+                    <div>Senior Designer</div>
+
+                    <div class="team-member-description">
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <strong>Lorem ipsum dolor</strong> sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6">
+                    <div class="thumbnail animate"><img alt="" src="assets/images/team-4.jpg" /> <span class="image-overlay"> <a href="http://www.github.com" target="_blank"><i data-original-title="Github" data-placement="top" class="tooltips fa fa-github circle-icon circle-small"></i></a></span></div>
+
+                    <h3>Steven Thompson</h3>
+
+                    <div>Visual Designer</div>
+
+                    <div class="team-member-description">
+                        <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. <strong>Lorem ipsum dolor</strong> sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
+                    </div>
+                </li>*@
+        }
+    }
+</ul>
+<input id="page-our-staff" type="hidden" value="@Model.PageNumber"/>
+@if(Model.PageCount > 1) {
+    <div class="paging">
+        @Html.PagedListPager(Model, page => Url.Action("ListOurStaffs", "Widgets", new { ViewBag.orderBy, ViewBag.pageSize, page }), 
+                                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new PagedListRenderOptions { 
+                                                                                                                    LinkToPreviousPageFormat = "<", LinkToNextPageFormat = ">", MaximumPageNumbersToDisplay = 2 }, new AjaxOptions {
+                                                                                                                                                                                                                                        HttpMethod = "GET",
+                                                                                                                                                                                                                                        UpdateTargetId = "list-our-staff",
+                                                                                                                                                                                                                                        LoadingElementId = "list-our-staff-loader",
+                                                                                                                                                                                                                                        OnComplete = "PagedOnComplete_List"
+                                                                                                                                                                                                                                    }))
+    </div>
+}

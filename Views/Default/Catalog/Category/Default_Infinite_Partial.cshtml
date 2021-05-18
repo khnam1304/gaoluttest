@@ -1,0 +1,238 @@
+﻿@using Web.Model.Models
+@using PagedList.Mvc
+@model PagedList.IPagedList<ProductCategoryMapping>
+    @{
+        var category = ViewBag.Category as Category ?? new Category();
+        var listProducts = Model.Where(e => e.Product.IsActive).ToList();
+        var featuredProduct = (listProducts.FirstOrDefault(e => e.DisplayOrder == 9999) ?? listProducts.First());
+        IEnumerable<ProductCategoryMapping> list4Products;
+        IEnumerable<ProductCategoryMapping> listNProducts;
+
+        list4Products = listProducts.Where(e => e.Product.Name != featuredProduct.Product.Name).Take(4);
+        listNProducts = listProducts.Where(e => e.Product.Name != featuredProduct.Product.Name).Skip(4).Take(8);
+    }
+
+    <div class="section gallery-wrap">
+        <div class="content">
+            @if (Request.QueryString["view"] == "grid")
+            {
+                <div class="product-list-wrap product-grid product row ">
+
+                @if (Model.Count > 0)
+                {
+                    foreach (var innerItem in listProducts)
+                    {
+                        var url = @SlugHelper.Product(innerItem.ProductId);
+
+                        <div class="product-items item col-xl-4 col-lg-4 col-md-4 product-item col-sm-12" data-id="@innerItem.ProductId">
+                            <div class="item item-hover-view-cart">
+                                <div class="product-thumb">
+                                    <div class="product-container item-img">
+                                        <div class="product-image-container">
+                                            <a class="product-img-link" href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Title">
+                                                <img class="img-fluid" src="@ImageHelper.GetResize(innerItem.Product.Avatar,300,300)" alt="@innerItem.Product.Title">
+                                                @foreach (var ppm in innerItem.Product.ProductPictureMappings.Where(e => e.PictureId != innerItem.Product.PictureId).Take(1))
+                                                {
+                                                    <img class="img-fluid img-hover" src="@ImageHelper.GetResize(ppm.Picture.Url, 300, 300)" alt="@ppm.Picture.Title">
+                                                }
+
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-icon d-flex justify-content-around">
+                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Action.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                    </div>
+                                </div>
+
+                                <div class="product-label">
+                                    @if (innerItem.Product.IsHighlight)
+                                    {
+                                        <span class="product-flash">@LanguageHelper.Translate("Hot_Text")</span>
+                                    }
+                                    @if (innerItem.Product.IsPromotion)
+                                    {
+                                        <span class="product-flash sale">@LanguageHelper.Translate("Sale_Text")</span>
+                                    }
+                                </div>
+
+                                <div class="product-info text-center">
+                                    <h4 class="product-name">
+                                        <a href="@SlugHelper.Product(innerItem.ProductId)" title="@innerItem.Product.Name" class="title">@innerItem.Product.Name</a>
+                                    </h4>
+                                    <div class="price">
+                                        @{ Html.RenderPartial("~/Views/Default/Catalog/Widgets/Shop/Price.cshtml", new ViewDataDictionary { { "Product", innerItem.Product } }); }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+
+                    <div class="not-found">
+                        <div class="med card-section">
+                            <p style="padding-top: .33em">
+                                No data was found <em></em> under conditions.
+                            </p>
+                            <p style="margin-top: 1em">Proposal:</p>
+                            <ul style="margin-left: 1.3em; margin-bottom: 2em">
+                                <li>Please make sure all words are spelled correctly.</li>
+                                <li>Try other keywords.</li>
+                                <li>Try more general keywords.</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+            }
+            else
+            {
+                <div class="product-list-wrap row m-0 ">
+                    @if (Model.IsFirstPage)
+                    {
+                        <div class="product-item col-lg-6 col-md-12 gallery-item clearfix">
+
+                            <div class="gallery-item-inner clearfix animated">
+                                <div class="entry-thumbnail">
+                                    <div class="entry-thumbnail-overlay placeholder-image" style="background: url('@ImageHelper.GetResize(featuredProduct.Product.Avatar)');" title="@featuredProduct.Product.Name"></div>
+                                </div>
+
+                                <div class="gallery-content">
+
+                                    <div class="gallery-meta">
+                                        <h3 class="gallery-title ">
+                                            <a title="@featuredProduct.Product.Name" href="@SlugHelper.Product(featuredProduct.ProductId)">@featuredProduct.Product.Name</a>
+                                        </h3>
+                                        <div class="gallery-cat text-italic">
+                                            @foreach (var itemTag in featuredProduct.Product.ProductProductTagMappings)
+                                            {
+                                                <b>#</b> <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" rel="tag">@itemTag.ProductTag.Name</a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="row">
+                                @foreach (var item in list4Products)
+                                {
+                                    <div class="product-item col-lg-6 col-md-6 col-sm-12 gallery-item clearfix">
+                                        <div class="gallery-item-inner clearfix animated">
+                                            <div class="entry-thumbnail">
+                                                <div class="entry-thumbnail-overlay placeholder-image" style="background: url('@ImageHelper.GetResize(item.Product.Avatar)');" title="@item.Product.Name">
+                                                </div>
+                                            </div>
+
+                                            <div class="gallery-content">
+
+
+                                                <div class="gallery-meta">
+                                                    <h3 class="gallery-title ">
+                                                        <a title="@item.Product.Name" href="@SlugHelper.Product(item.ProductId)">@item.Product.Name</a>
+                                                    </h3>
+                                                    <div class="gallery-cat text-italic">
+                                                        @foreach (var itemTag in item.Product.ProductProductTagMappings)
+                                                        {
+                                                            <b>#</b> <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" rel="tag">@itemTag.ProductTag.Name</a>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="product-list row">
+                                @foreach (var item in listNProducts)
+                                {
+                                    <div class="product-item col-lg-3 col-md-3 col-sm-12 gallery-item clearfix">
+                                        <div class="gallery-item-inner clearfix animated">
+
+                                            <div class="entry-thumbnail">
+                                                <div class="entry-thumbnail-overlay placeholder-image" style="background: url('@ImageHelper.GetResize(item.Product.Avatar)');" title="@item.Product.Name"></div>
+                                            </div>
+
+                                            <div class="gallery-content">
+                                                <div class="gallery-meta">
+                                                    <h3 class="gallery-title ">
+                                                        <a title="@item.Product.Name" href="@SlugHelper.Product(item.ProductId)">@item.Product.Name</a>
+                                                    </h3>
+                                                    <div class="gallery-cat text-italic">
+                                                        @foreach (var itemTag in item.Product.ProductProductTagMappings)
+                                                        {
+                                                            <b>#</b> <a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" rel="tag">@itemTag.ProductTag.Name</a>
+                                                        }
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="product-items col-lg-12 col-md-12">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12">
+                                    <p class="current-page">Pages: @Model.PageNumber - <a href="@SlugHelper.Category(category.Id)?sortorder=@ViewBag.sortOrder">  Jump to top</a></p>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                @foreach (var item in listProducts)
+                                {
+                                    <div class="product-item col-lg-4 col-md-4 col-sm-12 gallery-item clearfix">
+                                        <div class="gallery-item-inner clearfix animated">
+                                            <div class="entry-thumbnail">
+                                                <div class="entry-thumbnail-overlay placeholder-image" style="background: url('@ImageHelper.GetResize(item.Product.Avatar)');" title="@item.Product.Name"></div>
+                                            </div>
+
+                                            <div class="gallery-content">
+
+                                                <div class="gallery-meta">
+                                                    <h3 class="gallery-title ">
+                                                        <a title="@item.Product.Name" href="@SlugHelper.Product(item.ProductId)">@item.Product.Name</a>
+                                                    </h3>
+                                                    <div class="gallery-cat text-italic">
+                                                        @foreach (var itemTag in item.Product.ProductProductTagMappings)
+                                                        {
+                                                            <b>#</b><a href="@SlugHelper.ProductTag(itemTag.ProductTagId)" rel="tag">@itemTag.ProductTag.Name </a>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            }
+
+        </div>
+    </div>
+    @if (Model.HasNextPage)
+    {
+        <section class="paging" style="display: block">
+            @Html.PagedListPager(Model, page => Request.Url.PathAndQuery + "?page=" + page, PagedListRenderOptions.Minimal)
+        </section>
+    }

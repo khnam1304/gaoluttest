@@ -1,0 +1,34 @@
+﻿@using global::Web.Helpers
+@using Web.Core.Models
+@model List<Web.Core.Models.BreadcrumbModel>
+    <ol class="breadcrumb breadcrumb-alt mb-0">
+        @if (ViewBag.homeIncluded)
+        {
+            <li class="breadcrumb-item "><a href="/@DataCurrentHelper.UniqueSeoCode"><i class="cxi-home"></i>  @LanguageHelper.Translate("Home_Text")</a></li>
+
+        }
+        @foreach (BreadcrumbModel item in Model.Where(e => e.Title != null && !e.Title.Contains("ROOT")))
+        {
+            if (Model.Last() == item)
+            {
+                <li class="breadcrumb-item active" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+
+                    @if (ViewBag.headingIncluded != null && ViewBag.headingIncluded == true)
+                    {
+                        <meta itemprop="url" content="#" />
+                        <b itemprop="title"> @Html.Raw(item.Icon) @item.Title </b>
+                    }
+                    else
+                    {
+                        <span class="breadcrumb-last">@Html.Raw(item.Icon) @item.Title</span>
+                    }
+                </li>
+            }
+            else
+            {
+                <li class="breadcrumb-item" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <a itemprop="url" href="@item.Link" title="@item.Title"> <span itemprop="title"> @Html.Raw(item.Icon) @item.Title </span> </a>
+                </li>
+            }
+        }
+    </ol>

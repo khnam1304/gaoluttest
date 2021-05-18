@@ -1,0 +1,69 @@
+﻿@using global::Web.Helpers
+@using ASP.Web.Model.Models
+@model List<ASP.Web.Model.Models.Category>
+
+<ul id="menu-mobile-categories" class="site-mobile-menu menu-loaded">
+                   @foreach (var item in Model)
+                   {
+                       if (!item.CategoryChildren.Any())
+                       {
+                           <li class="menu-item menu-item-type-taxonomy menu-item-object-product_cat item-level-0 menu-item-design-default menu-simple-dropdown item-event-hover">
+                               <a title="@item.Name" href="@SlugHelper.Category(item.Id)" class="woodmart-nav-link">
+                                  
+                                   <span class="nav-link-text">@item.Name</span>
+                               </a>
+                           </li>
+                       }
+                       else if (item.CategoryChildren.Any() && item.CategoryChildren.Any(e => e.CategoryChildren.Any()))
+                       {
+                           <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-6713 item-level-0">
+                               <a href="@SlugHelper.Category(item.Id)" class="woodmart-nav-link"><span class="nav-link-text">@item.Name</span></a>
+                               <div class="sub-menu-dropdown color-scheme-dark">
+
+                                   <div class="container">
+
+                                       <ul class="sub-menu color-scheme-dark" style="display: none;">
+                                           @foreach (var innerItem in item.CategoryChildren)
+                                           {
+                                               <li  class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children item-level-1">
+                                                   <a href="@SlugHelper.Category(innerItem.Id)" class="woodmart-nav-link"><span class="nav-link-text">@innerItem.Name</span></a>
+                                                   <ul class="sub-sub-menu color-scheme-dark">
+                                                       @foreach (var innerItem2x in innerItem.CategoryChildren)
+                                                       {
+
+                                                           <li class="menu-item menu-item-type-post_type menu-item-object-page item-level-2"><a class="woodmart-nav-link" href="@SlugHelper.Category(@innerItem2x.Id)" title="@innerItem2x.Name"><span class="nav-link-text">@innerItem2x.Name</span></a></li>
+                                                       }
+                                                      
+                                                   </ul>
+                                                   <span class="icon-sub-menu"></span>
+                                               </li>
+                                             }
+
+                                           </ul>
+                                   </div>
+                               </div>
+                               <span class="icon-sub-menu"></span>
+                           </li>
+                       }
+                       else
+                       {
+                           <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-has-children menu-item-6706 item-level-0">
+                               <a href="@SlugHelper.Category(item.Id)" class="woodmart-nav-link"><span class="nav-link-text">@item.Name</span></a>
+                               <div class="sub-menu-dropdown color-scheme-dark">
+                                   <div class="container">
+                                       <ul class="sub-menu color-scheme-dark" style="display: none;">
+                                           @foreach (var innerItem in item.CategoryChildren)
+                                           {
+                                               <li class="menu-item menu-item-type-custom menu-item-object-custom  item-level-1"><a href="@SlugHelper.Category(innerItem.Id)" class="woodmart-nav-link"><span class="nav-link-text">@innerItem.Name</span></a></li>
+                                           }
+                                       </ul>
+                                   </div>
+                               </div>
+                               <span class="icon-sub-menu"></span>
+                           </li>
+                       }
+
+                   }
+               </ul>
+
+ 

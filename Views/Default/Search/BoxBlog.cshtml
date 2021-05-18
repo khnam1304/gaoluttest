@@ -1,0 +1,8 @@
+﻿@using global::Web.Helpers
+@using (Html.BeginForm("Index", "Search", FormMethod.Get, new { @name = "search-blog", @class = "filter__search form-search" }))
+{
+    <input type="text" class="form-control appended-form-control" data-scope="@ViewBag.scope" name="key" required value="@ViewBag.keyword" placeholder="Tìm kiếm">
+    <input type="hidden" value="@ViewBag.scope" name="scope" />
+}
+
+

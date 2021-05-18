@@ -1,0 +1,19 @@
+﻿@using global::Web.Helpers
+@model List<Web.Model.Models.Category>
+@if (Model != null)
+{
+    <ul>
+        @foreach (var item in Model)
+        {
+            foreach (var innerItem in item.CategoryChildren.Where(e => e.IsActive))
+            {
+                <li>
+                    <span class="pe-7s-photo-gallery" style="font-size: 18px;"></span>
+                    <a href="@SlugHelper.Category(innerItem.Id)">@innerItem.Name <span>[@innerItem.ProductCategoryMappings.Count(e => e.Product.IsActive)]</span></a>
+                </li>
+            }
+        }
+    </ul>
+}
+
+ 

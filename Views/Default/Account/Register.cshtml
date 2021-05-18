@@ -1,0 +1,486 @@
+﻿@{
+    Html.EnableClientValidation();
+    ViewBag.Title = "Đăng ký tài khoản mới";
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+}
+@using System.Web.Mvc
+@using System.Web.Optimization
+@using CaptchaMvc.HtmlHelpers
+@using global::Web.Helpers
+@model RegisterModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/account/base/css","~/bundles/content/default/account/register/css")
+}
+
+<div class="luna-loader-container">
+    <div class="luna-loader"></div>
+</div>
+
+<div class='luna-signup-container luna-default' style="opacity: 0">
+    <div class="luna-signup-left-overlay"></div>
+    <div class='container'>
+        <div class="row">
+        <div class='luna-signup-left'>
+            <a href="/@DataCurrentHelper.UniqueSeoCode" title="Back to home">
+                <img class='luna-signup-logo img-responsive' src='@DisplayHelper.Logo.Replace("logo","logo-white")' alt="@DisplayHelper.StoreName" />
+            </a>
+
+            <div class="luna-navigation">
+                <a class="toPrev prevStep"><i class="icon icon-arrow-up2"></i></a>
+                <ul class="dots"></ul>
+                <a class="toNext nextStep"><i class="icon icon-arrow-down2"></i></a>
+            </div>
+        </div>
+        <div class='luna-signup-right'>
+            <div class='button-container'>
+                <div>
+                    <a href="javascript:void(0)" class="btn btn-rounded nextStep" style="color: #026f56;font-size:12px;" tabindex="0">Bước tiếp theo →</a>
+                    <span style="font-size: 11px;">hoặc nhấn "Enter" để chuyển</span>
+                </div>
+            </div>
+            <div class='steps-count'>
+                Bước <span class="step-current">1</span>/<span class="step-count"></span>
+            </div>
+            <div class="container-fluid">
+
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { name = "signupForm", autocomplete = "off" }))
+                {
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+
+                    
+
+                    <div class="luna-steps">
+                        <div class="step step-active" data-step-id='1'>
+                            <h2 class="step-title"> 1.
+                                @("Tài khoản đăng nhập".ToUpper()) <span style="color: darkgray;font-size: 14px;">|</span> <a class="outside-link" data-backdrop="white" data-open_new_tab=true style="font-size: 13px; color: #026f56;" href="@Url.Action("Login", "Account")">Bạn đã có sẵn?</a>
+                        </h2>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="UserName">Nhập tên đăng nhập?</label>
+                                    @Html.TextBoxFor(model => model.UserName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.UserName)
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="PhoneNumber">Số điện thoại?</label>
+                                    @Html.TextBoxFor(model => model.PhoneNumber, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.PhoneNumber)
+                                    <div class="help-block">Nhập số điện thoại bao gồm 10 hoặc 11 số.</div>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="Email">Địa chỉ email?</label>
+                                    @Html.TextBoxFor(model => model.Email, null, new { placeholder = "", type = "Email", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                    <div class="help-block">E-mail sẽ được sử dụng để kích hoạt tài khoản của bạn!</div>
+                                    <div class="help-block">Confirmed email : Confirmation Not Required</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="Password">Nhập mật khẩu?</label>
+
+                                    @Html.TextBoxFor(model => model.Password, null, new { placeholder = "", type = "Password", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                    <div class="help-block">Mật khẩu phải chứa ít nhất 6 ký tự.</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="ConfirmPassword">Nhập lại mật khẩu</label>
+                                    @Html.TextBoxFor(model => model.ConfirmPassword, null, new { placeholder = "", type = "Password", @class = "formInput", autocomplete = "new-password", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step " data-step-id='2'>
+                        <h2 class="step-title"> 2. @("Thông tin cá nhân".ToUpper()) <span style="color: darkgray;font-size: 14px;">|</span> <a class="reject-link" style="font-size: 13px; color: #026f56;" data-backdrop="blurred" href="#">Bỏ qua bước này?</a></h2>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="FirstName">Họ đệm</label>
+                                    @Html.TextBoxFor(model => model.FirstName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.FirstName)
+                                    <div class="help-block">We will use this to personalize your account experience</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="formLabel" for="LastName">Tên</label>
+                                    @Html.TextBoxFor(model => model.LastName, null, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                                    @Html.ValidationMessageFor(model => model.LastName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="step-label">Chọn giới tính của bạn?</div>
+                                    <label class="radio-inline"><input type="radio" value="Male" name="Gender" checked> Nam</label>
+                                    <label class="radio-inline"><input type="radio" value="Female" name="Gender"> Nữ</label>
+                                    <label class="radio-inline"><input type="radio" value="Other" name="Gender"> Khác</label>
+                                    <div class="help-block">Không bắt buộc</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="step-label">Ngày sinh</div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="">
+                                                <select id="day" name="day" class="selectpicker_x form-control">
+                                                    <option selected value="01">-Ngày-</option>
+                                                    @for (int d = 1; d <= 31; d++)
+                                                    {
+                                                        <option value="@d" @(Model.Day == d ? "selected" : "")>@(d < 10 ? ("0" + d) : ("" + d))</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="">
+                                                <select id="month" name="month" class="selectpicker_x form-control">
+                                                    <option value="01">-Tháng-</option>
+                                                    @for (int m = 1; m <= 12; m++)
+                                                    {
+                                                        <option value="@m" @(Model.Month == m ? "selected" : "")>@(m < 10 ? ("0" + m) : ("" + m))</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="">
+                                                <select id="year" name="year" class="selectpicker_x form-control">
+                                                    <option value="0001">--Năm--</option>
+                                                    @for (int y = 1929; y <= 2000; y++)
+                                                    {
+                                                        <option value="@y" @(Model.Year == y ? "selected" : "")>@(y)</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="help-block" style="margin-left: 15px;">Không bắt buộc</div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div style="display: none">
+                                        <div class="step-label">Quốc tịch</div>
+                                        <select id='countryId' name="countryId" class="selectpicker_x cascadingDropDown form-control"
+                                                data-group="Register"
+                                                data-target="StateProvinceId"
+                                                data-id="countryId"
+                                                data-url="/api/general/get-state-province-by"
+                                                data-default-label="Select Country"
+                                                data-replacement="container1">
+                                            <option value="1" selected="">Viet Nam</option>
+                                        </select>
+                                    </div>
+                                    <div class="step-label">Tỉnh / Thành phố</div>
+                                    <select id='StateProvinceId' name="StateProvinceId" class="selectpicker_x cascadingDropDown form-control"
+                                            data-group="Register"
+                                            data-id="StateProvinceId"
+                                            data-target="DistrictId"
+                                            data-url="/api/general/get-district-by"
+                                            data-replacement="container1"
+                                            data-default-label="[- Chọn tỉnh / thành phố -]"
+                                            disabled></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <div class="step-label">Quận / Huyện</div>
+
+                                    <select name="DistrictId"
+                                            class="cascadingDropDown form-control"
+                                            data-group="Register"
+                                            data-id="DistrictId"
+                                            data-url="/api/general/get-ward-by"
+                                            data-target="WardId"
+                                            data-final
+                                            data-replacement="container1"
+                                            data-default-label="[- Chọn quận / huyện -]"
+                                            disabled></select>
+
+                                    <div class="help-block">
+                                        <div class="panel cascadingContainer hide"
+                                             data-replacement-container="container1"
+                                             data-default-content="Please select {{StateProvince}} First./"></div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="step-label">Địa chỉ chính (dòng 1)</div>
+                            @Html.TextAreaFor(model => model.Address1, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                            @Html.ValidationMessageFor(model => model.Address1)
+
+                        </div>
+
+                        <div class="form-group">
+                            <div class="step-label">Địa chỉ phụ (dòng 2)</div>
+                            @Html.TextAreaFor(model => model.Address2, new { placeholder = "", @class = "formInput", autocomplete = "off", spellcheck = "false" })
+                            @Html.ValidationMessageFor(model => model.Address2)
+                            <div class="help-block">Không bắt buộc</div>
+                        </div>
+
+                        <div class="payment-total">
+                            <b>Ghi chú:</b> <span>Bạn có thể cập nhật lại thông tin này bất cứ lúc nào tại trang cá nhân khi đăng nhập vào tài khoản.</span><br>
+                            <p>
+                                @*The questions asking for demographic data should be relevant to the survey goal and must point to the characteristics of the target population.*@
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step" data-step-id='3'>
+                        <h2 class="step-title">3. @("Thông tin liên hệ".ToUpper()) </h2>
+                        <div class="form-group">
+                            <div class="step-label">Bạn có muốn nhận thông tin danh mục qua Email?</div>
+                            <label class="radio-inline"><input type="radio" value="Yes" name="requestcatalog" checked> Có</label>
+                            <label class="radio-inline"><input type="radio" value="No" name="requestcatalog"> Không</label>
+                        </div>
+                        <div class="form-group">
+                            <div class="step-label">Bạn muốn trao đổi qua kênh nào?</div>
+                            <label class="radio-inline"><input type="radio" value="Email" name="communicationprefer" checked> Email</label>
+                            <label class="radio-inline"><input type="radio" value="Phone" name="communicationprefer"> Điện thoại</label>
+                        </div>
+
+                    </div>
+                    <div class="step step-confirm" data-step-id='4'>
+                        <h2 class="step-title" style="margin-top: -60px;position: relative;border-bottom: 1px solid #28a745;padding-bottom: 20px;">@("Kiểm tra lại thông tin và hoàn tất".ToUpper())</h2>
+                        <div class="fadeTop">
+                            <h3 class="step-sub-title">1. Thông tin tài khoản</h3>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Họ đệm</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text FirstName"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Tên</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text LastName"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Tên đăng nhập</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text UserName"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Địa chỉ e-mail</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text Email"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Mật khẩu</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">*******</div>
+                        </div>
+
+                        <div class="fadeTop">
+                            <h3 class="step-sub-title">2. Thông tin cá nhân</h3>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Giới tính</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text Gender"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Ngày sinh</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">
+                                <span class="day"></span>-
+                                <span class="month"></span>-
+                                <span class="year"></span>
+                            </div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Số điện thoại </div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text PhoneNumber"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Thông tin địa chỉ</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text">
+                                <span class="Address1"></span>
+                                <span class="Address2"></span>
+                                <span class="DistrictId"></span>
+                                <span class="StateProvinceId"></span>
+                            </div>
+
+                        </div>
+                        <div class="fadeTop">
+                            <h3 class="step-sub-title">3. Thông tin liên lạc</h3>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Nhận danh mục hàng miễn phí?</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text requestcatalog"></div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Cách thức trao đổi</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12 confirm-text communicationprefer"></div>
+                        </div>
+
+                        <br />
+                        <div class="fadeTop">
+                            <h3 class="step-sub-title">and. Thông tin xác thực</h3>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Mã kiểm tra</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12">
+                                <div class="captcha-region">
+                                    <img class="captcha-image" src="@Url.Action("Captcha", "Security", new {type = "math"})" title="captcha" />
+                                    <button class="btn btn-link captcha-reloader"> Mã khác</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Nhập lại mã trên</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12">
+
+                                <label class="formLabel" for="VerificationCode" style="display: none">Mã kiểm tra (để chắc chắn bạn không phải là robots)</label>
+                                <input autocomplete="off" class="formInput ignore captcha-text" id="VerificationCode" name="VerificationCode" style="text-align: center;font-size: 14px;width: 150px;padding: 10px 0px;background: #f5f6fb;margin-bottom: 24px;" placeholder="Kết quả = ?" spellcheck="false" type="text" value="">
+
+                            </div>
+                        </div>
+                        <div class="row fadeTop">
+                            <div class="col-md-3 col-sm-6 col-xs-12 text-right confirm-label">Chấp nhận điều khoản</div>
+                            <div class="col-md-9 col-sm-6 col-xs-12">
+
+                                <label class="checkbox-inline agreement">
+                                    <input id="agreement" name="agreement" type="checkbox" />Tôi đồng ý với các <a href="#" target="_blank"> điều khoản dịch vụ</a>.
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="fadeTop">
+                            <div class="step-confirm-buttons">
+                                <div>
+
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-rounded finishBtn">ĐÃ XONG, GỬI ĐI</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/account/base/js","~/bundles/content/default/account/register/js")
+  
+    <script>
+        $(document).ready(function() {
+            $('input#Password').passwordstrength({
+                'minlength': 6,
+                'number': true,
+                'capital': true,
+                'special': true,
+                'labels': {
+                    'general': 'Mật khẩu phải có :',
+                    'minlength': 'Độ dài tối thiểu {{minlength}} ký tự',
+                    'number': 'Ít nhất một số',
+                    'capital': 'Ít nhất một ký tự hoa',
+                    'special': 'Ít nhất một ký tự đặc biệt'
+                }
+            });
+            superplaceholder({
+                el: UserName,
+                sentences: ['Nên ngắn gọn để dễ nhớ'],
+                options: {
+                    loop: true
+                }
+            });
+            superplaceholder({
+                el: Email,
+                sentences: ['E-mail cá nhân || công ty đều OK', 'Ex:kushagra@donavi.com', 'Ex:adam@google.com'],
+                options: {
+                    loop: true
+                }
+            });
+            $.jConfirm.defaults.theme = 'bootstrap-4';
+            $('.outside-link').jConfirm({
+                question: 'Bạn sắp truy cập một trang web bên ngoài, bạn có chắc chắn muốn rời khỏi trang náy?',
+                confirm_text: 'Vâng, đi\'s luôn!',
+                deny_text: ' Thôi.',
+                follow_href: true,
+            });
+            $('.reject-link').jConfirm({
+                question: 'Bạn sẽ nhập tên và đi sang bước tiếp?',
+                confirm_text: 'Vâng!',
+                deny_text: ' Thôi.',
+
+            }).on('confirm', function(e){
+                swal({
+                          title: "Tên của bạn:",
+                          text: "Sau khi nhập tên bạn sẽ chuyển qua bước tiếp",
+                          type: "input",
+                          confirmButtonText: "Đồng ý",
+                          showCancelButton: false,
+                          closeOnConfirm: true,
+                          inputPlaceholder: ""
+                        }, function (inputValue) {
+                          if (inputValue === false) return false;
+                          if (inputValue === "") {
+                            swal.showInputError("Bạn phải nhập tên trước./");
+                            return false
+                          }
+                          $("#FirstName").val(inputValue);
+                          $(".luna-navigation .nextStep").trigger("click");
+                        });
+                
+                    //do something on confirm
+                });
+            $('form[name=signupForm]').formcache({ controls: ['select', 'textarea'] });
+            
+        });
+    </script>
+    <script>
+            $(function () {
+                var img = $('.captcha-image');
+                $('.captcha-reloader').click(function () {
+                    // the core of answer is 2 lines below
+                    var dummy = '?dummy=';
+                    var type = img.attr('src').split("type=")[1];
+                    img.attr('src', img.attr('src').split("?")[0] + dummy + (new Date()).getTime() + "&type=" + type);
+
+                    return false;
+                });
+
+            });
+    </script>
+    <script>
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function() {
+            AppConfigs.OriginalBody.find(".luna-default").css("opacity", "1");
+        }, 300);
+        
+    </script>
+}

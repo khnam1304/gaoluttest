@@ -1,0 +1,353 @@
+﻿@using global::Web.Helpers
+@model ASP.Web.Model.Models.Page
+@Styles.Render("~/bundles/content/default/page/css")
+@if (Model.StylesInsert != null)
+{
+    @(Model.StylesInsert.Contains("<style>") ? Html.Raw(Model.StylesInsert) : Html.Raw("<style>" + Model.StylesInsert + "</style>"))
+}
+    <div id="main">
+        @section banners{
+            @{
+                var picture = DataWhereHelper.PictureBySlug("banner->" + Request.Path, Model.Avatar, Model.Title);
+                var paramArrs = new List<KeyValuePair<string, string>>()
+            {
+                new KeyValuePair<string, string>("banner-title", picture.Title),
+                new KeyValuePair<string, string>("banner-size","cover"),
+                new KeyValuePair<string, string>("banner-img", picture.Url )
+            };
+            }
+            @Html.Action("CallerWithParams", "StaticBlock", new { identifier = "page::banner-top-default", paramArrs, area = "" })
+        }
+        <div class="section section-bg-by-define pt-11 pb-17">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2 class="page-title text-center">@Model.Title</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section border-bottom pt-2 pb-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <!--start: box-breadcrumb-->
+                        @Html.Action("Breadcrumb", "Widgets", new { breadcrumbs = new List<BreadcrumbModel> { new BreadcrumbModel { Link = SlugHelper.BlogCategory(Convert.ToInt32(Model.ParentPageId)), Title = Model.ParentPage.Name }, new BreadcrumbModel { Link = "#", Title = Model.Name } }, homeIncluded = true, headingIncluded = false, area = "" })
+                        <!--end: box-breadcrumb-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="as-content">
+
+            <section id="about-us" class="about-smoothie vertical-scrolling-rev" style="margin-top: 76px;">
+                <div class="section about">
+                    <div class="container">
+                        <div class="title text-center">
+                            <div class="page-title color">
+                                <h3 class="title-main text_gradient">DONAVI.</h3>
+                                <div class="title title-icon">
+                                    <h2 class="title-h2">Who we are And. What we do</h2>
+                                    <p class="description">
+                                        Cras mattis consectetur purus sit amet fermentum. Praesent commodo cursus magna, vel
+                                        scelerisque nisl consectetur et.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="block-content">
+                            <div class="row">
+                                <div class="section mt-5 mb-5">
+                                    <!-- About Us -->
+                                    <div class=" row">
+                                        <div class="col-md-6 mb-3 mb-md-0">
+                                            <img src="https://mimity-electronics16.netlify.com/img/about-us/about-us.jpg" alt="About Us" class="w-100">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h3 class="title">Our Team</h3>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate explicabo saepe inventore quisquam adipisci maxime vitae hic, magni error praesentium eaque laborum pariatur omnis illo, voluptatem, nam dicta sunt dolore!</p>
+                                            <p>Quod quam est illo provident animi amet a reprehenderit quidem quo voluptates! Voluptatibus quas blanditiis molestiae placeat eligendi maxime itaque, ipsum, reiciendis!</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="my-5"></div>
+
+                                    <!-- Our Purpose -->
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3 mb-md-0 order-md-2">
+                                            <img src="https://mimity-electronics16.netlify.com/img/about-us/our-purpose.jpg" alt="Our Purpose" class="w-100">
+                                        </div>
+                                        <div class="col-md-6 order-md-1">
+                                            <h3 class="title">Our Purpose</h3>
+                                            <p>Quod quam est illo provident animi amet a reprehenderit quidem quo voluptates! Voluptatibus quas blanditiis molestiae placeat eligendi maxime itaque, ipsum, reiciendis!</p>
+                                            <ul>
+                                                <li>- Lorem ipsum dolor sit amet</li>
+                                                <li>- Consectetur adipiscing elit</li>
+                                                <li>- Integer molestie lorem at massa</li>
+                                                <li>- Facilisis in pretium nisl aliquet</li>
+                                                <li>- Nulla volutpat aliquam velit</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </section>
+
+
+            <section id="our-core-value" class="vertical-scrolling-rev">
+                <div class="section">
+                    <div class="container">
+                        <div class="title text-center">
+                            <div class="page-title color">
+                                <h3 class="title-main">Core value</h3>
+                                <div class="title title-icon">
+                                    <h2 class="title-h2">Why choose our healthy store</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content m-top" style="background: #f5f6fb;">
+                        <div class="row">
+                            <div class="section mt-10 mb-5">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="organik-about">
+                                                <div class="image style-2" data-bg-color="#f5e9e2" style="background-color: rgb(245, 233, 226);">
+                                                    <img src="~/assets/organik/images/about/about_4.jpg" alt="">
+                                                    <div class="organik-about-letter">w</div>
+                                                </div>
+                                                <div class="content">
+                                                    <h5>Who we are?</h5>
+                                                    <p>Understanding the sometimes harmful methods of modern agriculture, we started a niche for quality organic produce grown.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="organik-about">
+                                                <div class="image style-2" data-bg-color="#e7f2d8" style="background-color: rgb(231, 242, 216);">
+                                                    <img src="~/assets/organik/images/about/about_5.jpg" alt="">
+                                                    <div class="organik-about-letter">h</div>
+                                                </div>
+                                                <div class="content">
+                                                    <h5>How we work?</h5>
+                                                    <p>We believe it’s the best way to inspire our community to relish in the taste of real, seasonal produce and keep connected to the land.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="organik-about">
+                                                <div class="image style-2" data-bg-color="#f6edd0" style="background-color: rgb(246, 237, 208);">
+                                                    <img src="~/assets/organik/images/about/about_6.jpg" alt="">
+                                                    <div class="organik-about-letter">w</div>
+                                                </div>
+                                                <div class="content">
+                                                    <h5>What we grow?</h5>
+                                                    <p>We take special care to select and grow specific crop varieties where exceptional flavor is the focus, with a determination to bring the best-tasting produce.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="our-service" class="vertical-scrolling-rev">
+                <div class="section">
+                    <div class="container">
+                        <div class="title text-center">
+                            <div class="page-title color">
+                                <h3 class="title-main">Our Service</h3>
+                                <div class="title title-icon">
+                                    <h2 class="title-h2">What to we bring to love customer</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content m-top">
+                        <div class="row">
+                            <div class="section section-bg-6 pt-9 pb-9">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="organik-services">
+                                                <a href="#">
+                                                    <div class="icon"><i class="organik-carrot"></i></div>
+                                                    <div class="title"> Healthy Diet.</div>
+                                                    <div class="content"> Get produce delivered home on a set frequency is essential to obtaining the recommended daily fruits and daily vegetables.</div>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="organik-services">
+                                                <a href="#">
+                                                    <div class="icon"><i class="organik-lettuce"></i></div>
+                                                    <div class="title"> Pesticide Free.</div>
+                                                    <div class="content"> We deliver organic produce that is pesticide-free and sustainably-grown, ensuring that we maintain healthy communities.</div>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="organik-services">
+                                                <a href="#">
+                                                    <div class="icon"><i class="organik-broccoli"></i></div>
+                                                    <div class="title"> Flexibility.</div>
+                                                    <div class="content"> Choose the delivery frequency that best fits your needs: weekly, every other week, every 3rd or every 4th week delivery.</div>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-sm-6">
+                                            <div class="organik-services">
+                                                <a href="#">
+                                                    <div class="icon"><i class="organik-lemon"></i></div>
+                                                    <div class="title"> Convenience.</div>
+                                                    <div class="content"> No more driving and parking for your vegetables! We deliver directly to your doorstep. Save time going to the grocery store.</div>
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="our-process" class="vertical-scrolling-rev">
+                <div class="section">
+                    <div class="container">
+                        <div class="title text-center">
+                            <div class="page-title color">
+                                <h3 class="title-main">Our Process</h3>
+                                <div class="title title-icon">
+                                    <h2 class="title-h2">How to delivered products</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content m-top">
+                        <div class="row">
+                            <div class="section bg-light pt-7 pb-7">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="organik-steps">
+                                                <div class="step">
+                                                    <div class="step-icon">
+                                                        <i class="organik-lemon"></i>
+                                                        <span class="order">1</span>
+                                                    </div>
+                                                    <div class="step-title">Step 01:</div>
+                                                    <div class="step-text">Choose your products</div>
+                                                </div>
+                                                <div class="step-line"></div>
+                                                <div class="step">
+                                                    <div class="step-icon">
+                                                        <i class="organik-barn"></i>
+                                                        <span class="order">2</span>
+                                                    </div>
+                                                    <div class="step-title">Step 02:</div>
+                                                    <div class="step-text">Connect nearest farm</div>
+                                                </div>
+                                                <div class="step-line"></div>
+                                                <div class="step">
+                                                    <div class="step-icon">
+                                                        <i class="organik-map-location"></i>
+                                                        <span class="order">3</span>
+                                                    </div>
+                                                    <div class="step-title">Step 03:</div>
+                                                    <div class="step-text">Share your location</div>
+                                                </div>
+                                                <div class="step-line"></div>
+                                                <div class="step">
+                                                    <div class="step-icon">
+                                                        <i class="organik-delivery"></i>
+                                                        <span class="order">4</span>
+                                                    </div>
+                                                    <div class="step-title">Step 04:</div>
+                                                    <div class="step-text">Get delivered fast</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="our-process" class="vertical-scrolling-rev">
+                <div class="section">
+                    <div class="container">
+                        <div class="title text-center">
+                            <div class="page-title color">
+                                <h3 class="title-main">Subscribe</h3>
+                                <div class="title title-icon">
+                                    <h2 class="title-h2">To keep yourself updated</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="block-content m-top">
+                        <div class="newsletter" style="background:#4caf50!important;    margin-bottom: -42px!important;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="title">
+                                            <div class=" page-title color">
+                                                <h3 class="title-main">Subscribe</h3>
+                                                <div class="title-icon text-left">
+                                                    <h2 class="title-h2">Join our Newsletter</h2>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-sm-7">
+                                        <form action="@Url.Action("NewsLetterSubscription", "Widgets")" method="post">
+                                            <div class="item">
+                                                <div class="input" style="padding-right: 0px;">
+                                                    <input type="email" name="email" placeholder="Typing your email address for our mailing list to keep yourself updated" required style="border-radius:0px">
+                                                </div>
+                                                <div class="submit">
+                                                    <button type="submit" class="btn-submit btn button-main">Subscribe</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+    </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/content/default/page/js")
+    @if (Model.ScriptsInsert != null)
+        {
+        @(Model.ScriptsInsert.Contains("<script>") ? Html.Raw("" + Model.ScriptsInsert + "") : Html.Raw("<script>" + Model.ScriptsInsert + "</script>"))
+    }
+} 

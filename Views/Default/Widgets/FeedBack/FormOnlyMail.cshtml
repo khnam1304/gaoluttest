@@ -1,0 +1,29 @@
+﻿@model FeedBack
+@{
+    var id = "add-feedback" + Model.CustomView;
+}
+@using (Ajax.BeginForm("FeedBack", "Widgets", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = id, LoadingElementId = "ajax_loader", OnComplete = "PagedFeedBackLoaded", OnBegin = "return PagedFeedBackBegin('" + (id + "-form") + "')" },
+                        new { id = (id + "-form"), @class= "site-form _form" }))
+{
+    @Html.HiddenFor(model => model.Type)
+    <input value="@ViewBag.annoField" type="hidden" name="annoField" id="annoField"/>
+    <input value="" type="hidden" name="Custom" id="Custom"/>
+    <input value="New Subscribe from @HttpContext.Current.Request.UserHostAddress" type="hidden" name="Message" id="Message"/>
+    <input value="@Model.CustomView" type="hidden" name="CustomView" id="CustomView" />
+    if (ViewBag.Notify != null)
+    {
+        @Html.Raw(ViewBag.Notify)
+    }
+    if (Model.Type == "status-disabled" || Model.Type == "type-incorrect")
+    {
+    }
+    else
+    {
+
+        <input type="hidden" name="DataCustom" id="DataCustom" data-scope="Custom" value="@ViewBag.dataCustom"/>
+        <input type="email" name="email" @(Model.AnnoEmail[2] == "required" ? "required" : "") class="info" value="@Model.Email" placeholder="@Model.AnnoEmail[1]">
+        <button class="submit" type="submit">
+            <span id="add-feedback-loader" style="display:none;"> @Html.DisplayTextFor(model => model.AnnoButton[1]) </span>  <i class="fa fa-envelope-o" aria-hidden="true"></i>
+        </button>
+    }
+}

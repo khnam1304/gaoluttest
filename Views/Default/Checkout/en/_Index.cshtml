@@ -1,0 +1,849 @@
+﻿@{
+   
+    var step = int.Parse(Request["step"] ?? "1");
+    dynamic isAuthenticated = (Request.IsAuthenticated || ViewBag.Identifier != null);
+    ViewBag.Title = "Check out - Step" + step;
+    if(Model.Order.ShippingMethod == null)
+    {
+        Model.Order.ShippingMethod = new ShippingMethod() { Description = "{{DES}}", Fees = 0 };
+    }
+}
+@using global::Web.Helpers
+@using Web.Model.Models
+@model Web.Core.Models.Ecommerce.View.CheckOutViewModel
+@section styles{
+    @Styles.Render("~/bundles/content/default/checkout/css")
+}
+<style>
+    .data-filled{display:none;}
+   
+</style>
+<div class="wrapper" style="opacity: 0">
+    <header class="primary">
+        <nav class="navbar navbar-expand-lg navbar-primary">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a href="/"><img src="@DisplayHelper.Logo" /> Checkout's secured - YourIP: @ViewBag.IPAddress</a>
+                </div>
+            
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav navbar-right">
+                        <li class="nav-item"><a href="@SlugHelper.Category(grouped:"our-product")"><i class="flaticon-arrows"></i> Back stores</a></li>
+                        <li class="nav-item active"><a href="#">|</a></li>
+                        <li class="nav-item"><a href="#"><i class="ionicons ion-ios-lightbulb-outline"></i> Secure checkout tips</a></li>
+                    </ul>
+                </div>
+            </div>
+     
+        </nav>
+
+        <div class="navbar navbar-secondary">
+            <div class="steps">
+                <div class="steps-inner">
+                    <div class="step-item @(step == 1 ? "active" : "") @(step > 1 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-bag"></i></div>
+                        <div class="step-label"> Your Items</div>
+                    </div> <!-- /.item-step-item -->
+                    <div class="step-item @(step == 2 ? "active" : "") @(step > 2 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-android-people"></i></div>
+                        <div class="step-label"> Information</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 3 ? "active" : "") @(step > 3 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cube"></i></div>
+                        <div class="step-label"> Shipping</div>
+                    </div> <!-- /.step-item -->
+                    <div class="step-item @(step == 4 ? "active" : "") @(step > 4 ? "done" : "")">
+                        <div class="step-count"><i class="ionicons ion-cash"></i></div>
+                        <div class="step-label"> Payment</div>
+                    </div> <!-- /.step-item -->
+               
+                </div>
+            </div> <!-- /.step -->
+        </div>
+    </header> <!-- /.primary -->
+
+    <section class="section">
+        <div class="container">
+            @if (step == 1)
+            {
+                <div class="section-inner">
+                    <div class="section-body">
+                        <h2 class="section-title padding-top">Your Items</h2> 
+                        <div class="line"></div>
+                        <div class="items">
+                            <p class="section-p">You can update item in the cart by click <a href="@Url.Action("Index","ShoppingCart")" class="edit-cart"> <i class="ionicons ion-edit"></i> edit cart</a></p>
+                            @foreach (var item in Model.ShoppingCart.CartItems)
+                            {
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <figure>
+                                            <a href="@SlugHelper.Product(item.Product.Id)">
+                                                <img alt="img" class="w-100" src="@ImageHelper.GetResize(item.Product.Avatar)">
+                                            </a>
+                                        </figure>
+                                        <div class="item-details">
+                                            <div class="item-title">
+                                                <a href="@SlugHelper.Product(item.Product.Id)">@item.Product.Name</a>
+                                            </div>
+                                            <div class="item-description">Mã: #@item.Product.Sku</div>
+                                            <div class="item-price">Giá: @FormatHelper.FormatCurrency(item.Product.Price)</div>
+                                            <div class="item-variants">
+                                                <ul>
+                                                    <li>
+                                                        <div class="variant-label">Size</div>
+                                                        <div class="variant-value">L</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="variant-label">Color</div>
+                                                        <div class="variant-value">
+                                                            <div class="circle-color" style="background-color: #1abc9c;"></div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div> <!-- /.item-variants -->
+                                        </div> <!-- /.item-details -->
+                                        <div class="item-price">
+                                            
+                                            <div class="quantity" data-quantity-control data-min="1" data-target="#item-1-price">
+                                                <div class="control min">
+                                                    <i class="ion-ios-arrow-back"></i>
+                                                </div>
+                                                <div class="control count">
+                                                    <span>X</span><span>@item.Count</span>
+                                                </div>
+                                                <div class="control plus">
+                                                    <i class="ion-ios-arrow-forward"></i>
+                                                </div>
+                                            </div>
+                                            <div class="value" id="item-@item.Id-price" >@FormatHelper.FormatCurrency(item.Product.Price * item.Count)</div>
+                                        </div> <!-- /.item-price -->
+                  
+                                    </div> <!-- /.item-inner -->
+                                </div> <!-- /.item -->
+                            }
+                        </div> <!-- /.items -->
+                    </div> <!-- /.section-body -->
+                    <div class="section-footer">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <div class="coupon">
+                                    <div class="coupon-inner">
+                                        <form class="coupon-form" id="coupon-form">
+                                            <h2 class="section-title sm">Reward points</h2>
+                                            <div class="line sm"></div>
+                                            <div class="form-group">
+                                                <input type="text" name="Order.UsePoints" @(UserManager.User.CurrentPoints > 0 ? "":"disabled") value="@Model.Order.UsePoints" min="0" max="1000" class="form-control total-point" placeholder="points">
+                                                <button type="submit" class="btn btn-default" @(UserManager.User.CurrentPoints > 0 ? "":"disabled")>Apply</button>
+                                                <div class="help-text">
+                                                    Make sure you check condition the use <a href="#">Reward Points </a> here.
+                                                </div>
+                                            </div> <!-- /.form-group -->
+                                        </form> <!-- /.coupon-form -->
+                                    </div> <!-- /.coupon-inner -->
+                                </div> <!-- /.coupon -->
+                            </div> <!-- /.col-md-6 -->
+                            <div class="col-md-6 col-sm-6">
+                                <h2 class="section-title sm">Estimation</h2>
+                                <div class="line sm"></div>
+                                <div class="total-info" data-calculate-me>
+                                    <div class="total-item">
+                                        <div class="total-name">Order</div>
+                                        <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item">
+                                        <div class="total-name">Shipping <span style="color:dimgray; font-size:10px">(by selected)</span></div>
+                                        <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item discount" data-calculate-min="true">
+                                        <div class="total-name">Money points </div>
+                                        <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                    </div> <!-- /.total-item -->
+                                    <div class="total-item total">
+                                        <div class="total-name">Total</div>
+                                        <div class="total-value" id="total-all" data-price>0</div>
+                                    </div> <!-- /.total-item -->
+                                </div> <!-- /.total-info -->
+                            </div> <!-- /.col-md-6 -->
+                        </div> <!-- /.row -->
+                    </div> <!-- /.footer -->
+                    <div class="section-cta">
+                        <p>After this step you will fill in the information</p>
+                        <button class="btn btn-primary" data-href="?step=2">Next Step <i class="ion-ios-arrow-thin-right"></i>
+                                                                                      <span class="button-overlay" style="border-top-width: 78px; border-left-width: 192px;"></span>
+                        </button>
+                    </div> <!-- /.section-cta -->
+                </div> <!-- /.section-inner -->
+            }
+            else if (step == 2)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post, new { name="checkout-step2"}))
+                {
+                    <input type="hidden" name="step" value="3"/>
+                    <div class="data-filled">
+                        <input name="Order.PaymentMethodId" type="text" value="@Model.Order.PaymentMethodId">
+                        <input name="Order.ShippingMethodId" type="text" value="@Model.Order.ShippingMethodId">
+
+                        <input name="Order.UsePoints" type="text" value="@Model.Order.UsePoints" />
+                        @*<input name="Order.OrderUsePoints" type="text" value="@Model.Order.OrderUsePoints" />
+                        <input name="Order.OrderDiscount" type="text" value="@Model.Order.OrderDiscount">
+                        <input name="Order.OrderTransportFee" type="text" value="@Model.Order.OrderTransportFee" />*@
+                    </div>
+              
+                    @Html.ValidationSummary(true)
+                    @Html.AntiForgeryToken()
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=1">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Back</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Your Information</h2>
+                            <div class="line"></div>
+                            <div class="account-form">
+
+                                <div class="section-subtitle">Account</div>
+                                <div class="row" id="account-form">
+                                    @if (isAuthenticated)
+                                    {
+                                    <span style="margin-left: 45px;">Hi <b>@UserManager.User.FriendlyName</b>, You are signed as name <b>@UserManager.User.Username</b>. <br /> Try switch account if you  want check out other information, <a href="@Url.Action("Logoff","Account", new {returnUrl="/"+ DataCurrentHelper.UniqueSeoCode +"/checkout/?step=2"})"> Sign out</a> here</span>
+                                    }
+                                    else
+                                    {
+                                        <div class="col-md-12 col-sm-6">
+                                            <div class="email-field" id="as-guest-form">
+                                                <div class="form-group">
+                                                    <label>Your e-mail <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.AsGuest.UserName, new { placeholder = "", @class = "form-control", type = "email" })
+                                                    @Html.ValidationMessageFor(model => model.AsGuest.UserName)
+                                                </div> <!-- /.form-group.email-field -->
+                                                <div class="form-group">
+                                                    <p class="help-block">
+                                                        Already have an account? <a href="#" data-fade="#login-form,.email-field">Sign In</a>
+                                                    </p>
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- ./email-field -->
+                                            <div class="login-form" id="login-form">
+                                                <div class="form-group">
+                                                    <label>Your user name || e-mail || phone  <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.AsMember.UserName, new { placeholder = "", @class = "form-control", disabled=true })
+                                                    @Html.ValidationMessageFor(model => model.AsMember.UserName)
+                                                </div> <!-- /.form-group -->
+                                                <div class="form-group">
+                                                    <label>Your password <span class="required"></span></label>
+                                                    @Html.PasswordFor(model => model.AsMember.Password, new { placeholder = "", @class = "form-control", disabled=true })
+                                                    @Html.ValidationMessageFor(model => model.AsMember.Password)
+                                                </div> <!-- /.form-group -->
+                                                <div class="form-group text-right">
+                                                    <label class="remember"><input type="checkbox" id="AsMember_RememberMe" name="AsMember.RememberMe"> Remember me</label>
+                                                    <button id="login-btn" formnovalidate type="submit" class="btn btn-primary"> <svg viewBox="0 0 24 24" width="20px" style="    margin-bottom: -6px;" height="20px" x="0" y="0" preserveAspectRatio="xMinYMin meet" class="artdeco-icon" focusable="false"><path d="M12,1A16.53,16.53,0,0,1,3.88,4,1,1,0,0,0,3,5v8a8.5,8.5,0,0,0,4.37,7.43L12,23l4.63-2.57A8.5,8.5,0,0,0,21,13V5a1,1,0,0,0-.88-1A16.53,16.53,0,0,1,12,1ZM5,5.78a18.59,18.59,0,0,0,7-2.49,17.29,17.29,0,0,0,3.31,1.57L5.25,14.9A6.48,6.48,0,0,1,5,13.12V5.78Zm0.59,10L16.26,5.15A20.88,20.88,0,0,0,19,5.78V7.17L7.74,18.42A6.49,6.49,0,0,1,5.59,15.81Zm10.07,3-3.66,2L8.5,18.89,19,8.4v4.72A6.5,6.5,0,0,1,15.66,18.81Z" class="large-icon" style="fill: currentColor"></path></svg> Sign in to checkout</button>
+                                                </div> <!-- /.form-group.text-right -->
+                                                <div class="form-group">
+                                                    <p class="help-block">
+                                                        Checkout as guest? <a href="#" data-fade=".email-field,#login-form">Back</a>
+                                                    </p>
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.login-form -->
+                                        </div>
+                                    }
+                                     <!-- /.col-md-6 -->
+
+                                </div> <!-- /.row -->
+                                <div class="divider"></div>
+                                <div class="section-subtitle" id="shipping-address">Shipping Address</div>
+                                <div class="row" id="shipping-address-form">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-2 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Title <span class="required"></span></label>
+                                                    <select class="form-control " name="Order.Customer.MainAddress.Gender" required>
+                                                        <optgroup label="Title">
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == Gender.Male ? "selected" : "") value="1">Mr</option>
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == Gender.Female ? "selected" : "") value="2">Miss</option>
+                                                        </optgroup>
+                                                        <optgroup label="Other">
+                                                            <option @(Model.Order.Customer.MainAddress.Gender == 0 ? "selected" : "") value="0">Secret</option>
+                                                        </optgroup>
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>First name <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.FirstName, new { placeholder = "", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Order.Customer.MainAddress.FirstName)
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Last name</label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.LastName, new { placeholder = "", @class = "form-control" })
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+
+                                        </div> <!-- /.row -->
+                                        <div class="row">
+                                            
+                                            <div class="col-md-7 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Phone number <span class="required"></span></label>
+                                                    @Html.TextBoxFor(model => model.Order.Customer.MainAddress.PhoneNumber, new { placeholder = "", @class = "form-control phone", required = "required"  })
+                                                    @Html.ValidationMessageFor(model => model.Order.Customer.MainAddress.PhoneNumber)
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+
+                                        </div> <!-- /.row -->
+                                       
+                                      
+                                        <div class="row">
+                                            <div class="col-md-7 col-sm-6">
+                                                <div class="form-group">
+                                                   
+                                                    <select class="form-control " style="display: none" name="Order.Customer.MainAddress.CountryId">
+                                                        <optgroup label="Country">
+                                                            @foreach (var item in Model.Countries)
+                                                            {
+                                                                <option @(Model.Order.Customer.MainAddress.CountryId == item.Id ? "selected" : "") value="@item.Id">@item.Name</option>
+                                                            }
+
+                                                        </optgroup>
+                                                    </select> <!-- /.form-control -->
+                                                    <label>City <span class="required"></span></label>
+                                                    <select class="form-control" id="Order_Customer_MainAddress_StateProvinceId" name="Order.Customer.MainAddress.StateProvinceId" required>
+
+                                                        @foreach (var item in Model.Countries.Where(e=>e.StateProvinces.Any()).ToList())
+                                                        {
+                                                            <optgroup label="@item.Name">
+                                                                @foreach (var item2 in item.StateProvinces)
+                                                                {
+                                                                    <option data-country="@item.Id" @(Model.Order.Customer.MainAddress.StateProvinceId == item2.Id ? "selected" : "") value="@item2.Id">@item2.Name</option>
+                                                                }
+                                                            </optgroup>
+                                                        }
+
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                            <div class="col-md-5 col-sm-6">
+                                                <div class="form-group">
+                                                    <label>District <span class="required"></span></label>
+                                                    <select class="form-control" id="Order_Customer_MainAddress_DistrictId" name="Order.Customer.MainAddress.DistrictId" required = "required" >
+
+                                                        @foreach (var item in Model.Countries.Where(e => e.StateProvinces.Any()).ToList())
+                                                        {
+                                                            foreach (var item2 in item.StateProvinces.Where(e => e.Districts.Any()).ToList())
+                                                            {
+                                                                <optgroup label="@item.Name - @item2.Name">
+                                                                    @foreach (var item3 in item2.Districts)
+                                                                    {
+                                                                        <option data-StateProvince="@item2.Id" @(Model.Order.Customer.MainAddress.DistrictId == item3.Id ? "selected" : "") value="@item3.Id">@item3.Name</option>
+                                                                    }
+                                                                </optgroup>
+                                                            }
+
+                                                        }
+
+                                                    </select> <!-- /.form-control -->
+                                                </div> <!-- /.form-group -->
+                                            </div> <!-- /.col-md-6 -->
+                                        </div> <!-- /.row -->
+
+                                        <div class="form-group">
+                                            <label>Address<span class="required"></span></label>
+                                            @Html.TextBoxFor(model => model.Order.Customer.MainAddress.Address1, new { placeholder = "", @class = "form-control", required = "required"  })
+                                        </div> <!-- /.form-group -->
+
+                                        <div class="form-group">
+                                            <label>Address (line 2)</label>
+                                            @Html.TextBoxFor(model => model.Order.Customer.MainAddress.Address2, new { placeholder = "", @class = "form-control" })
+                                        </div> <!-- /.form-group -->
+                                        
+                                    </div> <!-- /.col-md-12 -->
+                                </div> <!-- /.row -->
+                                <!-- /.account-action -->
+
+                            </div> <!-- /.account-form -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>After this step you will fill in the shipping information</p>
+                            <button class="btn btn-primary" type="submit">Next Step <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div>
+                    <!-- /.section-inner -->
+
+                }
+
+            }
+            else if (step == 3)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    <input type="hidden" name="step" value="4"/>
+                    @Html.AntiForgeryToken()
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="text" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="text" value="@Model.Order.Customer.Email">
+
+                        <input name="RegisterNewLeters" value="@Model.RegisterNewLeters" />
+
+                        <input name="Order.Customer.MainAddress.Gender" type="text" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="text" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="text" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="text" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="text" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="text" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="text" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="text" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="text" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.PaymentMethodId" type="text" value="@Model.Order.PaymentMethodId">
+
+                        <input name="Order.UsePoints" type="text" value="@Model.Order.UsePoints" />
+                        @*<input name="Order.OrderUsePoints" type="text" value="@Model.Order.OrderUsePoints" />
+                        <input name="Order.OrderDiscount" type="text" value="@Model.Order.OrderDiscount">
+                        <input name="Order.OrderTransportFee" type="text" value="@Model.Order.OrderTransportFee" />
+                        <input name="Order.OrderTotal" type="text" value="@Model.Order.OrderTotal">*@
+                    </div>
+                   
+                    @Html.ValidationSummary(true)
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=2">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Back</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Shipping Method</h2>
+                            <div class="line"></div>
+                            <div class="shipping-list">
+                                <p class="section-p">Choose one of the shipping methods below</p>
+                                @if (Model.Order.ShippingMethodId == 0)
+                                {
+                                    Model.Order.ShippingMethod.Fees = 0;
+                                    var i=0;
+                                    foreach (var item in Model.ShippingMethods.OrderBy(e => e.Fees))
+                                    {
+                                        <label class="shipping-item @((i == 0) ? "active":"")" data-shipping-method>
+                                            <span class="shipping-item-checkbox">
+                                                <input type="radio" required data-val="@item.Fees" name="Order.ShippingMethodId" @(i == 0 ? "checked" : "") value="@item.Id">
+                                            </span> <!-- /.shipping-item-checkbox -->
+                                            <strong class="shipping-item-label">
+                                                @item.Name <i style="color: dimgrey;"> @(i == 0 ? "(default)" : "") </i> <b class="etd">@Html.Raw(item.Description)</b>
+                                            </strong> <!-- /.shipping-item-label -->
+                                            <strong class="shipping-item-price">
+                                                @FormatHelper.FormatCurrency(item.Fees)
+                                            </strong> <!-- /.shipping-item-price -->
+                                        </label>
+                                        <!-- /.shipping-item -->
+                                        i++;
+                                    }
+                                }
+                                else
+                                {
+                                    foreach (var item in Model.ShippingMethods.OrderBy(e => e.Fees))
+                                    {
+                                        if (item.Id == Model.Order.ShippingMethodId)
+                                        {
+                                            Model.Order.ShippingMethod.Fees = item.Fees;
+                                        }
+
+                                        <label class="shipping-item @((Model.Order.ShippingMethodId == item.Id) ? "active":"")" data-shipping-method>
+                                            <span class="shipping-item-checkbox">
+                                                <input type="radio" data-val="@item.Fees" name="Order.ShippingMethodId" @(Model.Order.ShippingMethodId == item.Id ? "checked" : "") value="@item.Id">
+                                            </span> <!-- /.shipping-item-checkbox -->
+                                            <strong class="shipping-item-label">
+                                                @item.Name <b class="etd">@Html.Raw(item.Description)</b>
+                                            </strong> <!-- /.shipping-item-label -->
+                                            <strong class="shipping-item-price">
+                                                @FormatHelper.FormatCurrency(item.Fees)
+                                            </strong> <!-- /.shipping-item-price -->
+                                        </label>
+                                        <!-- /.shipping-item -->
+
+                                    }
+                                }
+
+
+                            </div> <!-- /.shipping-list -->
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <h2 class="section-title">Shipping To</h2>
+                                    <div class="line sm"></div>
+                                    <div class="shipping-to">
+                                        <div class="shipping-inner">
+                                            <div class="name">@Model.Order.Customer.MainAddress.FullName</div>
+                                            <div class="address">@Model.Order.Customer.MainAddress.Address1</div>
+                                            <div class="address">@Model.Order.Customer.MainAddress.Address2</div>
+                                            <div class="contact"><span>Phone</span> @Model.Order.Customer.MainAddress.PhoneNumber</div>
+                                            <div class="action">Is this wrong? <a href="?step=2#shipping-address">Change here</a></div>
+                                        </div> <!-- /.shipping-inner -->
+                                    </div> <!-- /.shipping-to -->
+                                </div> <!-- /.col-md-6 -->
+                                <div class="col-md-6 col-sm-6">
+                                    <h2 class="section-title">Estimation</h2>
+                                    <div class="line sm"></div>
+                                    <div class="total-info" data-calculate-me>
+                                        <div class="total-item">
+                                            <div class="total-name">Order</div>
+                                            <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item">
+                                            <div class="total-name">Shipping</div>
+                                            <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item discount" data-calculate-min="true">
+                                            <div class="total-name">Money points </div>
+                                            <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                        </div> <!-- /.total-item -->
+                                        <div class="total-item total">
+                                            <div class="total-name">Total</div>
+                                            <div class="total-value" id="total-all" data-price>0</div>
+                                        </div> <!-- /.total-item -->
+                                    </div>
+                                </div> <!-- /.col-md-6 -->
+                            </div> <!-- /.row -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>After this step you will choose payment method you want</p>
+                            <button class="btn btn-primary" type="submit">Next Step <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div> <!-- /.section-inner -->
+                }
+
+            }
+            else if (step == 4)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="step" value="5"/>
+
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="text" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="text" value="@Model.Order.Customer.Email">
+
+                        <input name="Order.Customer.MainAddress.Gender" type="text" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="text" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="text" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="text" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="text" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="text" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="text" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="text" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="text" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.ShippingMethodId" type="text" value="@Model.Order.ShippingMethodId">
+                        <input name="Order.UsePoints" type="text" value="@Model.Order.UsePoints" />
+                        @*<input name="Order.OrderUsePoints" type="text" value="@Model.Order.OrderUsePoints" />
+                        <input name="Order.OrderTransportFee" type="text" value="@Model.Order.OrderTransportFee" />
+                        <input name="Order.OrderDiscount" type="text" value="@Model.Order.OrderDiscount">*@
+
+
+                    </div>
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <div class="section-nav-group">
+                                <div class="section-nav back" data-href="?step=3">
+                                    <i class="ion-android-arrow-back"></i>
+                                    <div>Back</div>
+                                </div> <!-- /.section-nav.back -->
+                            </div> <!-- /.section-nav-group -->
+                            <h2 class="section-title padding-top">Payment Method</h2>
+                            <div class="line"></div>
+                            <div class="section-subtitle">Estimation</div>
+                            <div class="grand-total">
+                                <div class="grand-total-inner" data-slide=".grand-total-details," data-active=".grand-total-inner">
+                                    <div class="grand-total-toggle">
+                                        <div class="grand-total-icon">
+                                            <i class="ion-bag"></i>
+                                        </div> <!-- /.grand-total-icon -->
+                                        <div class="grand-total-label">
+                                            Grand Total <span>@Model.ShoppingCart.CartItems.Count Items</span>
+                                        </div> <!-- /.grand-total-label -->
+                                        <div class="grand-total-price" id="grand-total-all">
+                                            @FormatHelper.FormatCurrency(Model.Order.OrderTotal)
+                                        </div> <!-- /.grand-total-price -->
+                                    </div>
+                                    <div class="grand-total-details">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="total-info" data-calculate-me>
+                                                    <div class="total-item">
+                                                        <div class="total-name">Order</div>
+                                                        <div class="total-value" id="total-order">@FormatHelper.FormatCurrency(Model.ShoppingCart.CartTotal)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item">
+                                                        <div class="total-name">Shipping</div>
+                                                        <div class="total-value" id="total-shipping">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item discount" data-calculate-min="true">
+                                                        <div class="total-name">Money points </div>
+                                                        <div class="total-value" id="total-discount" data-price>@FormatHelper.FormatCurrency(Model.Order.OrderUsePoints)</div>
+                                                    </div> <!-- /.total-item -->
+                                                    <div class="total-item total">
+                                                        <div class="total-name">Total</div>
+                                                        <div class="total-value" id="total-all">@FormatHelper.FormatCurrency(Model.Order.OrderTotal)</div>
+                                                    </div> <!-- /.total-item -->
+                                                </div> <!-- /.total-info -->
+                                            </div> <!-- /.col-md-12 -->
+                                        </div> <!-- /.row -->
+                                    </div> <!-- /.grand-total-details -->
+                                </div> <!-- /.grand-total-inner -->
+                            </div> <!-- /.grand-total -->
+                            <div class="section-subtitle">Choose Method</div>
+                            <div class="payment-method-list">
+                                @foreach (var item in Model.PaymentMethods)
+                                {
+                                    <label class="payment-method-item @(Model.Order.PaymentMethodId == item.Id ? "active" : "")" data-target="payment-@item.Id">
+                                        <span class="payment-method-checkbox">
+                                            <input type="radio" required name="Order.PaymentMethodId" @(Model.Order.PaymentMethodId == item.Id ? "checked" : "") value="@item.Id">
+                                        </span> <!-- /.payment-method-checkbox -->
+                                        <span class="payment-method-details">
+                                            <b class="title">@item.Name</b>
+                                            <span class="description">
+                                                @Html.Raw(item.Description)
+                                            </span>  <!-- /.description -->
+                                        </span>  <!-- /.payment-method-details -->
+                                    </label>
+                                    <!-- /.payment-method-item -->
+
+                                }
+                            </div> <!-- /.payment-method-list -->
+
+
+                                @foreach (var item in Model.PaymentMethods)
+                                {
+                                    <div class="payment-method-form @(Model.Order.PaymentMethodId == item.Id ? "show" : "")" id="payment-@item.Id">
+                                        <div class="section-subtitle">@item.Name</div>
+                                        <div class="payment-method-form-inner">
+                                            @Html.Raw(item.Instructions)
+                                        </div> <!-- /.payment-method-form-inner -->
+                                    </div>
+                                    <!-- /.payment-method-form -->
+                                }
+                           <!-- /.payment-method-form -->
+                        </div> <!-- /.section-body -->
+                        <div class="section-cta">
+                            <p>After this step you just need to confirm your order information</p>
+                            <button class="btn btn-primary" type="submit">Next Step <i class="ion-ios-arrow-thin-right"></i></button>
+                        </div> <!-- /.section-cta -->
+                    </div>
+                    @Html.ValidationSummary(true)
+
+                }
+                 <!-- /.section-inner -->
+
+            }
+            else if (step == 5)
+            {
+                using (Html.BeginForm("Index", "CheckOut", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="step" value="6"/>
+                    <div class="data-filled">
+                        <input name="AsGuest.UserName" type="text" value="@Model.AsGuest.UserName">
+                        <input name="Order.Customer.Email" type="text" value="@Model.Order.Customer.Email">
+
+                        <input name="Order.Customer.MainAddress.Gender" type="text" value="@Model.Order.Customer.MainAddress.Gender">
+                        <input name="Order.Customer.MainAddress.FirstName" type="text" value="@Model.Order.Customer.MainAddress.FirstName">
+                        <input name="Order.Customer.MainAddress.LastName" type="text" value="@Model.Order.Customer.MainAddress.LastName">
+                        <input name="Order.Customer.MainAddress.PhoneNumber" type="text" value="@Model.Order.Customer.MainAddress.PhoneNumber">
+
+                        <input name="Order.Customer.MainAddress.CountryId" type="text" value="@Model.Order.Customer.MainAddress.CountryId">
+                        <input name="Order.Customer.MainAddress.StateProvinceId" type="text" value="@Model.Order.Customer.MainAddress.StateProvinceId">
+                        <input name="Order.Customer.MainAddress.DistrictId" type="text" value="@Model.Order.Customer.MainAddress.DistrictId">
+
+                        <input name="Order.Customer.MainAddress.Address1" type="text" value="@Model.Order.Customer.MainAddress.Address1">
+                        <input name="Order.Customer.MainAddress.Address2" type="text" value="@Model.Order.Customer.MainAddress.Address2">
+
+                        <input name="Order.ShippingMethodId" type="text" value="@Model.Order.ShippingMethodId">
+                        <input name="Order.PaymentMethodId" type="text" value="@Model.Order.PaymentMethodId">
+
+                        <input name="Order.UsePoints" type="text" value="@Model.Order.UsePoints" />
+                        <input name="Order.OrderUsePoints" type="text" value="@Model.Order.OrderUsePoints" />
+                        <input name="Order.OrderDiscount" type="text" value="@Model.Order.OrderDiscount">
+                        <input name="Order.OrderTransportFee" type="text" value="@Model.Order.OrderTransportFee" />
+                        <input name="Order.OrderTotal" type="text" value="@Model.Order.OrderTotal">
+                    </div>
+                    <div class="section-inner">
+                        <div class="section-body">
+                            <h2 class="section-title padding-top">Order Confirmation</h2>
+                            <div class="line"></div>
+                            <div class="row row-fat">
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Your Items <a href="?step=1" class="block-cta">Edit</a></div>
+                                    <div class="block-body">
+                                        <div class="items">
+                                            @foreach (var item in Model.ShoppingCart.CartItems)
+                                            {
+                                                <div class="item">
+                                                    <div class="item-inner">
+                                                        <figure>
+                                                            <a href="@SlugHelper.Product(item.Product.Id)">
+                                                                <img alt="img" class="w-100" src="@ImageHelper.GetResize(item.Product.Avatar)">
+                                                            </a>
+                                                        </figure>
+                                                        <div class="item-details">
+                                                            <div class="item-title"><a href="@SlugHelper.Product(item.Product.Id)">@item.Product.Name</a></div>
+                                                            <div class="item-price">
+                                                                <div class="value">@FormatHelper.FormatCurrency(item.Product.Price)</div>
+                                                                <div class="quantity">
+                                                                    <div class="control count">x@(item.Count)</div>
+                                                                </div>
+                                                            </div> <!-- /.item-price -->
+                                                        </div> <!-- /.item-details -->
+                                                    </div> <!-- /.item-inner -->
+                                                </div>
+                                                <!-- /.item -->
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Your Information <a href="?step=2" class="block-cta">Edit</a></div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <div class="text-bold">@Model.Order.Customer.MainAddress.FullName</div>
+                                            Adr: @Model.Order.Customer.MainAddress.Address1 @Html.Raw(Model.Order.Customer.MainAddress.Address2 == null ? "" : "<span style='color: dimgray;font-size: 89%;'>(" + Model.Order.Customer.MainAddress.Address2 + ")</span>"),
+                                            @if (@Model.Order.Customer.MainAddress.District != null)
+                                            {
+                                                <span>
+                                                    @Model.Order.Customer.MainAddress.District.Name,
+                                                @Model.Order.Customer.MainAddress.StateProvince.Name
+                                            </span>
+                                        }
+                                            <br>
+                                            Phone: @Model.Order.Customer.MainAddress.PhoneNumber
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row row-fat">
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Shipping Method <a href="?step=3" class="block-cta">Edit</a></div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <div class="text-bold">@Model.Order.ShippingMethod.Name</div>
+                                            <span class="text-bold text-primary uppercase">ETD</span> <span class="mr-left">@Model.Order.ShippingMethod.Description</span><br>
+                                            <span class="text-bold text-primary uppercase">Cost</span> <span class="mr-left">@FormatHelper.FormatCurrency(Model.Order.ShippingMethod.Fees)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 block">
+                                    <div class="section-subtitle">Payment Method <a href="?step=4" class="block-cta">Edit</a></div>
+                                    <div class="block-body">
+                                        @if (Model.Order.PaymentMethod != null)
+                                        {
+                                            <div class="section-p">
+                                                <img src="@Model.Order.PaymentMethod.Avatar" width="50">
+                                                <p><span class="text-bold">@Model.Order.PaymentMethod.Name</span> @Model.Order.PaymentMethod.Description</p>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row row-fat">
+                                <div class="col-sm-12 block">
+                                    <div class="section-subtitle">Note to order</div>
+                                    <div class="block-body">
+                                        <div class="section-p">
+                                            <textarea name="notes" style="width: 100%;padding: 12px;" placeholder="Typing here..."></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                            <div class="section-cta">
+                                <p>If you have confirmed your order then place your order and we'll process it.</p>
+                                <div class="price">
+                                    <div>Order Total</div>
+                                    @FormatHelper.FormatCurrency(Model.Order.OrderTotal)
+                                </div>
+                                <button class="btn btn-primary" type="submit">Place Order <i class="ion-bag"></i></button>
+                            </div> <!-- /.section-cta -->
+                        </div> <!-- /.section-inner -->
+                }
+
+            }
+
+        </div> <!-- /.container -->
+    </section> <!-- /.section -->
+
+    <footer class="primary">
+        <div class="container">
+            <div class="copyright">
+                @Html.Action("Caller", "StaticBlock", new { identifier = "footer-copyright", area = "", noWrapper = true })
+                <div class="payment-methods">
+                    
+                </div>
+            </div> <!-- /.copyright -->
+        </div> <!-- /.container -->
+    </footer> <!-- /.footer-primary -->
+</div> <!-- /.wrapper -->
+
+@section scripts{
+    <script src="~/Scripts/jquery.validate.js"> </script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"> </script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"> </script>
+    <script>
+        IsAuthenticated = '@isAuthenticated';
+    </script>
+    <script>
+
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+        AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function() {
+
+            $(this).remove();
+
+        });
+        setTimeout(function() {
+            AppConfigs.OriginalBody.find(".wrapper").css("opacity", "1");
+        }, 300);
+    </script>
+    <script>
+        $(document).ready(function () {
+            var orderCustomerMainAddressDistrictId = $("select[id=Order_Customer_MainAddress_DistrictId]").val();
+            //on page ready hide all task option
+            $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+            // set task as empty
+            $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+
+            // onchange of StateProvinceId Drop down
+            $("select[id=Order_Customer_MainAddress_StateProvinceId]").on('change', function() {
+                var selectedStateProvinceId = $(this).val();
+                if (selectedStateProvinceId != '') {
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId] option[value='']").show();
+                    $('*[data-stateProvince="' + selectedStateProvinceId + '"]').show();
+                } else {
+                    // if StateProvinceId not selected then hide all tasks 
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").find('option').hide();
+                    $("select[id=Order_Customer_MainAddress_DistrictId]").val(orderCustomerMainAddressDistrictId);
+                }
+
+            }).trigger("change");
+
+        });
+    </script>
+    @Scripts.Render("~/bundles/content/default/checkout/js")
+}

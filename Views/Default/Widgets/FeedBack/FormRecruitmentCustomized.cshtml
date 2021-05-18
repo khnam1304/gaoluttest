@@ -1,0 +1,51 @@
+﻿@using AS_
+@using ASP.Web.Repositories.Entity.Infrastructure
+@model ASP.Web.Core.Models.FeedBack
+<div class="content">
+    @{
+        var id = "add-feedback" + Model.CustomView;
+    }
+    @using (Ajax.BeginForm("FeedBack", "Widgets", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = id, LoadingElementId = "ajax_loader", OnComplete = "PagedFeedBackLoaded", OnBegin = "return PagedFeedBackBegin('" + (id + "-form") + "')" },
+                           new { id = (id + "-form"), @class="site-form", enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.Type)
+        <input value="@ViewBag.annoField" type="hidden" name="annoField" id="annoField"/>
+        <input value="" type="hidden" name="Custom" id="Custom"/>
+        <input value="@Model.CustomView" type="hidden" name="CustomView" id="CustomView" />
+        <input type="hidden" name="DataCustom" id="DataCustom" data-scope="Custom" value="@Request.QueryString["subject"]" />
+        if (ViewBag.Notify != null)
+        {
+            @Html.Raw(ViewBag.Notify)
+        }
+        if (Model.Type == "status-disabled" || Model.Type == "type-incorrect")
+        {
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="register_name">@Model.AnnoFullName[0]</label>
+                <input type="text" class="form-control" id="register_name"  name="FullName" value="@Model.FullName" style="text-transform: capitalize;">
+            </div>
+            <div class="form-group">
+                <label for="register_email">@Model.AnnoEmail[0]</label>
+                <input type="text" class="form-control" id="register_email" required="required" name="Email" value="@Model.Email">
+            </div>
+            <div class="form-group">
+                <label for="register_phone">@Model.AnnoPhone[0]</label>
+                <input type="tel" class="form-control" id="register_phone" required="required" name="Phone" value="@Model.Phone">
+            </div>
+            <div class="form-group">
+                <label for="register_file">@LanguageHelper.Translate("Đính kèm hồ sơ_Text")</label>
+                <input type="file" class="form-control" id="register_file" name="register_file" required="required" value="" placeholder="My CV.doc copy">
+                <input type="hidden" data-scope="Custom" name="LinkFileUpload" id="LinkFileUpload" value="Self.LinkAttachments" />
+            </div>
+            <div class="form-group">
+                <label for="register_content">@Model.AnnoMessage[0]</label>
+                <p><span id="max_charactor">200</span> @LanguageHelper.Translate("ký tự còn lại_Text")</p>
+                <textarea type="text" class="form-control" id="register_content" name="Message" value="@Model.Message"></textarea>
+            </div>
+            <button type="submit" class="btn btn-default"><img src="../../assets/images/tuyen-dung/icon-submit.png" alt="#">@Html.DisplayTextFor(model => model.AnnoButton[0])</button>
+
+        }
+    }
+</div>

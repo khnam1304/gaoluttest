@@ -1,0 +1,126 @@
+﻿       <!-- Sign in modal-->
+<div class="modal fade" id="modal-signin" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0">
+
+            <!-- Sign in form -->
+            <div class="cs-view show" id="modal-signin-view">
+                <div class="modal-header border-0 pb-0 px-md-5 px-4 d-block position-relative">
+                    <p class="h3 modal-title mt-4 mb-0 text-center">Đăng nhập</p>
+                    <button type="button" class="close position-absolute" style="top: 1.5rem; right: 1.5rem;"
+                            data-dismiss="modal" aria-label="Close">
+                        <i class="cxi-cross" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="modal-body px-md-5 px-4">
+                    <p class="font-size-sm text-muted text-center">Đăng nhập vào tài khoản của bạn bằng email và mật khẩu được cung cấp trong quá trình đăng ký.</p>
+                    <form class="needs-validation" novalidate>
+                        <div class="form-group">
+                            <label for="signin-email">Email</label>
+                            <input type="email" class="form-control" id="signin-email" placeholder="Email của bạn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signin-password" class="form-label">Mật khẩu</label>
+                            <div class="cs-password-toggle input-group-overlay">
+                                <input type="password" class="form-control appended-form-control" id="signin-password"
+                                       placeholder="Mật khẩu của bạn" required>
+                                <div class="input-group-append-overlay">
+                                    <label class="btn cs-password-toggle-btn input-group-text">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <i class="cxi-eye cs-password-toggle-indicator"></i>
+                                        <span class="sr-only">Hiển thị mật khẩu</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="remember-me" checked>
+                                <label for="remember-me" class="custom-control-label">Nhớ mật khẩu</label>
+                            </div>
+                            <a href="#" class="font-size-sm text-decoration-none">Quên mật khẩu?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+                        <p class="font-size-sm pt-4 mb-0">
+                            Bạn chưa có tài khoản?
+                            <a href="#" class="font-weight-bold text-decoration-none" data-view="#modal-signup-view">Đăng ký</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sign up form -->
+            <div class="cs-view" id="modal-signup-view">
+                <div class="modal-header border-0 pb-0 px-md-5 px-4 d-block position-relative">
+                    <p class="h3 modal-title mt-4 mb-0 text-center">Đăng ký</p>
+                    <button type="button" class="close position-absolute" style="top: 1.5rem; right: 1.5rem;"
+                            data-dismiss="modal" aria-label="Close">
+                        <i class="cxi-cross" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="modal-body px-md-5 px-4">
+                    <p class="font-size-sm text-muted text-center">Đăng nhập vào tài khoản của bạn bằng email và mật khẩu được cung cấp trong quá trình đăng ký.</p>
+                    <form class="needs-validation" novalidate>
+                        <div class="form-group">
+                            <label for="signup-name">Tên đầy đủ</label>
+                            <input type="text" class="form-control" id="signup-name" placeholder="Tên đầy đủ của bạn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" class="form-control" id="signup-email" placeholder="Email của bạn" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password" class="form-label">Mật khẩu</label>
+                            <div class="cs-password-toggle input-group-overlay">
+                                <input type="password" class="form-control appended-form-control" id="signup-password"
+                                       placeholder="Mật khẩu của bạn" required>
+                                <div class="input-group-append-overlay">
+                                    <label class="btn cs-password-toggle-btn input-group-text">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <i class="cxi-eye cs-password-toggle-indicator"></i>
+                                        <span class="sr-only">Hiển thị mật khẩu</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm-password" class="form-label">Xác nhận lại mật khẩu</label>
+                            <div class="cs-password-toggle input-group-overlay">
+                                <input type="password" class="form-control appended-form-control" id="signup-confirm-password"
+                                       placeholder="Xác nhận lại mật khẩu của bạn" required>
+                                <div class="input-group-append-overlay">
+                                    <label class="btn cs-password-toggle-btn input-group-text">
+                                        <input type="checkbox" class="custom-control-input">
+                                        <i class="cxi-eye cs-password-toggle-indicator"></i>
+                                        <span class="sr-only">Hiển thị mật khẩu</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block" type="submit">Đăng ký</button>
+                        <p class="font-size-sm pt-4 mb-0">
+                            Bạn co sẵn sàng để tạo một tai khoản?
+                            <a href="#" class="font-weight-bold text-decoration-none" data-view="#modal-signin-view">Đăng nhập</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-body text-center px-0 pt-2 pb-4">
+                <hr>
+                <p class="font-size-sm text-heading mb-3 pt-4">Hoặc đăng nhập với</p>
+                <a href="#" class="social-btn sb-solid mx-1 mb-2" data-toggle="tooltip" title="Facebook">
+                    <i class="cxi-facebook"></i>
+                </a>
+                <a href="#" class="social-btn sb-solid mx-1 mb-2" data-toggle="tooltip" title="Google">
+                    <i class="cxi-google"></i>
+                </a>
+                <a href="#" class="social-btn sb-solid mx-1 mb-2" data-toggle="tooltip" title="Twitter">
+                    <i class="cxi-twitter"></i>
+                </a>
+                <a href="#" class="social-btn sb-solid mx-1 mb-2" data-toggle="tooltip" title="LinkedIn">
+                    <i class="cxi-linkedin"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

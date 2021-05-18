@@ -1,0 +1,48 @@
+﻿@using System.Web.Mvc
+@using System.Web.Mvc.Html
+@using System.Web.Optimization
+@using global::Web.Helpers
+@model Web.Core.Models.LoginModel
+@{
+    ViewBag.Title = LanguageHelper.Translate("Sign in to_Text");
+    Layout = "~/Views/Default/Shared/_LayoutEmpty.cshtml";
+    var segment = Request.QueryString["segment"] ?? "default";
+}
+@section styles{
+    @Styles.Render("~/bundles/content/default/account/login/css")
+}
+<style>
+    .validation-summary-errors ul {
+        background: blanchedalmond !important;
+    }
+
+        .validation-summary-errors ul li {
+            list-style: none;
+        }
+</style>
+<!-- Start Preloader -->
+<div id="preload-block">
+    <div class="square-block"></div>
+</div>
+<!-- Preloader End -->
+@{
+    Html.RenderPartial("~/Views/Default/Account/" + (string.IsNullOrEmpty(DataCurrentHelper.UniqueSeoCode) ? "vi" : DataCurrentHelper.UniqueSeoCode) + "/_LoginDirect.cshtml");
+
+} <!-- ./container -->
+
+@section scripts {
+    @Scripts.Render("~/bundles/content/default/account/login/js")
+    <script>
+        AppConfigs.OriginalBody = $("body");
+        AppConfigs.OriginalBody.find(".preloader-it").delay(500).fadeOut("slow", function () {
+
+            $(this).remove();
+
+        });
+        setTimeout(function () {
+            AppConfigs.OriginalBody.find(".authfy-login-wrapper").css("opacity", "1");
+        }, 300);
+
+    </script>
+
+}

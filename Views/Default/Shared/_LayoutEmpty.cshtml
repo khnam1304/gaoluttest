@@ -1,0 +1,76 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+       
+        var url = HttpContext.Current.Request.Url;
+        GlobalVariables.OrderActive = false;
+    }
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+    <link href="~/Content/Default/sharedraw/css/addfonts/css/9.1-margefont.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/styles/1.0-jscomposer.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/styles/9.1-style.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/styles/9.2-style-responsive.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/styles/9.3-style-custom.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/styles/9.9-style-custom.transfer.css" rel="stylesheet" />
+
+</head>
+<body>
+
+    @RenderBody()
+
+
+    @Styles.Render("~/bundles/css/shared") @Styles.Render("~/bundles/css/utils")
+    @RenderSection("styles", false)
+    @RenderSection("stylesInjected", false)
+
+    @{
+        if (DataConfigsHelper.Mode == "preview" || DataConfigsHelper.Mode == "debug")
+        {
+            <p class="run-mode">
+                Mode:: @DataConfigsHelper.Mode <a href="@(HttpContext.Current.Request.Url.AbsolutePath + "?mode=publish&token=000-000-000~0")"> exit</a>
+            </p>
+        }
+    }
+
+    <!-- start: MAIN JAVASCRIPTS -->
+
+    @RenderSection("scriptsInited", false)
+    @Scripts.Render("~/bundles/js/core")
+
+    <script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")"></script>
+    @Scripts.Render("~/bundles/js/shared") @Scripts.Render("~/bundles/js/utils")
+
+
+    <script>
+        AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+        AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+    </script>
+    @RenderSection("scriptsdefault", false)
+    @RenderSection("scripts", false)
+    @RenderSection("scriptsInjected", false)
+    @Html.PageScripts()
+    @if (DataCurrentHelper.UniqueSeoCode == "vi")
+    {
+        @*<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">*@
+    }
+
+</body>
+</html>

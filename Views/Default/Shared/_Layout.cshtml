@@ -1,0 +1,528 @@
+﻿@using global::Web.Helpers
+@using Web.Model.Models
+<!DOCTYPE html>
+<html lang="@DataCurrentHelper.UniqueSeoCode">
+<head>
+    <title>..:: @DataCurrentHelper.Title(ViewBag.Title ?? ViewData["og:title"]) ::..</title>
+    @{
+        var gt = DataConfigsHelper.Get("GoogleWebmasterToolCode");
+        if (gt != null)
+        {
+            @Html.Raw(gt)
+        }
+        var url = HttpContext.Current.Request.Url;
+        GlobalVariables.OrderActive = false;
+    }
+    <link rel="icon" type="image/png" sizes="32x32" href="@DisplayHelper.Favicon">
+    <link rel="manifest" href="~/assets/faviconsite.webmanifest">
+
+    <link rel='shortlink' href='@DataConfigsHelper.LinksFrontEnd' />
+    <link rel="canonical" href="@(DataConfigsHelper.LinksFrontEnd + "/" + DataCurrentHelper.UniqueSeoCode + url.AbsolutePath)" />
+    @{
+        Html.RenderPartial("~/Views/Default/Shared/Component/_MetaHead.cshtml");
+    }
+    @Styles.Render("~/bundles/css/core")
+    @*<link href="~/Content/Default/sharedraw/css/addfonts/css/9.1-margefont.transfer.css" rel="stylesheet" />
+    <link href="~/Content/Default/sharedraw/css/bootstrap.min.css" rel="stylesheet" />*@
+
+</head>
+<body>
+
+    <!-- Page loading spinner-->
+    <div class="cs-page-loading active">
+        <div class="cs-page-loading-inner">
+            <div class="cs-page-spinner"></div><span>Loading...</span>
+        </div>
+    </div>
+
+    <main class="cs-page-wrapper">
+
+        @if (!Request.IsAuthenticated)
+        {
+            Html.RenderPartial("~/Views/Default/Shared/Component/_LoginPartial.cshtml");
+        }
+
+        <div id="cart" class="cs-offcanvas cs-offcanvas-right">
+
+            <!-- Header -->
+            <div class="cs-offcanvas-cap align-items-center border-bottom">
+                <p class="h2 h5 mb-0">Giỏ hàng (0)</p>
+                <button class="close mr-n1" type="button" data-dismiss="offcanvas" aria-label="Close">
+                    <span class="h3 font-weight-normal mb-0" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="cs-offcanvas-body">
+               
+            </div>
+
+            <!-- Footer -->
+            <div class="cs-offcanvas-cap flex-column border-top">
+                <div class="d-flex align-items-center justify-content-between mb-3 pb-1">
+                    <span class="text-muted mr-2">Tổng tiền:</span>
+                    <span class="h5 mb-0">0.00<sup>đ</sup></span>
+                </div>
+                <a href="checkout.html" class="btn btn-primary btn-lg btn-block">
+                    <i class="cxi-credit-card font-size-lg mt-n1 mr-1"></i>
+                    Thủ tục thanh toán
+                </a>
+            </div>
+        </div>
+        <!-- Header (Topbar + Navbar) -->
+        <header class="cs-header">
+
+            <!-- Topbar -->
+            <div class="topbar topbar-dark bg-dark">
+                <div class="container d-flex align-items-center px-0 px-xl-3">
+                    <div class="mr-3">
+                        <a href="tel:4055550128" class="topbar-link d-md-inline-block d-none">
+                            Có sẵn 24/7 tại
+                            <span class='font-weight-bold'>(405) 555-0128</span>
+                        </a>
+                        <a href="tel:4055550128" class="topbar-link d-md-none d-inline-block text-nowrap">
+                            <i class="cxi-iphone align-middle"></i>
+                            (405) 555-0128
+                        </a>
+                    </div>
+                    <a href="order-tracking.html" class="topbar-link ml-auto mr-4 pr-sm-2 text-nowrap">
+                        <i class="cxi-map-pin-outline mr-1 font-size-base align-middle"></i>
+                        Theo <span class="d-none d-sm-inline">dõi</span>
+                    </a>
+                    <div class="dropdown">
+                        <a href="#" class="topbar-link dropdown-toggle" data-toggle="dropdown">
+                            <img src="/as-images/shared/vi.png" class="mr-2" width="20" alt="Vietnamese">
+                            VIE / ₫
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="#" class="dropdown-item">
+                                <img src="/as-images/shared/en.png" class="mr-2" width="20" alt="English">
+                                Eng / $
+                            </a>
+                        </div>
+                    </div>
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <a href="#modal-signin"
+                           class="topbar-link d-lg-inline-block d-none ml-4 pl-1 text-decoration-none text-nowrap" data-toggle="modal"
+                           data-view="#modal-signin-view">
+                            <i class="cxi-profile mr-1 font-size-base align-middle"></i>
+                            Đăng nhập / đăng ký
+                        </a>
+
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Profile", "Account", new {segment = "profile"})"
+                           class="topbar-link d-lg-inline-block d-none ml-4 pl-1 text-decoration-none text-nowrap">
+                            <i class="cxi-profile mr-1 font-size-base align-middle"></i>
+                            Xin chào, @UserManager.User.FriendlyName
+                        </a>
+                    }
+
+                </div>
+            </div>
+
+            <!-- Navbar -->
+            <!-- Xóa "navbar-sticky" class to make navigation bar scrollable with the page -->
+            <div class="navbar navbar-expand-lg navbar-light bg-light navbar-sticky" data-fixed-element>
+                <div class="container px-0 px-xl-3">
+                    <a href="@DisplayHelper.StoreLink" class="navbar-brand order-lg-1 mr-0 pr-lg-3 mr-lg-4">
+                        <img src="@DisplayHelper.Logo.Replace("logo.png","logo.svg")" width="130" alt="@DisplayHelper.StoreName">
+                    </a>
+                    <!-- Search desktop -->
+                    <div class="input-group-overlay ml-4 d-lg-block d-none order-lg-3" style="max-width: 21rem;">
+                        <input class="form-control appended-form-control" type="text" placeholder="Tìm kiếm sản phẩm...">
+                        <div class="input-group-append-overlay">
+                            <span class="input-group-text"><i class="cxi-search lead align-middle"></i></span>
+                        </div>
+                    </div>
+                    <!-- Toolbar -->
+                    <div class="d-flex align-items-center order-lg-3">
+                        <ul class="nav nav-tools flex-nowrap">
+                            <li class="nav-item d-lg-block d-none mb-0">
+                                <a href="account-wishlist.html" class="nav-tool">
+                                    <i class="cxi-heart nav-tool-icon"></i>
+                                    <span class="nav-tool-label">0</span>
+                                </a>
+                            </li>
+                            <li class="divider-vertical mb-0 d-lg-block d-none"></li>
+                            <li class="nav-item align-self-center mb-0">
+                                <a href="#" class="nav-tool pr-lg-0" data-toggle="offcanvas" data-target="cart">
+                                    <i class="cxi-cart nav-tool-icon"></i>
+                                    <span class="badge badge-success align-middle mt-n1 ml-2 px-2 py-1 font-size-xs">0</span>
+                                </a>
+                            </li>
+                            <li class="divider-vertical mb-0 d-lg-none d-block"></li>
+                            <li class="nav-item mb-0">
+                                <button class="navbar-toggler mt-n1 mr-n3" type="button" data-toggle="collapse"
+                                        data-target="#navbarCollapse" aria-expanded="false">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Navbar collapse -->
+                    <nav class="collapse navbar-collapse order-lg-2" id="navbarCollapse">
+                        <!-- Search mobile -->
+                        <div class="input-group-overlay form-group mb-0 d-lg-none d-block">
+                            <input type="text" class="form-control prepended-form-control rounded-0 border-0"
+                                   placeholder="Search for products...">
+                            <div class="input-group-prepend-overlay">
+                                <span class="input-group-text">
+                                    <i class="cxi-search font-size-lg align-middle mt-n1"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <!-- Menu -->
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a href="index.html" class="nav-link active"></a>
+                            </li>
+
+                            <li class="nav-item dropdown mega-dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Gạo hữu cơ</a>
+                                <div class="dropdown-menu">
+                                    <div class="container pt-lg-1 pb-lg-3">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Gạo giảm cân</p>
+                                                <ul class="list-unstyled">
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Gạo lứt</p>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt đen Bách Hợp</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt nhật Japonica</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt Tám Thơm</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt Huyết Rồng</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt Đỏ Điện Biên</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo Nếp Cái Hoa Vàng</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo lứt 5 màu (Bổ ngũ tạng)</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Gạo tươi</p>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="#" class="dropdown-item">Huyết rồng tươi</a></li>
+                                                    <li><a href="#" class="dropdown-item">Đen bách hợp tươi</a></li>
+                                                    <li><a href="#" class="dropdown-item">Séng cù tươi</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Gạo khác</p>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="#" class="dropdown-item">Gạo tám trắng</a></li>
+                                                    <li><a href="#" class="dropdown-item">Nếp Nương</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo Séng cù</a></li>
+                                                    <li><a href="#" class="dropdown-item">Nếp Cẩm</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo ST25</a></li>
+                                                    <li><a href="#" class="dropdown-item">Gạo đỏ</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-1 d-none d-lg-block py-2">
+                                                <span class="divider-vertical h-100 mx-auto"></span>
+                                            </div>
+                                            <div class="col-lg-3 d-none d-lg-block py-2">
+                                                <a href="#" class="d-block text-decoration-none pt-1">
+                                                    <img src="../../assets/img/ecommerce/rice/1.jpg" class="d-block rounded mb-3"
+                                                         alt="Promo banner">
+                                                    <p class="h5 font-size-sm mb-3">Sale up to 50%</p>
+                                                    <div class="btn btn-outline-primary btn-sm">
+                                                        Xem thêm
+                                                        <i class="cxi-arrow-right ml-1"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown mega-dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Thóc sạch</a>
+                                <div class="dropdown-menu">
+                                    <div class="container pt-lg-1 pb-lg-3">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Thóc hữu cơ</p>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="#" class="dropdown-item">Thóc huyết rồng</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc tám</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc nhật</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc nếp</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc séng</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc đen</a></li>
+                                                    <li><a href="#" class="dropdown-item">Thóc đài</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2"></p>
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2"></p>
+
+                                            </div>
+                                            <div class="col-lg-1 d-none d-lg-block py-2">
+                                                <span class="divider-vertical h-100 mx-auto"></span>
+                                            </div>
+                                            <div class="col-lg-3 d-none d-lg-block py-2">
+                                                <a href="#" class="d-block text-decoration-none pt-1">
+                                                    <img src="../../assets/img/ecommerce/rice/1.jpg" class="d-block rounded mb-3"
+                                                         alt="Promo banner">
+                                                    <p class="h5 font-size-sm mb-3">Sale up to 50%</p>
+                                                    <div class="btn btn-outline-primary btn-sm">
+                                                        Xem thêm
+                                                        <i class="cxi-arrow-right ml-1"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle no-dropdown">Trà gạo lứt</a>
+
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Bún khô</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="account-profile.html" class="dropdown-item">Bún lứt</a></li>
+                                    <li><a href="account-orders.html" class="dropdown-item">Miến</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle no-dropdown" data-toggle="dropdown">Sữa gạo</a>
+
+                            </li>
+                            <li class="nav-item dropdown mega-dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Khác</a>
+                                <div class="dropdown-menu">
+                                    <div class="container pt-lg-1 pb-lg-3">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Rong biển</p>
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Vừng</p>
+
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Phế gạo</p>
+                                                <ul class="list-unstyled">
+                                                    <li><a href="#" class="dropdown-item">Phế gạo huyết rồng</a></li>
+
+                                                </ul>
+                                            </div>
+                                            <div class="col-lg-2 col-md-3 py-2">
+                                                <p class="h4 font-size-sm text-uppercase pt-1 mb-2">Cám gạo</p>
+
+                                            </div>
+                                            <div class="col-lg-3 d-none d-lg-block py-2">
+                                                <a href="#" class="d-block text-decoration-none pt-1">
+                                                    <img src="../../assets/img/ecommerce/rice/1.jpg" class="d-block rounded mb-3"
+                                                         alt="Promo banner">
+                                                    <p class="h5 font-size-sm mb-3">Sale up to 50%</p>
+                                                    <div class="btn btn-outline-primary btn-sm">
+                                                        Xem thêm
+                                                        <i class="cxi-arrow-right ml-1"></i>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#modal-signin" class="nav-link d-lg-none" data-toggle="modal" data-view="#modal-signin-view">
+                                    <i class="cxi-profile font-size-base align-middle mr-1"></i>
+                                    Sign in / up
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
+
+        @RenderSection("banners", false)
+        @RenderBody()
+    </main>
+    <!-- Footer -->
+    <footer class="cs-footer pt-sm-5 pt-4 bg-dark">
+        <div class="container pt-3">
+            <div class="row pb-sm-2">
+                <div class="col-sm-6 col-lg-3 pb-2 pb-lg-0 mb-4">
+                    <p class="h3 h6 mb-2 pb-1 text-uppercase text-light">LIÊN Hệ</p>
+                    <ul class="nav nav-light flex-column pb-3">
+                        <li class="nav-item text-nowrap mb-2">
+                            <span class="text-light mr-1">Địa chỉ</span>
+                            <a href="tel:4055550128" class="nav-link d-inline-block mr-lg-0 mr-sm-4 p-0 font-weight-normal">
+                                Số 3,
+                                Đường Sa Đôi, Nam Từ Liêm, Hà Nội
+                            </a>
+                        </li>
+                        <li class="nav-item text-nowrap mb-2">
+                            <span class="text-light mr-1">Call:</span>
+                            <a href="tel:4055550128" class="nav-link d-inline-block mr-lg-0 mr-sm-4 p-0 font-weight-normal">
+                                (405)
+                                555-0128
+                            </a>
+                        </li>
+                        <li class="nav-item text-nowrap mb-2">
+                            <span class="text-light mr-1">Email:</span>
+                            <a href="mailto:support@example.coms"
+                               class="nav-link d-inline-block mr-lg-0 mr-sm-4 p-0 font-weight-normal">support@example.com</a>
+                        </li>
+                    </ul>
+                    <a href="#" class="social-btn sb-solid sb-light mr-2">
+                        <i class="cxi-facebook"></i>
+                    </a>
+                    <a href="#" class="social-btn sb-solid sb-light mr-2">
+                        <i class="cxi-instagram"></i>
+                    </a>
+                    <a href="#" class="social-btn sb-solid sb-light mr-2">
+                        <i class="cxi-twitter"></i>
+                    </a>
+                    <a href="#" class="social-btn sb-solid sb-light mr-2">
+                        <i class="cxi-youtube"></i>
+                    </a>
+                    <a href="#" class="social-btn sb-solid sb-light">
+                        <i class="cxi-pinterest"></i>
+                    </a>
+                </div>
+
+                <div class="col-6 col-sm-3 col-lg-2 col-xl-3 mb-4">
+                    <p class="h3 h6 mb-2 pb-1 text-uppercase text-light pl-xl-6">HỖ TRỢ KHÁCH HÀNG</p>
+                    <ul class="nav nav-light flex-column pl-xl-6">
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Trang chủ</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Dịch vụ</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Dự án</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 col-sm-3 col-lg-2 col-xl-3 mb-4">
+                    <p class="h3 h6 mb-2 pb-1 text-uppercase text-light pl-xl-6">Liên kết nhanh</p>
+                    <ul class="nav nav-light flex-column pl-xl-6">
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Trang chủ</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Sản phẩm</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Dịch vụ</a>
+                        </li>
+                        <li class="nav-item mb-2">
+                            <a href="#" class="nav-link mr-lg-0 mr-sm-4 p-0 font-weight-normal">Dự án</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-xl-3 mb-4">
+                    <p class="h3 h6 mb-3 pb-1 text-uppercase text-light">Facebook</p>
+                    <div class="images"><img src="../../assets/img/ecommerce/fb.png" alt=""></div>
+                </div>
+            </div>
+        </div>
+        <div class="border-top border-light">
+            <div class="container py-4">
+                <div class="font-size-xs text-light">
+                    <span class="font-size-sm">&copy; </span>
+                    All rights reserved. Made with
+                    <i class="cxi-heart mt-n1 mx-1 font-size-base text-primary align-middle"></i>
+                    <a href="https://createx.studio/" class="text-light" target="_blank" rel="noopener noreferrer">
+                        by Createx
+                        Studio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- page -->
+
+    <div>
+        @{ Html.RenderPartial("~/Views/Default/Shared/Component/Mobile/_Side.cshtml"); }
+    </div>
+
+    <section type="text/html" id="notify-template">
+        @Html.Raw(DataCurrentHelper.NotifyText)
+    </section>
+
+    @Styles.Render("~/bundles/css/shared") @Styles.Render("~/bundles/css/utils")
+    @RenderSection("styles", false)
+    @RenderSection("stylesInjected", false)
+
+    @{
+        if (DataConfigsHelper.Mode == "preview" || DataConfigsHelper.Mode == "debug")
+        {
+            <p class="run-mode">
+                Mode:: @DataConfigsHelper.Mode <a href="@(HttpContext.Current.Request.Url.AbsolutePath + "?mode=publish&token=000-000-000~0")"> exit</a>
+            </p>
+        }
+    }
+
+    <!-- start: MAIN JAVASCRIPTS -->
+
+    @RenderSection("scriptsInited", false)
+    @Scripts.Render("~/bundles/js/core")
+
+    <script src="@("/Scripts/global-resources/" + DataCurrentHelper.LanguageCulture + ".js")"></script>
+    @Scripts.Render("~/bundles/js/shared") @Scripts.Render("~/bundles/js/utils")
+
+
+    <script>
+        AppConfigs.NotifyDeliveried = "@(DataCurrentHelper.NotifyText != null)";
+        AppConfigs.UniqueSeoCode = "@(DataCurrentHelper.UniqueSeoCode)";
+        AppConfigs.DateTimeFormatting = "@(DataCurrentHelper.UniqueSeoCode == "en" ? "MM/dd/yyyy" : "dd/MM/yyyy")";
+        AppConfigs.CurrencyRate = "@DataCurrentHelper.CurrencyRate";
+        AppConfigs.CurrencyFormatting = "@Html.Raw(DataCurrentHelper.CurrencyFormatting)";
+    </script>
+    @RenderSection("scriptsdefault", false)
+    @RenderSection("scripts", false)
+    @RenderSection("scriptsInjected", false)
+    @Html.PageScripts()
+    @{
+        var ga = DataConfigsHelper.Get("GoogleAnalyticCode");
+        if (ga != null)
+        {
+            @Html.Raw(ga)
+        }
+        var lv = DataConfigsHelper.Get("ShowLiveChat");
+        if (lv == "True")
+        {
+            @Html.Raw(DataConfigsHelper.Get("LiveChatCode"))
+        }
+    }
+    @if (DataConfigsHelper.Mode == "debug")
+    {
+        <link href="~/content/default/plugins/page-guide/css/pageguide.min.css" rel="stylesheet" />
+        <script src="~/content/default/plugins/page-guide/js/pageguide.min.js"></script>
+        <script>
+            $(document).ready(function () { tl.pg.init(); });
+        </script>
+        @Html.Action("PageGuide", "System", new { area = "" })
+    }
+    @if (DataCurrentHelper.UniqueSeoCode == "vi")
+    {
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    }
+    <!--Back to Top-->
+    <a class="btn-scroll-top" href="#top" data-scroll="" data-fixed-element="">
+        <span class="btn-scroll-top-tooltip text-muted font-size-sm mr-2">@LanguageHelper.Translate("Scroll to top_Text")</span>
+        <i class="btn-scroll-top-icon cxi-angle-up"></i>
+    </a>
+</body>
+</html>

@@ -1,0 +1,27 @@
+﻿@using global::Web.Helpers
+@model List<ASP.Web.Model.Models.Category>
+
+    @foreach (var item in Model)
+    {
+        var count = item.ProductCategoryMappings.Count();
+        var bgcolor = "#e0d1a1";
+        var avatar = DataWhereHelper.PictureBySlug("Category->" + ("grouped::" + item.Grouped), item.Avatar);
+        if (count >= 3)
+        {
+            bgcolor = "#f8c9c2";
+        }
+        else if (count >= 1)
+        {
+            bgcolor = "#c6e6f6";
+        }
+        <div class="cat-item">
+            <div class="cats-wrap" data-bg-color="@bgcolor">
+                <a href="@SlugHelper.Category(item.Id)">
+                    <img src="@avatar.Url" alt="@item.Name" />
+                    <h2 class="category-title">
+                        @item.Name <mark class="count">(@count)</mark>
+                    </h2>
+                </a>
+            </div>
+        </div>
+    }
